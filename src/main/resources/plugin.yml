@@ -1,6 +1,8 @@
-name: PaperBoilerplate
-main: one.devsky.boilerplates.PaperBoilerplate
-version: 1.18.2
-description: "This is a template for a new plugin based on MoltenKT and Paper."
+name: CringePvP
+main: de.coaster.cringepvp.CringePvP
+version: 1.19
+description: "Das eine System, alle anderen zu unterwerfen."
 author: "CoasterFreakDE"
-api-version: 1.18
+api-version: 1.19
+depend:
+  - MoltenKT-Paper

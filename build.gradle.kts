@@ -4,18 +4,18 @@ plugins {
     kotlin("jvm") version "1.7.10"
 }
 
-group = "one.devsky.boilerplates"
+group = "de.coaster.cringepvp"
 version = "1.1-SNAPSHOT"
 
-val moltenVersion: String by project
-val exposedVersion: String by project
+val moltenVersion: String = "1.0-PRE-13.4"
+val exposedVersion: String = "0.38.2"
 
 repositories {
     mavenCentral()
-    maven("https://jitpack.io")
     maven {
         url = uri("https://papermc.io/repo/repository/maven-public/")
     }
+    maven("https://jitpack.io")
 }
 
 dependencies {
@@ -24,13 +24,14 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
 
     // Minecraft PaperMC Dependencies
-    compileOnly("io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.19-R0.1-SNAPSHOT")
 
     // Reflection Dependencies for automatic registration of commands and listeners
     implementation("net.oneandone.reflections8:reflections8:0.11.7")
 
     // Molten Kotlin Framework (https://github.com/TheFruxz/MoltenKT)
     implementation("com.github.TheFruxz.MoltenKT:moltenkt-core:$moltenVersion")
+    implementation("com.github.TheFruxz.MoltenKT:moltenkt-paper:$moltenVersion")
     implementation("com.github.TheFruxz.MoltenKT:moltenkt-unfold:$moltenVersion")
 
     // Database Dependencies - Kotlin Exposed

@@ -1,4 +1,4 @@
-package one.devsky.boilerplates.annotations
+package de.coaster.cringepvp.annotations
 
 import org.bukkit.permissions.PermissionDefault
 
