@@ -27,6 +27,7 @@ dependencies {
     // Minecraft PaperMC Dependencies
     compileOnly("io.papermc.paper:paper-api:1.19-R0.1-SNAPSHOT")
     compileOnly("me.neznamy", "tab-api", "3.1.2")
+    compileOnly("com.github.decentsoftware-eu", "decentholograms", "2.5.3")
 
     // Reflection Dependencies for automatic registration of commands and listeners
     implementation("net.oneandone.reflections8:reflections8:0.11.7")

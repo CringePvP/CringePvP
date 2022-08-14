@@ -1,6 +1,7 @@
 package de.coaster.cringepvp.managers
 
 import de.coaster.cringepvp.CringePvP
+import de.coaster.cringepvp.CringePvP.Companion.coroutineScope
 import de.moltenKt.unfold.text
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,13 +25,13 @@ object CoroutineManager {
     }
 
     fun startCoroutine(coroutine: suspend () -> Unit) {
-        CoroutineScope(Dispatchers.Default).launch {
+        coroutineScope.launch {
             coroutine()
         }
     }
 
     fun startCoroutine(coroutine: suspend () -> Unit, delay: Long) {
-        CoroutineScope(Dispatchers.Default).launch {
+        coroutineScope.launch {
             delay(delay)
             coroutine()
         }
@@ -74,11 +75,12 @@ object CoroutineManager {
         items.forEachIndexed { index: Int, item: ItemStack ->
             Bukkit.getScheduler().runTaskLater(CringePvP.instance, kotlinx.coroutines.Runnable {
                 val itemInWorld = player.world.dropItem(location, item)
-                itemInWorld.velocity = location.toVector().subtract(player.location.toVector()).normalize().multiply(-0.2).add(Vector(0.0, 0.3, 0.0)).rotateAroundY(
-                    Math.toRadians(
-                        (Math.random() * 360)
-                    )
-                )
+                itemInWorld.velocity = location.toVector().subtract(player.location.toVector()).normalize().multiply(-0.2).add(Vector(0.0, 0.3, 0.0))
+//                    .rotateAroundY(
+//                        Math.toRadians(
+//                            (Math.random() * 360)
+//                        )
+//                    )
                 itemInWorld.pickupDelay = 20
                 itemInWorld.setCanMobPickup(false)
                 player.world.playSound(itemInWorld.location, Sound.ENTITY_CAT_HISS, 1.0f, 1.0f)
