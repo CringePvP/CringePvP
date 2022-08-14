@@ -26,6 +26,7 @@ private fun mapToCringeUser(resultRow: ResultRow): CringeUser = with(resultRow){
         username = this[TableUsers.userName],
         xp = this[TableUsers.userXP],
         rank = this[TableUsers.userRank],
+        title = this[TableUsers.userTitle],
         coins = this[TableUsers.userCoins],
         gems = this[TableUsers.userGems],
         crystals = this[TableUsers.userCrystals],
@@ -62,11 +63,12 @@ fun createCringeUser(cringeUser: CringeUser): CringeUser = smartTransaction {
     return@smartTransaction cringeUser
 }
 
-fun updateCringeUser(cringeUser: CringeUser) = smartTransaction {
+fun updateCringeUserDB(cringeUser: CringeUser) = smartTransaction {
     TableUsers.update({ userUUID eq cringeUser.uuid.toString() }) {
         it[userName] = cringeUser.username
         it[userXP] = cringeUser.xp
         it[userRank] = cringeUser.rank
+        it[userTitle] = cringeUser.title
         it[userCoins] = cringeUser.coins
         it[userGems] = cringeUser.gems
         it[userCrystals] = cringeUser.crystals

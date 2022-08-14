@@ -7,7 +7,7 @@ plugins {
 group = "de.coaster.cringepvp"
 version = "1.1-SNAPSHOT"
 
-val moltenVersion: String = "1.0-PRE-13.4"
+val moltenVersion: String = "1.0-PRE-14"
 val exposedVersion: String = "0.38.2"
 
 repositories {
@@ -15,6 +15,7 @@ repositories {
     maven {
         url = uri("https://papermc.io/repo/repository/maven-public/")
     }
+    maven("https://repo.kryptonmc.org/releases")
     maven("https://jitpack.io")
 }
 
@@ -25,6 +26,7 @@ dependencies {
 
     // Minecraft PaperMC Dependencies
     compileOnly("io.papermc.paper:paper-api:1.19-R0.1-SNAPSHOT")
+    compileOnly("me.neznamy", "tab-api", "3.1.2")
 
     // Reflection Dependencies for automatic registration of commands and listeners
     implementation("net.oneandone.reflections8:reflections8:0.11.7")

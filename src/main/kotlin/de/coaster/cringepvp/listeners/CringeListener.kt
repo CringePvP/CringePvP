@@ -1,9 +1,14 @@
 package de.coaster.cringepvp.listeners
 
 import com.destroystokyo.paper.ParticleBuilder
-import de.coaster.cringepvp.database.updateCringeUser
 import de.coaster.cringepvp.extensions.toCringeUser
+import de.coaster.cringepvp.managers.PlayerCache
+import de.coaster.cringepvp.managers.PlayerCache.updateCringeUser
+import de.moltenKt.core.extension.data.randomInt
 import de.moltenKt.unfold.text
+import me.neznamy.tab.api.TabAPI
+import me.neznamy.tab.api.event.player.PlayerLoadEvent
+import me.neznamy.tab.api.team.UnlimitedNametagManager
 import org.bukkit.Material
 import org.bukkit.Particle
 import org.bukkit.Sound
@@ -22,6 +27,7 @@ import org.spigotmc.event.player.PlayerSpawnLocationEvent
 import kotlin.math.ceil
 import kotlin.math.roundToInt
 
+
 class CringeListener : Listener {
 
     @EventHandler
@@ -38,7 +44,7 @@ class CringeListener : Listener {
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) = with(event) {
         player.onSpawn()
-        joinMessage(text("<#55efc4>${event.player.name} joined the party."))
+        joinMessage(text("<#7bed9f>${event.player.name} betritt unsere Cringeschlacht."))
     }
 
     @EventHandler
@@ -54,7 +60,8 @@ class CringeListener : Listener {
 
     @EventHandler
     fun onPlayerQuit(event: PlayerQuitEvent) = with(event) {
-        quitMessage(text("<#ff7675>${event.player.name} left the party."))
+        PlayerCache.remove(player.uniqueId)
+        quitMessage(text("<#ff6b6b>${event.player.name} verlässt unsere Cringeschlacht."))
     }
 
     @EventHandler
@@ -92,8 +99,14 @@ class CringeListener : Listener {
         if (event.damager is Player && (event.entity as LivingEntity).health - event.damage <= 0) {
             (event.damager as Player).giveExp(2)
             var cringeUser = (event.damager as Player).toCringeUser()
-            cringeUser = cringeUser.copy(kills = cringeUser.kills + 1, xp = cringeUser.xp + 2)
+            cringeUser = cringeUser.copy(kills = cringeUser.kills + 1, xp = cringeUser.xp + 2, coins = cringeUser.coins + randomInt(1 .. 3))
             updateCringeUser(cringeUser)
+
+            if (event.entity is Player) {
+                var deadCringeUser = (event.entity as Player).toCringeUser()
+                deadCringeUser = deadCringeUser.copy(deaths = deadCringeUser.deaths + 1)
+                updateCringeUser(deadCringeUser)
+            }
         }
     }
 
@@ -103,13 +116,13 @@ class CringeListener : Listener {
         val cringeUser = toCringeUser()
         getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.let { it.baseValue = cringeUser.baseAttack }
         getAttribute(Attribute.GENERIC_ARMOR)?.let { it.baseValue = cringeUser.baseDefense }
-        getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.let { it.baseValue = cringeUser.baseSpeed / 10 }
+        getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.let { it.baseValue = cringeUser.baseSpeed }
         getAttribute(Attribute.GENERIC_MAX_HEALTH)?.let { it.baseValue = cringeUser.baseHealth }
 
         exp = 0.0f
         giveExp(cringeUser.xp.toInt())
 
-        world.spawnParticle(Particle.EXPLOSION_HUGE, location, 100, 0.0, 0.0, 0.0, 20.0)
+        world.spawnParticle(Particle.EXPLOSION_HUGE, world.spawnLocation, 100, 0.0, 0.0, 0.0, 20.0)
         playSound(location, Sound.BLOCK_PORTAL_TRAVEL, 1f, 1f)
     }
 }

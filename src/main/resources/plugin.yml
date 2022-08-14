@@ -6,3 +6,4 @@ author: "CoasterFreakDE"
 api-version: 1.19
 depend:
   - MoltenKT-Paper
+  - TAB

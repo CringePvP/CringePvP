@@ -15,7 +15,8 @@ object TableUsers : Table("users") {
     val userUUID = varchar("uuid", 45)
     val userName = varchar("username", 24)
     val userXP = long("xp").default(0)
-    val userRank = varchar("rank", 24).default("Spieler")
+    val userRank = varchar("rank", 64).default("Spieler")
+    val userTitle = varchar("title", 64).default("")
 
     val userCoins = long("coins").default(0)
     val userGems = long("gems").default(0)
@@ -27,7 +28,7 @@ object TableUsers : Table("users") {
 
     val userBaseAttack = double("base_attack").default(2.0)
     val userBaseDefense = double("base_defense").default(0.0)
-    val userBaseSpeed = double("base_speed").default(0.7)
+    val userBaseSpeed = double("base_speed").default(0.098)
     val userBaseHealth = double("base_health").default(20.0)
 
     val userVotes = long("votes").default(0)
