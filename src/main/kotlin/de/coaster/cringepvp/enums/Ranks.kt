@@ -2,6 +2,7 @@ package de.coaster.cringepvp.enums
 
 enum class Ranks(val color: String) {
 
+    Atmin("#FF0000"),
     Deffeloppa("#992d22"),
     Moderador("#e74c3c"),
     Suporta("#e74c3c"),

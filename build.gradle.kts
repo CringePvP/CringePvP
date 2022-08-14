@@ -16,6 +16,7 @@ repositories {
         url = uri("https://papermc.io/repo/repository/maven-public/")
     }
     maven("https://repo.kryptonmc.org/releases")
+    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
     maven("https://jitpack.io")
 }
 
@@ -28,6 +29,7 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.19-R0.1-SNAPSHOT")
     compileOnly("me.neznamy", "tab-api", "3.1.2")
     compileOnly("com.github.decentsoftware-eu", "decentholograms", "2.5.3")
+    compileOnly("me.clip:placeholderapi:2.11.2")
 
     // Reflection Dependencies for automatic registration of commands and listeners
     implementation("net.oneandone.reflections8:reflections8:0.11.7")

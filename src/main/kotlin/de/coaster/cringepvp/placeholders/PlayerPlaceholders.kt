@@ -57,4 +57,6 @@ fun registerPlaceholders() {
     placeholderManager.registerPlayerPlaceholder("%nextLevelExp%", 1000) { player ->
         (player.player as Player).toCringeUser().nextLevelExp()
     }
+
+    CratePlaceholders().register()
 }

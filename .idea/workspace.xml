@@ -10,22 +10,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ff31960a-d3cf-414c-b552-a7f8295cda0d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/commands/LootCommand.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/commands/RenameCommand.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/enums/Rarity.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/extensions/CoolDownBlockExtensions.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/managers/ItemManager.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/utils/FileConfig.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/placeholders/CratePlaceholders.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/CringePvP.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/CringePvP.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/enums/CringeItems.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/commands/FeedCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/commands/FeedCommand.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/enums/Ranks.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/enums/Ranks.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/extensions/CoolDownBlockExtensions.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/extensions/CoolDownBlockExtensions.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/extensions/CringeExtensions.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/extensions/CringeExtensions.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/listeners/CrateListener.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/listeners/CrateListener.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/managers/CoroutineManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/managers/CoroutineManager.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/listeners/CringeListener.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/listeners/CringeListener.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/placeholders/PlayerPlaceholders.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/placeholders/PlayerPlaceholders.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
     </list>
-    <list id="95da2960-407d-41c4-8029-119b43014bc2" name="Changes by fruxz" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/CringePvP.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/CringePvP.kt" afterDir="false" />
-    </list>
+    <list id="95da2960-407d-41c4-8029-119b43014bc2" name="Changes by fruxz" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -58,30 +56,15 @@
       <list>
         <option value="Kotlin Annotation" />
         <option value="Kotlin Data Class" />
-        <option value="Kotlin Class" />
         <option value="Kotlin Enum" />
         <option value="Kotlin Object" />
         <option value="Kotlin File" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/CringePvP.kt">
-      <ranges>
-        <range start1="6" end1="6" start2="6" end2="7" changelist="ff31960a-d3cf-414c-b552-a7f8295cda0d" />
-        <range start1="9" end1="9" start2="10" end2="17" changelist="95da2960-407d-41c4-8029-119b43014bc2" />
-        <range start1="12" end1="12" start2="20" end2="21" changelist="95da2960-407d-41c4-8029-119b43014bc2" />
-        <range start1="14" end1="15" start2="23" end2="24" changelist="ff31960a-d3cf-414c-b552-a7f8295cda0d" />
-        <range start1="16" end1="20" start2="25" end2="29" changelist="ff31960a-d3cf-414c-b552-a7f8295cda0d" />
-        <range start1="21" end1="26" start2="30" end2="31" changelist="ff31960a-d3cf-414c-b552-a7f8295cda0d" />
-        <range start1="39" end1="39" start2="44" end2="45" changelist="ff31960a-d3cf-414c-b552-a7f8295cda0d" />
-        <range start1="42" end1="44" start2="48" end2="49" changelist="ff31960a-d3cf-414c-b552-a7f8295cda0d" />
-        <range start1="46" end1="46" start2="51" end2="62" changelist="ff31960a-d3cf-414c-b552-a7f8295cda0d" />
-      </ranges>
-    </file>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />

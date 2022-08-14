@@ -2,16 +2,18 @@ package de.coaster.cringepvp.listeners
 
 import com.destroystokyo.paper.ParticleBuilder
 import de.coaster.cringepvp.enums.Rarity
-import de.coaster.cringepvp.extensions.getCooldown
-import de.coaster.cringepvp.extensions.isInCooldown
-import de.coaster.cringepvp.extensions.setCooldown
-import de.coaster.cringepvp.extensions.toCringeUser
+import de.coaster.cringepvp.extensions.*
 import de.coaster.cringepvp.managers.CoroutineManager
 import de.coaster.cringepvp.managers.ItemManager
 import de.coaster.cringepvp.managers.PlayerCache
+import de.coaster.cringepvp.utils.FileConfig
 import de.moltenKt.core.extension.data.randomInt
+import de.moltenKt.core.extension.modifyIf
+import de.moltenKt.paper.extension.display.ui.itemStack
 import de.moltenKt.unfold.text
+import eu.decentsoftware.holograms.api.DHAPI
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
+import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.Particle
 import org.bukkit.Sound
@@ -23,6 +25,9 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.entity.EntityPickupItemEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
+import java.lang.Integer.max
+import java.util.*
+import kotlin.math.min
 import kotlin.time.Duration.Companion.minutes
 
 
@@ -31,9 +36,43 @@ class CrateListener : Listener {
     @EventHandler
     fun onClickOnCreate(event: PlayerInteractEvent) = with(event) {
         if(clickedBlock == null) return@with
-        if(clickedBlock?.blockData !is Chest) return@with
         if (action != Action.RIGHT_CLICK_BLOCK) return@with
         if(hand != EquipmentSlot.HAND) return@with
+
+        if(clickedBlock?.blockData is Chest) return@with onLootChestClick(this)
+        if(clickedBlock?.type == Material.PLAYER_HEAD) return@with onCrateClick(this)
+    }
+
+    private fun onCrateClick(event: PlayerInteractEvent) = with(event) {
+        val location = clickedBlock!!.location.toCringeString()
+        val config = FileConfig("crate.yml")
+
+        if(!config.contains(location)) {
+            config.set(location, "NIX")
+            config.saveConfig()
+        }
+
+        val type = config.getString(location)
+        if(type == "NIX") return@with
+
+        val rarity = Rarity.values().find { it.name == type } ?: return@with
+        val cringeUser = player.toCringeUser()
+
+        Bukkit.createInventory(null, 9, text("<${rarity.color}>${rarity.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }} Crate"))
+                .apply {
+                    setItem(3, Material.CHEST.itemStack { editMeta { meta -> meta.displayName(text("<#2ecc71>Crate öffnen")) } })
+                    setItem(5, Material.NAME_TAG.itemStack { editMeta { meta -> meta.displayName(text("<#e74c3c>Keys: ${cringeUser.normalKeys}")) } }.asQuantity(
+                       min(64, max(1, cringeUser.normalKeys.toInt()))
+                    ))
+                }.let {
+                    player.openInventory(it)
+                }
+
+
+        return@with
+    }
+
+    private fun onLootChestClick(event: PlayerInteractEvent) = with(event) {
         isCancelled = true
 
         val location = clickedBlock!!.location
@@ -44,7 +83,16 @@ class CrateListener : Listener {
         }
         location.setCooldown(3.minutes)
 
-        CoroutineManager.shootItems(clickedBlock!!.location.add(0.5, 1.2, 0.5), player, ItemManager.getItems(3))
+        var hologram = DHAPI.getHologram(location.toCringeString())
+        if (hologram == null) {
+            hologram = DHAPI.createHologram(location.toCringeString(), location.toCenterLocation().add(0.0, 1.2, 0.0), listOf(
+                "#7ed6df・ Cooldown ・",
+                "#badc58%cooldown_${location.toCringeString()}%"
+            ))
+            hologram.isAlwaysFacePlayer = true
+        }
+
+        CoroutineManager.shootItems(clickedBlock!!.location.add(0.5, 1.2, 0.5), player, ItemManager.getItems(3).map { it.setReceiver(player) }.toTypedArray())
         val chest = clickedBlock?.state as org.bukkit.block.Chest
         chest.open()
         CoroutineManager.startCoroutine({ chest.close() }, 3500)
@@ -53,6 +101,14 @@ class CrateListener : Listener {
     @EventHandler
     fun onPickupItem(event: EntityPickupItemEvent) = with(event) {
         if(entity !is Player) return@with
+
+        val receiver = item.itemStack.getReceiver()
+        if(receiver != null) {
+            if(entity.uniqueId != receiver) {
+                isCancelled = true
+                return@with
+            }
+        }
 
         when (item.itemStack.type) {
             Material.GOLD_NUGGET -> {

@@ -75,7 +75,6 @@ class CringeListener : Listener {
             .offset(.35, .5, .35)
             .extra(.01)
             .spawn()
-
     }
 
     @EventHandler
