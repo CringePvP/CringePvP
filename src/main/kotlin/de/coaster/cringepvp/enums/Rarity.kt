@@ -10,9 +10,10 @@ enum class Rarity(val rarity: Int, val color: String) {
     MYTHICAL(9, "#446f1b"),
     ANCIENT(6, "#9e4622"),
     DIVINE(3, "#debb5a"),
-    IMMORTAL(1, "#e79800");
+    IMMORTAL(1, "#e79800"),
+    VOTE(0, "#dabc50");
 
-    fun getAllBelow(highest: Rarity): List<Rarity> {
-        return values().filter { it.rarity <= highest.rarity }
+    fun getAllBelow(): List<Rarity> {
+        return values().filter { it.rarity >= this.rarity }
     }
 }

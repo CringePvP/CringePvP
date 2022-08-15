@@ -1,14 +1,16 @@
 package de.coaster.cringepvp.listeners
 
 import com.destroystokyo.paper.ParticleBuilder
+import de.coaster.cringepvp.enums.Keys
+import de.coaster.cringepvp.enums.Ranks
 import de.coaster.cringepvp.enums.Rarity
+import de.coaster.cringepvp.enums.Titles
 import de.coaster.cringepvp.extensions.*
 import de.coaster.cringepvp.managers.CoroutineManager
 import de.coaster.cringepvp.managers.ItemManager
 import de.coaster.cringepvp.managers.PlayerCache
 import de.coaster.cringepvp.utils.FileConfig
 import de.moltenKt.core.extension.data.randomInt
-import de.moltenKt.core.extension.modifyIf
 import de.moltenKt.paper.extension.display.ui.itemStack
 import de.moltenKt.unfold.text
 import eu.decentsoftware.holograms.api.DHAPI
@@ -23,8 +25,10 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
 import org.bukkit.event.entity.EntityPickupItemEvent
+import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
+import org.bukkit.inventory.ItemStack
 import java.lang.Integer.max
 import java.util.*
 import kotlin.math.min
@@ -35,41 +39,94 @@ class CrateListener : Listener {
 
     @EventHandler
     fun onClickOnCreate(event: PlayerInteractEvent) = with(event) {
-        if(clickedBlock == null) return@with
+        if (clickedBlock == null) return@with
         if (action != Action.RIGHT_CLICK_BLOCK) return@with
-        if(hand != EquipmentSlot.HAND) return@with
+        if (hand != EquipmentSlot.HAND) return@with
 
-        if(clickedBlock?.blockData is Chest) return@with onLootChestClick(this)
-        if(clickedBlock?.type == Material.PLAYER_HEAD) return@with onCrateClick(this)
+        if (clickedBlock?.blockData is Chest) return@with onLootChestClick(this)
+        if (clickedBlock?.type == Material.PLAYER_HEAD) return@with onCrateClick(this)
     }
 
     private fun onCrateClick(event: PlayerInteractEvent) = with(event) {
         val location = clickedBlock!!.location.toCringeString()
         val config = FileConfig("crate.yml")
 
-        if(!config.contains(location)) {
+        if (!config.contains(location)) {
             config.set(location, "NIX")
             config.saveConfig()
         }
 
         val type = config.getString(location)
-        if(type == "NIX") return@with
+        if (type == "NIX") return@with
 
         val rarity = Rarity.values().find { it.name == type } ?: return@with
+        val key = Keys.values().find { it.name == type } ?: return@with
         val cringeUser = player.toCringeUser()
 
-        Bukkit.createInventory(null, 9, text("<${rarity.color}>${rarity.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }} Crate"))
-                .apply {
-                    setItem(3, Material.CHEST.itemStack { editMeta { meta -> meta.displayName(text("<#2ecc71>Crate öffnen")) } })
-                    setItem(5, Material.NAME_TAG.itemStack { editMeta { meta -> meta.displayName(text("<#e74c3c>Keys: ${cringeUser.normalKeys}")) } }.asQuantity(
-                       min(64, max(1, cringeUser.normalKeys.toInt()))
-                    ))
-                }.let {
-                    player.openInventory(it)
-                }
-
+        Bukkit.createInventory(
+            null,
+            9,
+            text("<${rarity.color}>${rarity.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }} Crate")
+        )
+            .apply {
+                setItem(
+                    3,
+                    Material.CHEST.itemStack { editMeta { meta -> meta.displayName(text("<#2ecc71>Crate öffnen")) } })
+                setItem(
+                    5,
+                    Material.NAME_TAG.itemStack {
+                        editMeta { meta ->
+                            meta.displayName(
+                                text(
+                                    "<#e74c3c>Keys: ${
+                                        key.playerReference.get(cringeUser)
+                                    }"
+                                )
+                            )
+                        }
+                    }.asQuantity(
+                        min(64, max(1, key.playerReference.get(cringeUser).toInt()))
+                    )
+                )
+            }.let {
+                player.openInventory(it)
+            }
 
         return@with
+    }
+
+    @EventHandler
+    fun onInventoryClick(event: InventoryClickEvent) = with(event) {
+        val titleComponent = view.title()
+        val title = titleComponent.plainText
+        if (!title.endsWith("Crate")) return@with
+        val key = Keys.values().find { it.name == title.replace("Crate", "").trim() } ?: return@with
+        isCancelled = true
+        if (currentItem == null) return@with
+        if (currentItem!!.type != Material.CHEST) return@with
+        val player = whoClicked as Player
+
+        var cringeUser = player.toCringeUser()
+        if (key.playerReference.get(cringeUser) < 1) {
+            player.sendMessage(text("<gold><b>CringePvP</b></gold> <dark_gray>×</dark_gray> <gray>Du hast keine Keys mehr!</gray>"))
+            return@with
+        }
+        cringeUser = cringeUser.copy().apply {
+            key.playerReference.set(this, key.playerReference.get(this) - 1)
+        }
+        PlayerCache.updateCringeUser(cringeUser)
+        player.closeInventory()
+
+        val config = FileConfig("crate.yml")
+        // Reverse search for crate location
+        val crateLocation =
+            config.getKeys(true).find { config.getString(it) == key.name }?.toCringeLocation() ?: return@with
+        val rarity = Rarity.values().find { it.name == key.name } ?: return@with
+        CoroutineManager.shootItems(
+            crateLocation.add(0.5, 1.2, 0.5),
+            player,
+            ItemManager.getItems(rarity).shuffled().take(key.dropAmount).map { it.setReceiver(player) }.toTypedArray()
+        )
     }
 
     private fun onLootChestClick(event: PlayerInteractEvent) = with(event) {
@@ -77,7 +134,7 @@ class CrateListener : Listener {
 
         val location = clickedBlock!!.location
 
-        if(location.isInCooldown()) {
+        if (location.isInCooldown()) {
             player.sendMessage(text("<gold><b>CringePvP</b></gold> <dark_gray>×</dark_gray> <gray>Bitte warte noch ${location.getCooldown()}</gray>"))
             return@with
         }
@@ -85,14 +142,16 @@ class CrateListener : Listener {
 
         var hologram = DHAPI.getHologram(location.toCringeString())
         if (hologram == null) {
-            hologram = DHAPI.createHologram(location.toCringeString(), location.toCenterLocation().add(0.0, 1.2, 0.0), listOf(
-                "#7ed6df・ Cooldown ・",
-                "#badc58%cooldown_${location.toCringeString()}%"
-            ))
+            hologram = DHAPI.createHologram(
+                location.toCringeString(), location.toCenterLocation().add(0.0, 1.2, 0.0), listOf(
+                    "#7ed6df・ Cooldown ・",
+                    "#badc58%cooldown_${location.toCringeString()}%"
+                )
+            )
             hologram.isAlwaysFacePlayer = true
         }
 
-        CoroutineManager.shootItems(clickedBlock!!.location.add(0.5, 1.2, 0.5), player, ItemManager.getItems(3).map { it.setReceiver(player) }.toTypedArray())
+        CoroutineManager.shootItems(clickedBlock!!.location.add(0.5, 1.2, 0.5), player, ItemManager.getItems(3))
         val chest = clickedBlock?.state as org.bukkit.block.Chest
         chest.open()
         CoroutineManager.startCoroutine({ chest.close() }, 3500)
@@ -100,11 +159,11 @@ class CrateListener : Listener {
 
     @EventHandler
     fun onPickupItem(event: EntityPickupItemEvent) = with(event) {
-        if(entity !is Player) return@with
+        if (entity !is Player) return@with
 
         val receiver = item.itemStack.getReceiver()
-        if(receiver != null) {
-            if(entity.uniqueId != receiver) {
+        if (receiver != null) {
+            if (entity.uniqueId != receiver) {
                 isCancelled = true
                 return@with
             }
@@ -113,7 +172,7 @@ class CrateListener : Listener {
         when (item.itemStack.type) {
             Material.GOLD_NUGGET -> {
                 val itemStack = item.itemStack
-                val displayName = PlainTextComponentSerializer.plainText().serialize(itemStack.displayName()).replace("[", "" ).replace("]", "")
+                val displayName = itemStack.displayName().plainText
                 if (displayName.startsWith("Coin")) {
                     val amount = displayName.split("×")[1].trim().toInt()
 
@@ -122,31 +181,17 @@ class CrateListener : Listener {
                     PlayerCache.updateCringeUser(cringeUser)
 
                     isCancelled = true
-                    val location = item.location.clone()
-                    item.remove()
+                    pickUpItem()
 
-                    location.world.playSound(location, Sound.BLOCK_NOTE_BLOCK_PLING, 0.5f, 1.5f)
-                    ParticleBuilder(Particle.BUBBLE_POP)
-                        .location(location)
-                        .count(randomInt(3 .. 5))
-                        .offset(.35, .5, .35)
-                        .extra(.01)
-                        .spawn()
-
-                    val rarityName = PlainTextComponentSerializer.plainText().serialize(itemStack.lore()?.first() ?: text(": NORMAL"))
-                        .replace("[", "" )
-                        .replace("]", "")
-                        .split(":")[1].trim()
-
+                    val rarityName = getPlainRarityName(itemStack)
                     val rarity = Rarity.values().find { it.name.equals(rarityName, true) } ?: Rarity.NORMAL
-
-
                     entity.sendActionBar(text("<${rarity.color}>${rarity.name} <dark_gray>»</dark_gray> <gold><b>Coins</b></gold> <dark_gray>×</dark_gray> <gray>$amount</gray>"))
                 }
             }
+
             Material.EMERALD -> {
                 val itemStack = item.itemStack
-                val displayName = PlainTextComponentSerializer.plainText().serialize(itemStack.displayName()).replace("[", "" ).replace("]", "")
+                val displayName = itemStack.displayName().plainText
                 if (displayName.startsWith("Gem")) {
                     val amount = displayName.split("×")[1].trim().toInt()
 
@@ -155,30 +200,102 @@ class CrateListener : Listener {
                     PlayerCache.updateCringeUser(cringeUser)
 
                     isCancelled = true
-                    val location = item.location.clone()
-                    item.remove()
+                    pickUpItem()
 
-                    location.world.playSound(location, Sound.BLOCK_NOTE_BLOCK_PLING, 0.5f, 1.5f)
-                    ParticleBuilder(Particle.BUBBLE_POP)
-                        .location(location)
-                        .count(randomInt(3 .. 5))
-                        .offset(.35, .5, .35)
-                        .extra(.01)
-                        .spawn()
-
-                    val rarityName = PlainTextComponentSerializer.plainText().serialize(itemStack.lore()?.first() ?: text(": NORMAL"))
-                        .replace("[", "" )
-                        .replace("]", "")
-                        .split(":")[1].trim()
-
+                    val rarityName = getPlainRarityName(itemStack)
                     val rarity = Rarity.values().find { it.name.equals(rarityName, true) } ?: Rarity.NORMAL
-
-
                     entity.sendActionBar(text("<${rarity.color}>${rarity.name} <dark_gray>»</dark_gray> <green><b>Gems</b></green> <dark_gray>×</dark_gray> <gray>$amount</gray>"))
+                }
+            }
+
+            Material.FLOWER_BANNER_PATTERN -> {
+                val itemStack = item.itemStack
+                val displayName = itemStack.displayName().plainText
+                if (displayName.startsWith("Rang")) {
+                    val rang = displayName.split("×")[1].trim()
+                    val rank = Ranks.values().find { it.name.equals(rang, true) } ?: Ranks.Spieler
+                    var cringeUser = (entity as Player).toCringeUser()
+                    val currentRank = Ranks.values().find { it.name == cringeUser.rank } ?: Ranks.Spieler
+
+                    if (currentRank.ordinal <= rank.ordinal) {
+                        itemStack.removeReceiver()
+                        entity.sendMessage(text("<gold><b>CringePvP</b></gold> <dark_gray>×</dark_gray> <gray>Du hast bereits einen höheren Rang. Verschenke ihn doch!</gray>"))
+                        return@with
+                    }
+
+                    cringeUser = cringeUser.copy(rank = rank.name)
+                    PlayerCache.updateCringeUser(cringeUser)
+
+                    isCancelled = true
+                    pickUpItem()
+
+                    val rarityName = getPlainRarityName(itemStack)
+                    val rarity = Rarity.values().find { it.name.equals(rarityName, true) } ?: Rarity.NORMAL
+                    entity.sendActionBar(text("<${rarity.color}>${rarity.name} <dark_gray>»</dark_gray> <color:${rank.color}><b>Rank</b></color> <dark_gray>×</dark_gray> <gray>${rank.name}</gray>"))
+                }
+            }
+
+            Material.PAPER -> {
+                val itemStack = item.itemStack
+                val displayName = itemStack.displayName().plainText
+                if (displayName.startsWith("Title")) {
+                    val titleString = displayName.split("×")[1].trim()
+                    val title = Titles.values().find { it.display.equals(titleString, true) || it.name.equals(titleString, true) } ?: Titles.No_TITLE
+                    var cringeUser = (entity as Player).toCringeUser()
+                    cringeUser = cringeUser.copy(title = title.name)
+                    PlayerCache.updateCringeUser(cringeUser)
+
+                    isCancelled = true
+                    pickUpItem()
+
+                    val rarityName = getPlainRarityName(itemStack)
+                    val rarity = Rarity.values().find { it.name.equals(rarityName, true) } ?: Rarity.NORMAL
+                    entity.sendActionBar(text("<${rarity.color}>${rarity.name} <dark_gray>»</dark_gray> <blue><b>Title</b></blue> <dark_gray>×</dark_gray> <gray>${title.display}</gray>"))
+                }
+            }
+
+            Material.NAME_TAG -> {
+                val itemStack = item.itemStack
+                val displayName = itemStack.displayName().plainText
+                if (displayName.startsWith("Key")) {
+                    val keyString = displayName.split("×")[1].trim()
+                    val key = Keys.values().find { it.name.equals(keyString, true) } ?: Keys.NORMAL
+
+                    var cringeUser = (entity as Player).toCringeUser()
+                    cringeUser = cringeUser.copy().apply {
+                        key.playerReference.set(this, key.playerReference.get(this) + 1)
+                    }
+                    PlayerCache.updateCringeUser(cringeUser)
+
+                    isCancelled = true
+                    pickUpItem()
+
+                    val rarityName = getPlainRarityName(itemStack)
+                    val rarity = Rarity.values().find { it.name.equals(rarityName, true) } ?: Rarity.NORMAL
+                    entity.sendActionBar(text("<${rarity.color}>${rarity.name} <dark_gray>»</dark_gray> <yellow><b>Key</b></yellow> <dark_gray>×</dark_gray> <gray>${key.name}</gray>"))
                 }
             }
 
             else -> {}
         }
+    }
+
+    private fun getPlainRarityName(itemStack: ItemStack) = PlainTextComponentSerializer.plainText()
+        .serialize(itemStack.lore()?.first() ?: text(": NORMAL"))
+        .replace("[", "")
+        .replace("]", "")
+        .split(":")[1].trim()
+
+    private fun EntityPickupItemEvent.pickUpItem() {
+        val location = item.location.clone()
+        item.remove()
+
+        location.world.playSound(location, Sound.BLOCK_NOTE_BLOCK_PLING, 0.5f, 1.5f)
+        ParticleBuilder(Particle.BUBBLE_POP)
+            .location(location)
+            .count(randomInt(3..5))
+            .offset(.35, .5, .35)
+            .extra(.01)
+            .spawn()
     }
 }

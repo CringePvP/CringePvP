@@ -5,6 +5,7 @@ import de.coaster.cringepvp.database.getCringeUserOrNull
 import de.coaster.cringepvp.database.model.CringeUser
 import de.coaster.cringepvp.managers.PlayerCache
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.NamespacedKey
@@ -30,7 +31,7 @@ fun broadcastActionbar(component: Component) {
 }
 
 fun Location.toCringeString(): String {
-    return "${world.name}_${x}_${y}_${z}"
+    return "${world.name}_${blockX}_${blockY}_${blockZ}"
 }
 
 fun String.toCringeLocation(): Location {
@@ -43,6 +44,14 @@ fun ItemStack.setReceiver(player: Player): ItemStack {
     return this
 }
 
+fun ItemStack.removeReceiver(): ItemStack {
+    this.editMeta { meta -> meta.persistentDataContainer.remove(NamespacedKey.minecraft("pickup-receiver")) }
+    return this
+}
+
 fun ItemStack.getReceiver(): UUID? {
     return this.itemMeta?.persistentDataContainer?.get(NamespacedKey.minecraft("pickup-receiver"), PersistentDataType.STRING)?.let { UUID.fromString(it) }
 }
+
+val Component.plainText: String
+    get() = PlainTextComponentSerializer.plainText().serialize(this).replace("[", "").replace("]", "")
