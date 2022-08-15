@@ -52,6 +52,14 @@ object TableUsers : Table("users") {
     override val primaryKey = PrimaryKey(userUUID)
 }
 
+object TableUserTitles : Table("user_titles") {
+    val userUUID = varchar("uuid", 45) references TableUsers.userUUID
+    val title = varchar("title", 64)
+    val ownedDate = timestamp("ownedDate").default(Calendar.now().javaInstant)
+
+    override val primaryKey = PrimaryKey(userUUID, title)
+}
+
 internal fun <T> smartTransaction(block: Transaction.() -> T): T {
 
     return transaction {

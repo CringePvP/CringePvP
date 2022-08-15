@@ -4,12 +4,12 @@ import de.coaster.cringepvp.database.createCringeUser
 import de.coaster.cringepvp.database.getCringeUserOrNull
 import de.coaster.cringepvp.database.model.CringeUser
 import de.coaster.cringepvp.managers.PlayerCache
+import de.coaster.cringepvp.utils.ItemStackConverter
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
-import org.bukkit.Bukkit
-import org.bukkit.Location
-import org.bukkit.NamespacedKey
+import org.bukkit.*
 import org.bukkit.entity.Player
+import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 import java.util.*
@@ -55,3 +55,39 @@ fun ItemStack.getReceiver(): UUID? {
 
 val Component.plainText: String
     get() = PlainTextComponentSerializer.plainText().serialize(this).replace("[", "").replace("]", "")
+
+fun Inventory.setItems(slotRange: IntRange, item: ItemStack) {
+    slotRange.forEach { this.setItem(it, item) }
+}
+
+fun Player.soundExecution() {
+    playSound(location, Sound.ENTITY_ITEM_PICKUP, .75F, 2F)
+    playSound(location, Sound.ITEM_ARMOR_EQUIP_LEATHER, .25F, 2F)
+    playSound(location, Sound.ITEM_ARMOR_EQUIP_CHAIN, .1F, 2F)
+}
+
+
+var Player.isBuilder : Boolean
+    get() = hasPermission("rainbowislands.builder") && scoreboardTags.contains("builder")
+    set(value) {
+        if (value) {
+            if(hasPermission("rainbowislands.builder")) {
+                scoreboardTags.add("builder")
+            }
+        } else {
+            scoreboardTags.remove("builder")
+        }
+    }
+
+fun Player.saveInventory(gameMode: GameMode) {
+    persistentDataContainer.set(NamespacedKey.minecraft("inventory.${gameMode.name.lowercase()}.${uniqueId}"), PersistentDataType.STRING, ItemStackConverter.toBase64(inventory))
+}
+
+fun Player.loadInventory(gameMode: GameMode) {
+    val inventoryString = persistentDataContainer.get(NamespacedKey.minecraft("inventory.${gameMode.name.lowercase()}.${uniqueId}"), PersistentDataType.STRING)
+    if (inventoryString != null) {
+        ItemStackConverter.fromBase64(inventoryString)?.let {
+            it.contents.forEachIndexed { index, itemStack ->  inventory.setItem(index, itemStack) }
+        }
+    }
+}

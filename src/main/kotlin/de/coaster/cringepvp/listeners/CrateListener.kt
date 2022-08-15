@@ -69,6 +69,9 @@ class CrateListener : Listener {
             text("<${rarity.color}>${rarity.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }} Crate")
         )
             .apply {
+                setItems(0..8, Material.GRAY_STAINED_GLASS_PANE.itemStack {
+                    editMeta { meta -> meta.displayName(text(" ")) }
+                })
                 setItem(
                     3,
                     Material.CHEST.itemStack { editMeta { meta -> meta.displayName(text("<#2ecc71>Crate öffnen")) } })
@@ -242,7 +245,14 @@ class CrateListener : Listener {
                     val titleString = displayName.split("×")[1].trim()
                     val title = Titles.values().find { it.display.equals(titleString, true) || it.name.equals(titleString, true) } ?: Titles.No_TITLE
                     var cringeUser = (entity as Player).toCringeUser()
-                    cringeUser = cringeUser.copy(title = title.name)
+
+                    if (cringeUser.ownedTitles.contains(title)) {
+                        itemStack.removeReceiver()
+                        entity.sendMessage(text("<gold><b>CringePvP</b></gold> <dark_gray>×</dark_gray> <gray>Du hast bereits diesen Titel. Verschenke ihn doch!</gray>"))
+                        return@with
+                    }
+
+                    cringeUser = cringeUser.copy(ownedTitles = cringeUser.ownedTitles + title)
                     PlayerCache.updateCringeUser(cringeUser)
 
                     isCancelled = true
@@ -263,7 +273,7 @@ class CrateListener : Listener {
 
                     var cringeUser = (entity as Player).toCringeUser()
                     cringeUser = cringeUser.copy().apply {
-                        key.playerReference.set(this, key.playerReference.get(this) + 1)
+                        key.playerReference.set(this, key.playerReference.get(this) + itemStack.amount)
                     }
                     PlayerCache.updateCringeUser(cringeUser)
 

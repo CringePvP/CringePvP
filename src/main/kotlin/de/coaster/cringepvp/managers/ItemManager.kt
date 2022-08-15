@@ -85,4 +85,20 @@ object ItemManager {
         config.set(itemName, item)
         config.saveConfig()
     }
+
+    fun addItems(rarity: Rarity, multipleItems: List<ItemStack>) {
+        var itemList = items[rarity.name] ?: return
+        itemList += multipleItems
+        items += Pair(rarity.name, itemList)
+
+        val config = FileConfig("items/${rarity.name.lowercase(Locale.getDefault())}.yml")
+        val itemNames = config.getStringList("itemNames")
+        for (item in multipleItems) {
+            val itemName = if (item.itemMeta.hasDisplayName()) item.itemMeta.displayName else item.type.name
+            itemNames += itemName
+            config.set(itemName, item)
+        }
+        config.set("itemNames", itemNames)
+        config.saveConfig()
+    }
 }

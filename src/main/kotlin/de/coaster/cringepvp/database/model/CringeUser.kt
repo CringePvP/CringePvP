@@ -1,5 +1,6 @@
 package de.coaster.cringepvp.database.model
 
+import de.coaster.cringepvp.enums.Titles
 import de.moltenKt.core.tool.smart.identification.Identifiable
 import de.moltenKt.core.tool.timing.calendar.Calendar
 import java.util.*
@@ -13,6 +14,7 @@ data class CringeUser(val uuid: UUID,
                       val xp: Long = 0,
                       val rank: String = "Spieler",
                       val title: String = "",
+                      val ownedTitles: Set<Titles> = setOf(),
 
                       val coins: Long = 0,
                       val gems: Long = 0,

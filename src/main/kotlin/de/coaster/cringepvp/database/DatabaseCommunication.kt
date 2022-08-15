@@ -2,11 +2,9 @@ package de.coaster.cringepvp.database
 
 import de.coaster.cringepvp.database.TableUsers.userUUID
 import de.coaster.cringepvp.database.model.CringeUser
+import de.coaster.cringepvp.enums.Titles
 import de.moltenKt.core.tool.timing.calendar.Calendar
-import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.update
+import org.jetbrains.exposed.sql.*
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -20,13 +18,20 @@ fun getCringeUserOrNull(uuid: UUID): CringeUser? = smartTransaction {
     return@smartTransaction TableUsers.select { userUUID eq uuid.toString() }.firstOrNull()?.let(::mapToCringeUser)
 }
 
-private fun mapToCringeUser(resultRow: ResultRow): CringeUser = with(resultRow){
+fun getCringeUserTitles(uuid: UUID): Set<Titles> = smartTransaction {
+    return@smartTransaction TableUserTitles.select { TableUserTitles.userUUID eq uuid.toString() }.mapNotNull { resultRow ->
+        Titles.values().find { it.name.equals(resultRow[TableUserTitles.title], true) }
+    }.toSet()
+}
+
+private fun mapToCringeUser(resultRow: ResultRow): CringeUser = with(resultRow) {
     return CringeUser(
         uuid = UUID.fromString(this[userUUID]),
         username = this[TableUsers.userName],
         xp = this[TableUsers.userXP],
         rank = this[TableUsers.userRank],
         title = this[TableUsers.userTitle],
+        ownedTitles = getCringeUserTitles(UUID.fromString(this[userUUID])),
         coins = this[TableUsers.userCoins],
         gems = this[TableUsers.userGems],
         crystals = this[TableUsers.userCrystals],
@@ -94,5 +99,11 @@ fun updateCringeUserDB(cringeUser: CringeUser) = smartTransaction {
         it[userFirstJoined] = cringeUser.firstJoined.javaInstant
         it[userLastJoined] = cringeUser.lastTimeJoined.javaInstant
         it[onlineTime] = cringeUser.onlineTime.inWholeSeconds
+    }
+    cringeUser.ownedTitles.forEach { titles ->
+        TableUserTitles.replace {
+            it[userUUID] = cringeUser.uuid.toString()
+            it[title] = titles.name
+        }
     }
 }
