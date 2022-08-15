@@ -8,7 +8,10 @@ import org.jetbrains.exposed.sql.javatime.timestamp
 import org.jetbrains.exposed.sql.transactions.transaction
 
 internal object DatabaseManager {
-    val database = Database.connect("jdbc:mysql://45.9.60.102:3306/s305_cringepvp", "com.mysql.cj.jdbc.Driver", "u305_b78Gdf4psJ", "bRXDJIRor0=+y4FqVGNd+G@I")
+    val database = Database.connect(
+        DB_URL, DB_DRIVER, DB_USER,
+        DB_PASS
+    )
 }
 
 object TableUsers : Table("users") {

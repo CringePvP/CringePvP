@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 import org.bukkit.Bukkit
 import kotlin.time.Duration.Companion.seconds
 import de.coaster.cringepvp.extensions.broadcastActionbar
+import de.moltenKt.core.extension.data.randomInt
 import org.bukkit.Location
 import org.bukkit.Sound
 import org.bukkit.entity.Player
@@ -22,6 +23,7 @@ object CoroutineManager {
         println("CoroutineManager initialized")
         startPlayerTimer()
         startClearLag()
+        startBroadcast()
     }
 
     fun startCoroutine(coroutine: suspend () -> Unit) {
@@ -67,6 +69,19 @@ object CoroutineManager {
                 Bukkit.getScheduler().runTask(CringePvP.instance, kotlinx.coroutines.Runnable{
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "kill @e[type=minecraft:item]")
                 })
+            }
+        }
+    }
+
+    private fun startBroadcast() {
+        startCoroutine {
+            while (true) {
+                delay(randomInt(60 .. 500) * 1000L)
+                Bukkit.broadcast(text("<gold><b>CringePvP</b></gold> » Joine doch unserem <click:open_url:'https://discord.gg/KAypYTgxKH'><b><hover:show_text:'Klick mich'>discord</hover></b></click> <3"))
+                delay(randomInt(60 .. 500) * 1000L)
+                Bukkit.broadcast(text("<dark_aqua><b>CringePvP</b></dark_aqua> » Spielt immer fair und bleibt schön cringe."))
+                delay(randomInt(60 .. 500) * 1000L)
+                Bukkit.broadcast(text("<dark_purple><b>CringePvP</b></dark_purple> » Kauft euch jetzt den super coolen <b><gold><click:open_url:'https://store.cringepvp.de/checkout/packages/add/5247669/single'><hover:show_text:'Klicke mich'>LEGENDARY</hover></click></gold></b> Rang!"))
             }
         }
     }

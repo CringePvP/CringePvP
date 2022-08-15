@@ -214,7 +214,7 @@ class CrateListener : Listener {
             Material.FLOWER_BANNER_PATTERN -> {
                 val itemStack = item.itemStack
                 val displayName = itemStack.displayName().plainText
-                if (displayName.startsWith("Rang")) {
+                if (displayName.startsWith("Rank")) {
                     val rang = displayName.split("×")[1].trim()
                     val rank = Ranks.values().find { it.name.equals(rang, true) } ?: Ranks.Spieler
                     var cringeUser = (entity as Player).toCringeUser()

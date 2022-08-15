@@ -84,7 +84,6 @@ class CringeListener : Listener {
         val entity = event.entity as LivingEntity
 
         entity.world.playSound(entity.location, Sound.BLOCK_BONE_BLOCK_BREAK, 1F, 2F)
-
         entity.world.playSound(entity.location, Sound.BLOCK_STONE_BREAK, 1F, 2F)
 
         ParticleBuilder(Particle.BLOCK_CRACK)
@@ -105,6 +104,8 @@ class CringeListener : Listener {
                 var deadCringeUser = (event.entity as Player).toCringeUser()
                 deadCringeUser = deadCringeUser.copy(deaths = deadCringeUser.deaths + 1)
                 updateCringeUser(deadCringeUser)
+
+                entity.world.playSound(entity.location, Sound.ENTITY_EVOKER_PREPARE_WOLOLO, 2F, 1F)
             }
         }
     }
