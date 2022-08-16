@@ -4,6 +4,7 @@ import de.coaster.cringepvp.annotations.RegisterCommand
 import de.coaster.cringepvp.extensions.getCooldown
 import de.coaster.cringepvp.extensions.isInCooldown
 import de.coaster.cringepvp.extensions.setCooldown
+import de.coaster.cringepvp.extensions.toCringeUser
 import de.moltenKt.unfold.text
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -31,7 +32,7 @@ class FeedCommand : CommandExecutor, TabCompleter {
             sender.sendMessage(text("<color:#adffcd>CringePvP »</color> <color:#ff7f6e>Du musst noch $coolDown warten, bis du dich wieder vollfressen kannst.</color>"))
             return true
         }
-        sender.setCooldown("feed", 5.minutes)
+        sender.toCringeUser().setCooldown("feed", 5.minutes)
 
         sender.foodLevel = 20
         sender.sendMessage(text("<color:#adffcd>CringePvP »</color> <color:#ff7f6e>Du hast dich erfolgreich gefüttert.</color>"))

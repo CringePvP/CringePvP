@@ -10,10 +10,25 @@ import java.util.*
 object ItemManager {
 
     var items = mapOf<String, List<ItemStack>>()
+    var raritiesWithWeights = listOf<Rarity>()
 
     init {
         println("ItemManager loaded")
         registerItems()
+        updateWeights()
+    }
+
+    private fun updateWeights() {
+        val rarities = Rarity.values().filter { items[it.name]?.isNotEmpty() ?: false }
+
+        // Get a random rarity based on the rarity chance
+        val weights = rarities.map { it.rarity }
+        raritiesWithWeights = listOf()
+        for (i in weights.indices) {
+            for (j in 0 until weights[i]) {
+                raritiesWithWeights += rarities[i]
+            }
+        }
     }
 
     private fun registerItems() {
@@ -50,16 +65,6 @@ object ItemManager {
     }
 
     private fun getItem(): ItemStack {
-        val rarities = Rarity.values().filter { items[it.name]?.isNotEmpty() ?: false }
-
-        // Get a random rarity based on the rarity chance
-        val weights = rarities.map { it.rarity }
-        var raritiesWithWeights = listOf<Rarity>()
-        for (i in weights.indices) {
-            for (j in 0 until weights[i]) {
-                raritiesWithWeights += rarities[i]
-            }
-        }
         val rarity = raritiesWithWeights.random()
         return getItem(rarity)
     }
@@ -84,6 +89,7 @@ object ItemManager {
         config.set("itemNames", itemNames)
         config.set(itemName, item)
         config.saveConfig()
+        updateWeights()
     }
 
     fun addItems(rarity: Rarity, multipleItems: List<ItemStack>) {
@@ -100,5 +106,6 @@ object ItemManager {
         }
         config.set("itemNames", itemNames)
         config.saveConfig()
+        updateWeights()
     }
 }

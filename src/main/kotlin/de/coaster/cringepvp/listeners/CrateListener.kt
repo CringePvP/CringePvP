@@ -152,6 +152,8 @@ class CrateListener : Listener {
                 )
             )
             hologram.isAlwaysFacePlayer = true
+            hologram.updateRange = 20
+            hologram.updateInterval = 1
         }
 
         CoroutineManager.shootItems(clickedBlock!!.location.add(0.5, 1.2, 0.5), player, ItemManager.getItems(3))

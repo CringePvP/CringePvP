@@ -2,6 +2,7 @@ package de.coaster.cringepvp.database
 
 import de.coaster.cringepvp.database.TableUsers.userUUID
 import de.coaster.cringepvp.database.model.CringeUser
+import de.coaster.cringepvp.enums.Ranks
 import de.coaster.cringepvp.enums.Titles
 import de.moltenKt.core.tool.timing.calendar.Calendar
 import org.jetbrains.exposed.sql.*
@@ -29,7 +30,7 @@ private fun mapToCringeUser(resultRow: ResultRow): CringeUser = with(resultRow) 
         uuid = UUID.fromString(this[userUUID]),
         username = this[TableUsers.userName],
         xp = this[TableUsers.userXP],
-        rank = this[TableUsers.userRank],
+        rank = Ranks.values().find { it.name.equals(this[TableUsers.userRank], true) } ?: Ranks.Spieler,
         title = this[TableUsers.userTitle],
         ownedTitles = getCringeUserTitles(UUID.fromString(this[userUUID])),
         coins = this[TableUsers.userCoins],
@@ -72,7 +73,7 @@ fun updateCringeUserDB(cringeUser: CringeUser) = smartTransaction {
     TableUsers.update({ userUUID eq cringeUser.uuid.toString() }) {
         it[userName] = cringeUser.username
         it[userXP] = cringeUser.xp
-        it[userRank] = cringeUser.rank
+        it[userRank] = cringeUser.rank.name
         it[userTitle] = cringeUser.title
         it[userCoins] = cringeUser.coins
         it[userGems] = cringeUser.gems

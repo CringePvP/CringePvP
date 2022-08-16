@@ -1,5 +1,7 @@
 package de.coaster.cringepvp.extensions
 
+import de.coaster.cringepvp.database.model.CringeUser
+import de.coaster.cringepvp.enums.Ranks
 import de.moltenKt.core.tool.timing.calendar.Calendar
 import org.bukkit.entity.Player
 import kotlin.time.Duration
@@ -28,6 +30,10 @@ fun Player.isInCooldown(cooldownKey: String): Boolean {
 
 fun Player.setCooldown(cooldownKey: String, duration: Duration) {
     "$uniqueId:$cooldownKey".setCooldown(duration)
+}
+
+fun CringeUser.setCooldown(cooldownKey: String, duration: Duration) {
+    "$uuid:$cooldownKey".setCooldown(duration.div((Ranks.values().find { it.name == rank }?: Ranks.Spieler).cooldownMultiplier))
 }
 
 fun Player.removeCooldown(cooldownKey: String) {

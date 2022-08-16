@@ -10,12 +10,15 @@ import kotlinx.coroutines.launch
 import org.bukkit.Bukkit
 import kotlin.time.Duration.Companion.seconds
 import de.coaster.cringepvp.extensions.broadcastActionbar
+import de.coaster.cringepvp.listeners.GamemodeListeners
 import de.moltenKt.core.extension.data.randomInt
 import org.bukkit.Location
 import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.util.Vector
+import kotlin.math.min
+import kotlin.time.Duration.Companion.minutes
 
 object CoroutineManager {
 
@@ -24,6 +27,7 @@ object CoroutineManager {
         startPlayerTimer()
         startClearLag()
         startBroadcast()
+        startKristallMine()
     }
 
     fun startCoroutine(coroutine: suspend () -> Unit) {
@@ -88,7 +92,7 @@ object CoroutineManager {
 
     fun shootItems(location: Location, player: Player, items: Array<ItemStack>) {
         items.forEachIndexed { index: Int, item: ItemStack ->
-            Bukkit.getScheduler().runTaskLater(CringePvP.instance, kotlinx.coroutines.Runnable {
+            Bukkit.getScheduler().runTaskLater(CringePvP.instance, Runnable {
                 val itemInWorld = player.world.dropItem(location, item)
                 itemInWorld.velocity = location.toVector().subtract(player.location.toVector()).normalize().multiply(-0.2).add(Vector(0.0, 0.3, 0.0))
 //                    .rotateAroundY(
@@ -100,6 +104,15 @@ object CoroutineManager {
                 itemInWorld.setCanMobPickup(false)
                 player.world.playSound(itemInWorld.location, Sound.ENTITY_CAT_HISS, 1.0f, 1.0f)
             }, 20 * index.toLong())
+        }
+    }
+
+    fun startKristallMine() {
+        startCoroutine {
+            while (true) {
+                delay(1.minutes)
+                GamemodeListeners.kristallFuellstand = min(GamemodeListeners.kristallFuellstand + 1, 10)
+            }
         }
     }
 

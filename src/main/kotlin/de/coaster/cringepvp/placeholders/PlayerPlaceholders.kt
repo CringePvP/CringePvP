@@ -6,6 +6,9 @@ import de.coaster.cringepvp.extensions.toCringeUser
 import me.neznamy.tab.api.TabAPI
 import org.bukkit.entity.Player
 
+val cratePlaceholder = CratePlaceholders()
+val kristallMinenPlaceholder = KristallMinenPlaceholder()
+
 fun registerPlaceholders() {
 
     val placeholderManager = TabAPI.getInstance().placeholderManager
@@ -58,5 +61,12 @@ fun registerPlaceholders() {
         (player.player as Player).toCringeUser().nextLevelExp()
     }
 
-    CratePlaceholders().register()
+
+    cratePlaceholder.register()
+    kristallMinenPlaceholder.register()
+}
+
+fun unregisterPlaceholders() {
+    cratePlaceholder.unregister()
+    kristallMinenPlaceholder.unregister()
 }

@@ -4,14 +4,13 @@ import de.coaster.cringepvp.annotations.RegisterCommand
 import de.coaster.cringepvp.extensions.getCooldown
 import de.coaster.cringepvp.extensions.isInCooldown
 import de.coaster.cringepvp.extensions.setCooldown
+import de.coaster.cringepvp.extensions.toCringeUser
 import de.moltenKt.paper.extension.effect.PotionEffect
 import de.moltenKt.unfold.text
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
-import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
-import org.bukkit.permissions.PermissionDefault
 import org.bukkit.potion.PotionEffectType
 import kotlin.time.Duration.Companion.minutes
 
@@ -32,7 +31,7 @@ class GommemodeCommand : CommandExecutor {
             sender.sendMessage(text("<color:#adffcd>CringePvP »</color> <color:#ff7f6e>Du musst noch $coolDown warten, bis du wieder in den</color> <b><gold>#Gommemode</gold></b> <color:#ff7f6e>kannst.</color>"))
             return true
         }
-        sender.setCooldown("gommemode", 5.minutes)
+        sender.toCringeUser().setCooldown("gommemode", 5.minutes)
         sender.sendMessage(text("<color:#adffcd>CringePvP »</color> <b><gold>#Gommemode</gold></b> <color:#ff7f6e>aktiviert!</color>"))
 
         sender.addPotionEffects(listOf(

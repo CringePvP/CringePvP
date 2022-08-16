@@ -12,6 +12,7 @@ import de.coaster.cringepvp.managers.ItemManager
 import de.coaster.cringepvp.managers.PlayerCache
 import de.coaster.cringepvp.managers.RegisterManager.registerAll
 import de.coaster.cringepvp.placeholders.registerPlaceholders
+import de.coaster.cringepvp.placeholders.unregisterPlaceholders
 import de.moltenKt.core.extension.empty
 import de.moltenKt.core.tool.smart.identification.Identity
 import de.moltenKt.paper.extension.display.ui.itemStack
@@ -140,6 +141,7 @@ class CringePvP : JavaPlugin() {
     }
 
     override fun onDisable() {
+        unregisterPlaceholders()
         PlayerCache.saveAll()
         coroutineScope.coroutineContext.cancelChildren()
     }

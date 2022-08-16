@@ -1,7 +1,12 @@
 package de.coaster.cringepvp.listeners
 
 import de.coaster.cringepvp.extensions.isBuilder
+import de.coaster.cringepvp.extensions.toCringeString
+import de.coaster.cringepvp.extensions.toCringeUser
+import de.coaster.cringepvp.managers.PlayerCache
+import de.moltenKt.unfold.text
 import io.papermc.paper.event.player.PlayerFlowerPotManipulateEvent
+import org.bukkit.Material
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -16,12 +21,27 @@ import org.bukkit.event.player.PlayerInteractEvent
 
 class GamemodeListeners : Listener {
 
+    companion object {
+        var kristallFuellstand = 10
+    }
+
     @EventHandler
     fun onBlockBreak(event: BlockBreakEvent) = with(event) {
         if (player.isBuilder) return@with
-
         isCancelled = true
-        println("Player ${player.name} tried to break a ${block.type}")
+
+        if (block.type == Material.AMETHYST_CLUSTER) {
+            if(block.location.toCringeString() == "sky_-20_75_176") {
+                // if kristallFuellstand != 0 -> add one crystal to user and remove 1 kristallfuelstand
+                if (kristallFuellstand > 0) {
+                    var cringeUser = player.toCringeUser()
+                    cringeUser = cringeUser.copy(crystals = cringeUser.crystals + 1, xp = cringeUser.xp + 3)
+                    PlayerCache.updateCringeUser(cringeUser)
+                    player.sendActionBar(text("<color:#4aabff><b>Kristall</b></color> <dark_gray>×</dark_gray> <gray>1</gray>"))
+                    kristallFuellstand--
+                }
+            }
+        }
     }
 
     @EventHandler

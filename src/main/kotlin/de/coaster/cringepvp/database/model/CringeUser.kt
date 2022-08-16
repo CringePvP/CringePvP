@@ -1,5 +1,6 @@
 package de.coaster.cringepvp.database.model
 
+import de.coaster.cringepvp.enums.Ranks
 import de.coaster.cringepvp.enums.Titles
 import de.moltenKt.core.tool.smart.identification.Identifiable
 import de.moltenKt.core.tool.timing.calendar.Calendar
@@ -12,14 +13,14 @@ import kotlin.time.Duration
 data class CringeUser(val uuid: UUID,
                       val username: String,
                       val xp: Long = 0,
-                      val rank: String = "Spieler",
+                      val rank: Ranks = Ranks.Spieler,
                       val title: String = "",
                       val ownedTitles: Set<Titles> = setOf(),
 
-                      val coins: Long = 0,
-                      val gems: Long = 0,
-                      val crystals: Long = 0,
-                      val relicts: Long = 0,
+                      var coins: Long = 0,
+                      var gems: Long = 0,
+                      var crystals: Long = 0,
+                      var relicts: Long = 0,
 
                       val kills: Long = 0,
                       val deaths: Long = 0,
