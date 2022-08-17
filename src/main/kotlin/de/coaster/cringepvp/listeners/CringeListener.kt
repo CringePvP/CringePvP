@@ -2,10 +2,7 @@ package de.coaster.cringepvp.listeners
 
 import com.destroystokyo.paper.ParticleBuilder
 import de.coaster.cringepvp.CringePvP
-import de.coaster.cringepvp.extensions.loadInventory
-import de.coaster.cringepvp.extensions.saveInventory
-import de.coaster.cringepvp.extensions.soulbound
-import de.coaster.cringepvp.extensions.toCringeUser
+import de.coaster.cringepvp.extensions.*
 import de.coaster.cringepvp.managers.PlayerCache
 import de.coaster.cringepvp.managers.PlayerCache.updateCringeUser
 import de.moltenKt.core.extension.data.randomInt
@@ -15,13 +12,17 @@ import org.bukkit.Material
 import org.bukkit.Particle
 import org.bukkit.Sound
 import org.bukkit.attribute.Attribute
+import org.bukkit.entity.Arrow
+import org.bukkit.entity.Entity
 import org.bukkit.entity.LivingEntity
+import org.bukkit.entity.Pig
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.EntityRegainHealthEvent
+import org.bukkit.event.entity.FoodLevelChangeEvent
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.player.PlayerCommandPreprocessEvent
@@ -86,10 +87,30 @@ class CringeListener : Listener {
     }
 
     @EventHandler
-    fun onDamage(event: EntityDamageByEntityEvent) {
-        if (event.entity !is LivingEntity) return
+    fun onFoodLevelChange(event: FoodLevelChangeEvent) = with(event) {
+        if(entity.location.y > 112) {
+            entity.foodLevel = 20
+        }
+    }
+
+    @EventHandler
+    fun onDamage(event: EntityDamageByEntityEvent) = with(event) {
+        if (event.entity !is LivingEntity) return@with
 
         val entity = event.entity as LivingEntity
+        if ((damager !is Player && damager !is Arrow) || entity is Pig) return@with
+
+        val damageEntity : Entity = if (damager is Player) damager else ((damager as Arrow).shooter as Entity? ?: return@with)
+        if (damageEntity is Player) {
+            if (!damageEntity.isBuilder)  {
+                val coordinatesFirst = damageEntity.location
+                val coordinatesSecond = entity.location
+                if (coordinatesFirst.y > 112.0 || coordinatesSecond.y > 112.0) {
+                    isCancelled = true
+                    return@with
+                }
+            }
+        }
 
         entity.world.playSound(entity.location, Sound.BLOCK_BONE_BLOCK_BREAK, 1F, 2F)
         entity.world.playSound(entity.location, Sound.BLOCK_STONE_BREAK, 1F, 2F)
@@ -142,6 +163,7 @@ class CringeListener : Listener {
 
         Bukkit.getScheduler().runTaskLater(CringePvP.instance, Runnable {
             loadInventory("soulbounds")
+            removeInventory("soulbounds")
         }, 20)
 
         world.spawnParticle(Particle.EXPLOSION_HUGE, world.spawnLocation, 100, 0.0, 0.0, 0.0, 20.0)

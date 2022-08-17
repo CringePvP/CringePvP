@@ -8,6 +8,7 @@ import de.moltenKt.unfold.text
 import io.papermc.paper.event.player.PlayerFlowerPotManipulateEvent
 import org.bukkit.Material
 import org.bukkit.entity.Arrow
+import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -16,7 +17,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.hanging.HangingBreakByEntityEvent
 import org.bukkit.event.player.PlayerBucketEmptyEvent
 import org.bukkit.event.player.PlayerInteractAtEntityEvent
-import org.bukkit.event.player.PlayerInteractEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 
 class GamemodeListeners : Listener {
@@ -76,29 +76,6 @@ class GamemodeListeners : Listener {
 
         isCancelled = true
         println("Player ${player.name} tried to interact at entity ${event.rightClicked.type}")
-    }
-
-
-    @EventHandler
-    fun onDamageEntity(event: EntityDamageByEntityEvent) = with(event) {
-        if (damager is Player) {
-            val player = damager as Player
-            if (player.isBuilder) return@with
-
-            val coordinatesFirst = damager.location
-            val coordinatesSecond = entity.location
-            if (coordinatesFirst.y < 112.0 && coordinatesSecond.y < 112.0) return@with
-
-        } else if (damager is Arrow) {
-            val arrow = damager as Arrow
-            if (arrow.shooter !is Player) return@with
-
-            val player = arrow.shooter as Player
-            val coordinatesFirst = player.location
-            val coordinatesSecond = entity.location
-            if (coordinatesFirst.y < 112.0 && coordinatesSecond.y < 112.0) return@with
-        }
-        isCancelled = true
     }
 
     @EventHandler
