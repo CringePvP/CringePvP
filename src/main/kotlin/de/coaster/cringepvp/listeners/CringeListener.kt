@@ -1,14 +1,15 @@
 package de.coaster.cringepvp.listeners
 
 import com.destroystokyo.paper.ParticleBuilder
+import de.coaster.cringepvp.extensions.loadInventory
+import de.coaster.cringepvp.extensions.saveInventory
+import de.coaster.cringepvp.extensions.soulbound
 import de.coaster.cringepvp.extensions.toCringeUser
 import de.coaster.cringepvp.managers.PlayerCache
 import de.coaster.cringepvp.managers.PlayerCache.updateCringeUser
 import de.moltenKt.core.extension.data.randomInt
 import de.moltenKt.unfold.text
-import me.neznamy.tab.api.TabAPI
-import me.neznamy.tab.api.event.player.PlayerLoadEvent
-import me.neznamy.tab.api.team.UnlimitedNametagManager
+import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.Particle
 import org.bukkit.Sound
@@ -102,15 +103,25 @@ class CringeListener : Listener {
             updateCringeUser(cringeUser)
 
             if (event.entity is Player) {
-                var deadCringeUser = (event.entity as Player).toCringeUser()
+                val deadPlayer = event.entity as Player
+                var deadCringeUser = deadPlayer.toCringeUser()
                 deadCringeUser = deadCringeUser.copy(deaths = deadCringeUser.deaths + 1)
                 updateCringeUser(deadCringeUser)
 
+                val soulBoundInventory = Bukkit.createInventory(null, 54, text("<red>${deadPlayer.name}s Inventar"))
+                for (i in 0 until deadPlayer.inventory.size) {
+                    val item = deadPlayer.inventory.getItem(i) ?: continue
+                    if(item.soulbound) {
+                        soulBoundInventory.setItem(i, item)
+                    }
+                }
+
+
+
+
+                deadPlayer.saveInventory(soulBoundInventory, "soulbounds")
+
                 entity.world.playSound(entity.location, Sound.ENTITY_EVOKER_PREPARE_WOLOLO, 2F, 1F)
-
-
-
-
             }
         }
     }
@@ -124,8 +135,7 @@ class CringeListener : Listener {
         getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.let { it.baseValue = cringeUser.baseSpeed }
         getAttribute(Attribute.GENERIC_MAX_HEALTH)?.let { it.baseValue = cringeUser.baseHealth }
 
-        exp = 0.0f
-        giveExp(cringeUser.xp.toInt())
+        loadInventory("soulbounds")
 
         world.spawnParticle(Particle.EXPLOSION_HUGE, world.spawnLocation, 100, 0.0, 0.0, 0.0, 20.0)
         playSound(location, Sound.BLOCK_PORTAL_TRAVEL, 1f, 1f)

@@ -5,6 +5,7 @@ import de.coaster.cringepvp.database.getCringeUserOrNull
 import de.coaster.cringepvp.database.model.CringeUser
 import de.coaster.cringepvp.managers.PlayerCache
 import de.coaster.cringepvp.utils.ItemStackConverter
+import de.moltenKt.unfold.text
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
 import org.bukkit.*
@@ -49,6 +50,27 @@ fun ItemStack.removeReceiver(): ItemStack {
     return this
 }
 
+var ItemStack.soulbound: Boolean
+    get() = this.hasItemMeta() && this.itemMeta.hasLore() && this.itemMeta.lore()?.map { it.plainText }?.contains("Soulbound") == true
+    set(value) {
+        if (value) {
+            if(!this.soulbound) {
+                this.editMeta { meta ->
+                    val lore = meta.lore() ?: mutableListOf()
+                    lore.add(text(" "))
+                    lore.add(text("<color:#4aabff><b>Soulbound</b></color> <dark_gray>×</dark_gray> <gray>Du behälst dieses Item beim Tod</gray>"))
+                    meta.lore(lore)
+                }
+            }
+        } else {
+            this.editMeta { meta ->
+                val lore = meta.lore() ?: mutableListOf()
+                lore.removeIf { it.plainText.contains("Soulbound") }
+                meta.lore(lore)
+            }
+        }
+    }
+
 fun ItemStack.getReceiver(): UUID? {
     return this.itemMeta?.persistentDataContainer?.get(NamespacedKey.minecraft("pickup-receiver"), PersistentDataType.STRING)?.let { UUID.fromString(it) }
 }
@@ -83,21 +105,29 @@ var Player.hasKitSelected : Boolean
     get() = scoreboardTags.contains("kitSelected")
     set(value) {
         if (value) {
-            scoreboardTags.contains("kitSelected")
+            scoreboardTags.add("kitSelected")
         } else {
-            scoreboardTags.remove("builder")
+            scoreboardTags.remove("kitSelected")
         }
     }
 
-fun Player.saveInventory(gameMode: GameMode) {
-    persistentDataContainer.set(NamespacedKey.minecraft("inventory.${gameMode.name.lowercase()}.${uniqueId}"), PersistentDataType.STRING, ItemStackConverter.toBase64(inventory))
+fun Player.saveInventory(invToSave: Inventory, key: String) {
+    persistentDataContainer.set(NamespacedKey.minecraft("inventory.${key}.${uniqueId}"), PersistentDataType.STRING, ItemStackConverter.toBase64(invToSave))
 }
 
-fun Player.loadInventory(gameMode: GameMode) {
-    val inventoryString = persistentDataContainer.get(NamespacedKey.minecraft("inventory.${gameMode.name.lowercase()}.${uniqueId}"), PersistentDataType.STRING)
+fun Player.saveInventory(gameMode: GameMode) {
+    saveInventory(inventory, gameMode.name.lowercase())
+}
+
+fun Player.loadInventory(key: String) {
+    val inventoryString = persistentDataContainer.get(NamespacedKey.minecraft("inventory.${key}.${uniqueId}"), PersistentDataType.STRING)
     if (inventoryString != null) {
         ItemStackConverter.fromBase64(inventoryString)?.let {
             it.contents.forEachIndexed { index, itemStack ->  inventory.setItem(index, itemStack) }
         }
     }
+}
+
+fun Player.loadInventory(gameMode: GameMode) {
+    loadInventory(gameMode.name.lowercase())
 }

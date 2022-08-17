@@ -85,7 +85,7 @@ class GamemodeListeners : Listener {
         if (player.isBuilder) return@with
 
         val coordinates = damager.location
-        if (coordinates.y < 143.0) return@with
+        if (coordinates.y < 112.0) return@with
 
         isCancelled = true
     }
