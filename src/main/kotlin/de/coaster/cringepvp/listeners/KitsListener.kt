@@ -1,5 +1,6 @@
 package de.coaster.cringepvp.listeners
 
+import de.coaster.cringepvp.commands.kitselected
 import de.coaster.cringepvp.enums.Kits
 import de.coaster.cringepvp.extensions.plainText
 import de.moltenKt.paper.extension.display.ui.addItems
@@ -8,9 +9,17 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.inventory.InventoryClickEvent
 
 class KitsListener : Listener {
+
+
+
+    @EventHandler
+    fun onPlayerDeath(event: PlayerDeathEvent) = with(event) {
+        kitselected = false
+    }
 
     @EventHandler
     fun onInventoryClick(event: InventoryClickEvent) = with(event) {
@@ -26,5 +35,5 @@ class KitsListener : Listener {
         player.inventory.addItems(*kit.items)
         player.closeInventory()
     }
-
 }
+

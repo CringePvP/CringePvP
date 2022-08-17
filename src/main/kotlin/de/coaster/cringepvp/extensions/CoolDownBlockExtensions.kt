@@ -33,7 +33,7 @@ fun Player.setCooldown(cooldownKey: String, duration: Duration) {
 }
 
 fun CringeUser.setCooldown(cooldownKey: String, duration: Duration) {
-    "$uuid:$cooldownKey".setCooldown(duration.div((Ranks.values().find { it.name == rank }?: Ranks.Spieler).cooldownMultiplier))
+    "$uuid:$cooldownKey".setCooldown(duration.div((Ranks.values().find { it.name == rank.name }?: Ranks.Spieler).cooldownMultiplier))
 }
 
 fun Player.removeCooldown(cooldownKey: String) {

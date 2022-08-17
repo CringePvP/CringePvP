@@ -41,7 +41,7 @@ class RankCommand : CommandExecutor, TabCompleter {
             return true
         }
 
-        targetCringeUser = targetCringeUser.copy(rank = realRank.name)
+        targetCringeUser = targetCringeUser.copy(rank = realRank)
         PlayerCache.updateCringeUser(targetCringeUser)
         if(!targetPlayer.isOnline) {
             PlayerCache.remove(targetPlayer.uniqueId)
