@@ -4,6 +4,7 @@ import de.coaster.cringepvp.extensions.isBuilder
 import de.coaster.cringepvp.extensions.toCringeString
 import de.coaster.cringepvp.extensions.toCringeUser
 import de.coaster.cringepvp.managers.PlayerCache
+import de.moltenKt.paper.extension.paper.player
 import de.moltenKt.unfold.text
 import io.papermc.paper.event.player.PlayerFlowerPotManipulateEvent
 import org.bukkit.Material
@@ -78,23 +79,19 @@ class GamemodeListeners : Listener {
         println("Player ${player.name} tried to interact at entity ${event.rightClicked.type}")
     }
 
-    @EventHandler
-    fun onInteractEntity(event: PlayerInteractEntityEvent) = with(event) {
-        if (player.isBuilder) return@with
-
-        isCancelled = true
-        println("Player ${player.name} tried to interact with entity ${event.rightClicked.type}")
-    }
 
     @EventHandler
     fun onDamageEntity(event: EntityDamageByEntityEvent) = with(event) {
+        val coordiantes = damager.location
         if (damager !is Player) return@with
-        if (entity is LivingEntity) return@with
         val player = damager as Player
         if (player.isBuilder) return@with
+        if (coordiantes.y >=143.0)
+            else
+                if (coordiantes.y <=143.0) return@with
+
 
         isCancelled = true
-        println("Player ${player.name} tried to damage entity ${event.entity.type}")
     }
 
     @EventHandler
