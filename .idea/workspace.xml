@@ -10,24 +10,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ff31960a-d3cf-414c-b552-a7f8295cda0d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/commands/KitsCommand.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/enums/Currency.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/enums/Kits.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/listeners/KitsListener.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/placeholders/KristallMinenPlaceholder.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/CringePvP.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/CringePvP.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/commands/FeedCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/commands/FeedCommand.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/commands/GommemodeCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/commands/GommemodeCommand.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/database/DatabaseCommunication.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/database/DatabaseCommunication.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/database/model/CringeUser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/database/model/CringeUser.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/enums/Ranks.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/enums/Ranks.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/extensions/CoolDownBlockExtensions.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/extensions/CoolDownBlockExtensions.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/listeners/CrateListener.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/listeners/CrateListener.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/commands/KitsCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/commands/KitsCommand.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/extensions/CringeExtensions.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/extensions/CringeExtensions.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/listeners/GamemodeListeners.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/listeners/GamemodeListeners.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/managers/CoroutineManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/managers/CoroutineManager.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/managers/ItemManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/managers/ItemManager.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/placeholders/PlayerPlaceholders.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/placeholders/PlayerPlaceholders.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/listeners/KitsListener.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/listeners/KitsListener.kt" afterDir="false" />
     </list>
     <list id="95da2960-407d-41c4-8029-119b43014bc2" name="Changes by fruxz" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -43,12 +31,26 @@
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
             <expand>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="PaperMC-Plugin-Boilerplate" type="f1a62948:ProjectNode" />
+                <item name="CringePvP" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="CringePvP" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="CringePvP" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -90,12 +92,12 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;F:/Dokumente/Projects/Kotlin/Minecraft/Others/CringePvP/src/main/resources/plugin.yml&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Carlos/Desktop/Penis/CringePvP&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15031847&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.124095716&quot;,
     &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -105,6 +107,34 @@
       <recent name="de.coaster.cringepvp.enums" />
       <recent name="de.coaster.cringepvp.commands" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="CringePvP [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="jar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.CringePvP [jar]" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

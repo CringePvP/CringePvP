@@ -47,6 +47,7 @@ class CringeListener : Listener {
         joinMessage(text("<#7bed9f>${event.player.name} betritt unsere Cringeschlacht."))
     }
 
+
     @EventHandler
     fun onRespawnEvent(event: PlayerRespawnEvent) = with(event) {
         player.onSpawn()
@@ -106,6 +107,10 @@ class CringeListener : Listener {
                 updateCringeUser(deadCringeUser)
 
                 entity.world.playSound(entity.location, Sound.ENTITY_EVOKER_PREPARE_WOLOLO, 2F, 1F)
+
+
+
+
             }
         }
     }

@@ -220,7 +220,7 @@ class CrateListener : Listener {
                     val rang = displayName.split("×")[1].trim()
                     val rank = Ranks.values().find { it.name.equals(rang, true) } ?: Ranks.Spieler
                     var cringeUser = (entity as Player).toCringeUser()
-                    val currentRank = Ranks.values().find { it.name == cringeUser.rank } ?: Ranks.Spieler
+                    val currentRank = Ranks.values().find { it.name == cringeUser.rank.name } ?: Ranks.Spieler
 
                     if (currentRank.ordinal <= rank.ordinal) {
                         itemStack.removeReceiver()
@@ -228,7 +228,7 @@ class CrateListener : Listener {
                         return@with
                     }
 
-                    cringeUser = cringeUser.copy(rank = rank.name)
+                    cringeUser = cringeUser.copy(rank = rank)
                     PlayerCache.updateCringeUser(cringeUser)
 
                     isCancelled = true
