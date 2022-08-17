@@ -32,14 +32,14 @@ class BuildCommand : CommandExecutor {
 
         if (sender.isBuilder) {
             sender.sendMessage(text("<#55efc4>Du bist nun im Baumodus!"))
-            sender.saveInventory(GameMode.ADVENTURE)
+            sender.saveInventory(GameMode.SURVIVAL)
             sender.gameMode = GameMode.CREATIVE
             sender.loadInventory(GameMode.CREATIVE)
         } else {
             sender.sendMessage(text("<#55efc4>Du bist nun im Spielmodus!"))
             sender.saveInventory(GameMode.CREATIVE)
-            sender.gameMode = GameMode.ADVENTURE
-            sender.loadInventory(GameMode.ADVENTURE)
+            sender.gameMode = GameMode.SURVIVAL
+            sender.loadInventory(GameMode.SURVIVAL)
         }
 
         return true
