@@ -1,6 +1,7 @@
 package de.coaster.cringepvp.listeners
 
 import com.destroystokyo.paper.ParticleBuilder
+import de.coaster.cringepvp.CringePvP
 import de.coaster.cringepvp.extensions.loadInventory
 import de.coaster.cringepvp.extensions.saveInventory
 import de.coaster.cringepvp.extensions.soulbound
@@ -19,11 +20,16 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.EntityRegainHealthEvent
+import org.bukkit.event.entity.PlayerDeathEvent
+import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.player.PlayerCommandPreprocessEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.event.player.PlayerRespawnEvent
+import org.bukkit.inventory.PlayerInventory
+import org.bukkit.plugin.Plugin
 import org.spigotmc.event.player.PlayerSpawnLocationEvent
 import kotlin.math.ceil
 import kotlin.math.roundToInt
@@ -103,27 +109,26 @@ class CringeListener : Listener {
             updateCringeUser(cringeUser)
 
             if (event.entity is Player) {
-                val deadPlayer = event.entity as Player
-                var deadCringeUser = deadPlayer.toCringeUser()
-                deadCringeUser = deadCringeUser.copy(deaths = deadCringeUser.deaths + 1)
-                updateCringeUser(deadCringeUser)
-
-                val soulBoundInventory = Bukkit.createInventory(null, 54, text("<red>${deadPlayer.name}s Inventar"))
-                for (i in 0 until deadPlayer.inventory.size) {
-                    val item = deadPlayer.inventory.getItem(i) ?: continue
-                    if(item.soulbound) {
-                        soulBoundInventory.setItem(i, item)
-                    }
-                }
-
-
-
-
-                deadPlayer.saveInventory(soulBoundInventory, "soulbounds")
-
                 entity.world.playSound(entity.location, Sound.ENTITY_EVOKER_PREPARE_WOLOLO, 2F, 1F)
             }
         }
+    }
+
+    @EventHandler
+    fun onPlayerDeath(event: PlayerDeathEvent) = with(event) {
+        var deadCringeUser = player.toCringeUser()
+        deadCringeUser = deadCringeUser.copy(deaths = deadCringeUser.deaths + 1)
+        updateCringeUser(deadCringeUser)
+
+
+        val soulBoundInventory = Bukkit.createInventory(null, 54, text("<color:#4aabff><b>Soulbound</b></color>"))
+        for (i in 0 until player.inventory.size) {
+            val item = player.inventory.getItem(i) ?: continue
+            if(item.soulbound) {
+                soulBoundInventory.setItem(i, item)
+            }
+        }
+        player.saveInventory(soulBoundInventory, "soulbounds")
     }
 
     private fun Player.onSpawn() {
@@ -135,7 +140,9 @@ class CringeListener : Listener {
         getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.let { it.baseValue = cringeUser.baseSpeed }
         getAttribute(Attribute.GENERIC_MAX_HEALTH)?.let { it.baseValue = cringeUser.baseHealth }
 
-        loadInventory("soulbounds")
+        Bukkit.getScheduler().runTaskLater(CringePvP.instance, Runnable {
+            loadInventory("soulbounds")
+        }, 20)
 
         world.spawnParticle(Particle.EXPLOSION_HUGE, world.spawnLocation, 100, 0.0, 0.0, 0.0, 20.0)
         playSound(location, Sound.BLOCK_PORTAL_TRAVEL, 1f, 1f)

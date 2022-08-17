@@ -51,7 +51,7 @@ fun ItemStack.removeReceiver(): ItemStack {
 }
 
 var ItemStack.soulbound: Boolean
-    get() = this.hasItemMeta() && this.itemMeta.hasLore() && this.itemMeta.lore()?.map { it.plainText }?.contains("Soulbound") == true
+    get() = this.hasItemMeta() && this.itemMeta.hasLore() && this.itemMeta.lore()?.map { it.plainText }?.find { s: String -> s.contains("Soulbound") } != null
     set(value) {
         if (value) {
             if(!this.soulbound) {
@@ -112,7 +112,7 @@ var Player.hasKitSelected : Boolean
     }
 
 fun Player.saveInventory(invToSave: Inventory, key: String) {
-    persistentDataContainer.set(NamespacedKey.minecraft("inventory.${key}.${uniqueId}"), PersistentDataType.STRING, ItemStackConverter.toBase64(invToSave))
+    persistentDataContainer.set(NamespacedKey.minecraft("inventory.${key}"), PersistentDataType.STRING, ItemStackConverter.toBase64(invToSave))
 }
 
 fun Player.saveInventory(gameMode: GameMode) {
@@ -120,7 +120,7 @@ fun Player.saveInventory(gameMode: GameMode) {
 }
 
 fun Player.loadInventory(key: String) {
-    val inventoryString = persistentDataContainer.get(NamespacedKey.minecraft("inventory.${key}.${uniqueId}"), PersistentDataType.STRING)
+    val inventoryString = persistentDataContainer.get(NamespacedKey.minecraft("inventory.${key}"), PersistentDataType.STRING)
     if (inventoryString != null) {
         ItemStackConverter.fromBase64(inventoryString)?.let {
             it.contents.forEachIndexed { index, itemStack ->  inventory.setItem(index, itemStack) }
