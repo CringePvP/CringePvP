@@ -2,6 +2,7 @@ package de.coaster.cringepvp.commands
 
 import de.coaster.cringepvp.annotations.RegisterCommand
 import de.coaster.cringepvp.enums.Kits
+import de.coaster.cringepvp.extensions.hasKitSelected
 import de.coaster.cringepvp.extensions.toCringeUser
 import de.moltenKt.core.extension.math.ceil
 import de.moltenKt.paper.extension.paper.player
@@ -17,8 +18,6 @@ import org.bukkit.inventory.ItemStack
 
 const val ROW_SIZE = 7
 
-var kitselected = false
-
 @RegisterCommand(
     name = "kits",
     description = "Kits",
@@ -28,11 +27,12 @@ var kitselected = false
 class KitsCommand : CommandExecutor {
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
-        if(kitselected != false) return true
-
-        kitselected = true
         if(sender !is Player) return true
 
+        if (sender.hasKitSelected) {
+            sender.sendMessage(text("<gold><b>CringePvP</b></gold> <dark_gray>×</dark_gray> <gray>Du hast bereits ein Kit ausgewählt. Du kannst nur einmal pro Leben ein Kit wählen.</gray>"))
+            return true
+        }
 
         val kitAmount = Kits.values().size
         val rowAmount = (kitAmount.toDouble() / ROW_SIZE.toDouble()).ceil().toInt()

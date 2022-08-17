@@ -68,12 +68,22 @@ fun Player.soundExecution() {
 
 
 var Player.isBuilder : Boolean
-    get() = hasPermission("rainbowislands.builder") && scoreboardTags.contains("builder")
+    get() = hasPermission("cringepvp.builder") && scoreboardTags.contains("builder")
     set(value) {
         if (value) {
-            if(hasPermission("rainbowislands.builder")) {
+            if(hasPermission("cringepvp.builder")) {
                 scoreboardTags.add("builder")
             }
+        } else {
+            scoreboardTags.remove("builder")
+        }
+    }
+
+var Player.hasKitSelected : Boolean
+    get() = scoreboardTags.contains("kitSelected")
+    set(value) {
+        if (value) {
+            scoreboardTags.contains("kitSelected")
         } else {
             scoreboardTags.remove("builder")
         }

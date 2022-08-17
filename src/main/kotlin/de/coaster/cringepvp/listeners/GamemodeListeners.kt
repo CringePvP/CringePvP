@@ -4,11 +4,9 @@ import de.coaster.cringepvp.extensions.isBuilder
 import de.coaster.cringepvp.extensions.toCringeString
 import de.coaster.cringepvp.extensions.toCringeUser
 import de.coaster.cringepvp.managers.PlayerCache
-import de.moltenKt.paper.extension.paper.player
 import de.moltenKt.unfold.text
 import io.papermc.paper.event.player.PlayerFlowerPotManipulateEvent
 import org.bukkit.Material
-import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -82,14 +80,12 @@ class GamemodeListeners : Listener {
 
     @EventHandler
     fun onDamageEntity(event: EntityDamageByEntityEvent) = with(event) {
-        val coordiantes = damager.location
         if (damager !is Player) return@with
         val player = damager as Player
         if (player.isBuilder) return@with
-        if (coordiantes.y >=143.0)
-            else
-                if (coordiantes.y <=143.0) return@with
 
+        val coordinates = damager.location
+        if (coordinates.y < 143.0) return@with
 
         isCancelled = true
     }
