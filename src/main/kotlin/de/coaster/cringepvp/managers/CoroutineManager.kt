@@ -72,6 +72,7 @@ object CoroutineManager {
 
                 Bukkit.getScheduler().runTask(CringePvP.instance, kotlinx.coroutines.Runnable{
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "kill @e[type=minecraft:item]")
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "kill @e[type=arrow,nbt={inGround:1b}]")
                 })
             }
         }
