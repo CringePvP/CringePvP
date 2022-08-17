@@ -12,7 +12,11 @@
     <list default="true" id="ff31960a-d3cf-414c-b552-a7f8295cda0d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/listeners/MenuListener.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/listeners/MenuListener.kt" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/listeners/CringeListener.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/listeners/CringeListener.kt" afterDir="false" />
+>>>>>>> dev
     </list>
     <list id="95da2960-407d-41c4-8029-119b43014bc2" name="Changes by fruxz" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -63,8 +67,8 @@
         <option value="Kotlin Object" />
         <option value="Kotlin Data Class" />
         <option value="Kotlin File" />
-        <option value="Kotlin Class" />
         <option value="Kotlin Enum" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>

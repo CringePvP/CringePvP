@@ -40,6 +40,15 @@ fun String.toCringeLocation(): Location {
     return Location(Bukkit.getWorld(split[0]), split[1].toDouble(), split[2].toDouble(), split[3].toDouble())
 }
 
+fun convertAreaToString(area: Pair<Location, Location>): String {
+    return "${area.first.toCringeString()}+${area.second.toCringeString()}"
+}
+
+fun convertStringToArea(string: String): Pair<Location, Location> {
+    val split = string.split("+")
+    return Pair(split[0].toCringeLocation(), split[1].toCringeLocation())
+}
+
 fun ItemStack.setReceiver(player: Player): ItemStack {
     this.editMeta { meta -> meta.persistentDataContainer.set(NamespacedKey.minecraft("pickup-receiver"), PersistentDataType.STRING, player.uniqueId.toString()) }
     return this
@@ -113,6 +122,10 @@ var Player.hasKitSelected : Boolean
 
 fun Player.saveInventory(invToSave: Inventory, key: String) {
     persistentDataContainer.set(NamespacedKey.minecraft("inventory.${key}"), PersistentDataType.STRING, ItemStackConverter.toBase64(invToSave))
+}
+
+fun Player.removeInventory(key: String) {
+    persistentDataContainer.remove(NamespacedKey.minecraft("inventory.${key}"))
 }
 
 fun Player.saveInventory(gameMode: GameMode) {
