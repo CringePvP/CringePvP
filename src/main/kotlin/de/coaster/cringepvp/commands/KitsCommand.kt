@@ -2,7 +2,9 @@ package de.coaster.cringepvp.commands
 
 import de.coaster.cringepvp.annotations.RegisterCommand
 import de.coaster.cringepvp.enums.Kits
+import de.coaster.cringepvp.enums.Ranks
 import de.coaster.cringepvp.extensions.hasKitSelected
+import de.coaster.cringepvp.extensions.plainText
 import de.coaster.cringepvp.extensions.toCringeUser
 import de.moltenKt.core.extension.math.ceil
 import de.moltenKt.unfold.extension.replace
@@ -13,6 +15,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.inventory.ItemStack
+import kotlin.time.Duration
 
 
 const val SMALL_ROW_SIZE = 7
@@ -43,6 +46,13 @@ class KitsCommand : CommandExecutor {
 
         Kits.values().forEachIndexed { index, kit ->
             val item = kit.icon.clone().apply { editMeta { meta -> meta.lore(
+                listOf(
+                    text(" "),
+                    text("<color:#26de81>Preis: ${if(kit.kaufPreis == 0) "Free" else "${kit.kaufPreis} ${kit.currency.display.plainText}"}</color>"),
+                    text("<color:#45aaf2>Cooldown: ${if(kit.cooldown == Duration.ZERO) "Kein Cooldown" else "${kit.cooldown}"}</color>"),
+                    text("<color:#fed330>Rang Anforderung: ${if(kit.minRank == Ranks.Spieler) "Keine" else "<${kit.minRank.color}>${kit.minRank.name}"}</color>"),
+                    text(" ")
+                ) +
                 kit.items.map { item ->
                     text("<color:#4aabff>${item.amount}x %item%</color>").replace("%item%", item.displayName())
                 }.toMutableList().
@@ -50,9 +60,10 @@ class KitsCommand : CommandExecutor {
                     list.add(text(" "))
                     if(!cringeUser.rank.isHigherOrEqual(kit.minRank)) {
                         list.add(text("<#ff0000>Du benötigst einen Rang von <${kit.minRank.color}>${kit.minRank.name} <#ff0000>oder höher!"))
-                        return@also
                     }
-
+                    if(kit.currency.reference.get(cringeUser) < kit.kaufPreis) {
+                        list.add(text("<#ff0000>Du hast nicht genug ${kit.currency.display.plainText}! <#778ca3>(<#fed330>${kit.currency.reference.get(cringeUser)}<#778ca3>/<#fd9644>${kit.kaufPreis}<#778ca3>)"))
+                    }
                 }
             ) }}
             invScreen[Pair(index % SMALL_ROW_SIZE, index / SMALL_ROW_SIZE)] = item

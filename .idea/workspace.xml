@@ -11,9 +11,10 @@
   <component name="ChangeListManager">
     <list default="true" id="ff31960a-d3cf-414c-b552-a7f8295cda0d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/CringePvP.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/CringePvP.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/commands/KitsCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/commands/KitsCommand.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/commands/SoulboundCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/commands/SoulboundCommand.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/enums/Kits.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/enums/Kits.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/listeners/CringeListener.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/listeners/CringeListener.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/listeners/KitsListener.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/listeners/KitsListener.kt" afterDir="false" />
     </list>
     <list id="95da2960-407d-41c4-8029-119b43014bc2" name="Changes by fruxz" comment="" />
     <option name="SHOW_DIALOG" value="false" />
