@@ -2,16 +2,14 @@ package de.coaster.cringepvp.listeners
 
 import com.destroystokyo.paper.ParticleBuilder
 import de.coaster.cringepvp.CringePvP
+import de.coaster.cringepvp.enums.Titles
 import de.coaster.cringepvp.extensions.*
 import de.coaster.cringepvp.managers.PlayerCache
 import de.coaster.cringepvp.managers.PlayerCache.updateCringeUser
 import de.moltenKt.core.extension.data.randomInt
 import de.moltenKt.paper.extension.paper.maxOutHealth
 import de.moltenKt.unfold.text
-import org.bukkit.Bukkit
-import org.bukkit.Material
-import org.bukkit.Particle
-import org.bukkit.Sound
+import org.bukkit.*
 import org.bukkit.attribute.Attribute
 import org.bukkit.entity.Arrow
 import org.bukkit.entity.Entity
@@ -163,6 +161,11 @@ class CringeListener : Listener {
         if (entity is Player) return@with
 
         if(entity.lastDamageCause?.cause == EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
+            val damager = (entity.lastDamageCause as EntityDamageByEntityEvent).damager
+            if(damager !is Player) return@with
+            val mobKills = damager.getStatistic(Statistic.MOB_KILLS)
+
+            if(mobKills >= 100) damager.addTitle(Titles.MonsterSchlachter)
 
         }
     }

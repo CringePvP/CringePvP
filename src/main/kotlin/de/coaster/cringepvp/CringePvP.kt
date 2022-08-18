@@ -119,7 +119,7 @@ class CringePvP : JavaPlugin() {
         }
         println("Loaded $total items")
 
-        Rarity.values().filter { it != Rarity.NORMAL && it != Rarity.VOTE }.forEach { rarity ->
+        Rarity.values().filter { it != Rarity.NORMAL && it != Rarity.VOTE && it != Rarity.EXCLUSIVE }.forEach { rarity ->
             val rankItem = Material.FLOWER_BANNER_PATTERN.itemStack { editMeta { meta -> meta.displayName(text("<color:${rarity.color}><b>Rank</b></color> <dark_gray>×</dark_gray> <gray>${rarity.name}</gray>")) } }
             val keyItem = Material.NAME_TAG.itemStack { editMeta { meta -> meta.displayName(text("<yellow><b>Key</b></yellow> <dark_gray>×</dark_gray> <gray>${rarity.name}</gray>")) } }
 

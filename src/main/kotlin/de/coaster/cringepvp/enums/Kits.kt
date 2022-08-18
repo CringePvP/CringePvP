@@ -38,7 +38,6 @@ enum class Kits(val minRank: Ranks = Ranks.Spieler, val kaufPreis: Int = 0, val 
             Material.ENDER_PEARL.itemStack { editMeta { meta-> meta.displayName(de.moltenKt.unfold.text("<#e67e22>Enderperle")) } }.asQuantity(16),
             Material.GOLDEN_APPLE.itemStack { editMeta { meta-> meta.displayName(de.moltenKt.unfold.text("<#e67e22>Enderperle")) } }.asQuantity(5),
             Material.COOKED_BEEF.itemStack { editMeta { meta-> meta.displayName(de.moltenKt.unfold.text("<#e67e22>Enderperle")) } }.asQuantity(64),
-            Material.LLAMA_SPAWN_EGG.itemStack { editMeta { meta-> meta.displayName(de.moltenKt.unfold.text("<#e67e22>CARL")) } }.asQuantity(1),
         )
     ),
     Archer(
