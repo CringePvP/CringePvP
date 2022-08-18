@@ -33,6 +33,7 @@ import java.lang.Integer.max
 import java.util.*
 import kotlin.math.min
 import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 
 class CrateListener : Listener {
@@ -108,6 +109,12 @@ class CrateListener : Listener {
         if (currentItem == null) return@with
         if (currentItem!!.type != Material.CHEST) return@with
         val player = whoClicked as Player
+        player.closeInventory()
+
+        if (player.isInCooldown("crateOpen")) {
+            player.sendMessage(text("<gold><b>CringePvP</b></gold> <dark_gray>×</dark_gray> <gray>Bitte warte noch ${player.getCooldown("crateOpen")}, bis du eine neue Kiste öffnest.</gray>"))
+            return@with
+        }
 
         var cringeUser = player.toCringeUser()
         if (key.playerReference.get(cringeUser) < 1) {
@@ -118,7 +125,6 @@ class CrateListener : Listener {
             key.playerReference.set(this, key.playerReference.get(this) - 1)
         }
         PlayerCache.updateCringeUser(cringeUser)
-        player.closeInventory()
 
         val config = FileConfig("crate.yml")
         // Reverse search for crate location
@@ -126,6 +132,7 @@ class CrateListener : Listener {
             config.getKeys(true).find { config.getString(it) == key.name }?.toCringeLocation() ?: return@with
         val minRarity = Rarity.values().find { it.name == key.name } ?: return@with
         val rarity = minRarity.getAllBelow()
+        player.setCooldown("crateOpen", key.dropAmount.seconds)
         CoroutineManager.shootItems(
             crateLocation.add(0.5, 1.2, 0.5),
             player,

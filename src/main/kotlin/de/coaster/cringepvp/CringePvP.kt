@@ -86,7 +86,6 @@ class CringePvP : JavaPlugin() {
             Material.BEETROOT_SOUP to Rarity.VIP,
             Material.MUSHROOM_STEW to Rarity.VIP,
             Material.APPLE to Rarity.VIP,
-            Material.BEACON to Rarity.PREMIUM,
             Material.MUTTON to Rarity.PREMIUM,
             Material.BEEF to Rarity.PREMIUM,
             Material.COOKED_BEEF to Rarity.ULTIMATE,
@@ -110,15 +109,13 @@ class CringePvP : JavaPlugin() {
         var itemList = mapOf<Rarity, List<ItemStack>>()
         var total = 0
         lootItems.forEach { (material, rarity) ->
-            for(size in 1 .. material.maxStackSize) {
-                val item = material.itemStack { editMeta { meta -> meta.displayName(text("<red><b><translate:${material.translationKey()}></b></red>")) } }.asQuantity(size)
-                itemList += if(itemList[rarity] == null) {
-                    rarity to listOf(item)
-                } else {
-                    rarity to itemList[rarity]!!.plus(item)
-                }
-                total++
+            val item = material.itemStack { editMeta { meta -> meta.displayName(text("<red><b><translate:${material.translationKey()}></b></red>")) } }.asQuantity(16)
+            itemList += if(itemList[rarity] == null) {
+                rarity to listOf(item)
+            } else {
+                rarity to itemList[rarity]!!.plus(item)
             }
+            total++
         }
         println("Loaded $total items")
 
@@ -136,6 +133,79 @@ class CringePvP : JavaPlugin() {
         val titleMap = mapOf(
             Titles.MystischerMagier to Rarity.MYTHICAL
         )
+
+        val randomItemsMap = mapOf(
+            Pair(Material.LEATHER_HELMET, 1) to Rarity.NORMAL,
+            Pair(Material.LEATHER_CHESTPLATE, 1) to Rarity.NORMAL,
+            Pair(Material.LEATHER_LEGGINGS, 1) to Rarity.NORMAL,
+            Pair(Material.LEATHER_BOOTS, 1) to Rarity.NORMAL,
+            Pair(Material.WOODEN_SWORD, 1) to Rarity.NORMAL,
+            Pair(Material.WOODEN_AXE, 1) to Rarity.NORMAL,
+            Pair(Material.WOODEN_HOE, 1) to Rarity.NORMAL,
+            Pair(Material.WOODEN_PICKAXE, 1) to Rarity.NORMAL,
+            Pair(Material.WOODEN_SHOVEL, 1) to Rarity.NORMAL,
+
+            Pair(Material.CHAINMAIL_HELMET, 1) to Rarity.PREMIUM,
+            Pair(Material.CHAINMAIL_CHESTPLATE, 1) to Rarity.PREMIUM,
+            Pair(Material.CHAINMAIL_LEGGINGS, 1) to Rarity.PREMIUM,
+            Pair(Material.CHAINMAIL_BOOTS, 1) to Rarity.PREMIUM,
+            Pair(Material.STONE_SWORD, 1) to Rarity.PREMIUM,
+            Pair(Material.STONE_AXE, 1) to Rarity.PREMIUM,
+            Pair(Material.STONE_HOE, 1) to Rarity.PREMIUM,
+            Pair(Material.STONE_PICKAXE, 1) to Rarity.PREMIUM,
+            Pair(Material.STONE_SHOVEL, 1) to Rarity.PREMIUM,
+
+            Pair(Material.GOLDEN_HELMET, 1) to Rarity.EPIC,
+            Pair(Material.GOLDEN_CHESTPLATE, 1) to Rarity.EPIC,
+            Pair(Material.GOLDEN_LEGGINGS, 1) to Rarity.EPIC,
+            Pair(Material.GOLDEN_BOOTS, 1) to Rarity.EPIC,
+            Pair(Material.GOLDEN_SWORD, 1) to Rarity.EPIC,
+            Pair(Material.GOLDEN_AXE, 1) to Rarity.EPIC,
+            Pair(Material.GOLDEN_HOE, 1) to Rarity.EPIC,
+            Pair(Material.GOLDEN_PICKAXE, 1) to Rarity.EPIC,
+            Pair(Material.GOLDEN_SHOVEL, 1) to Rarity.EPIC,
+
+            Pair(Material.IRON_HELMET, 1) to Rarity.LEGENDARY,
+            Pair(Material.IRON_CHESTPLATE, 1) to Rarity.LEGENDARY,
+            Pair(Material.IRON_LEGGINGS, 1) to Rarity.LEGENDARY,
+            Pair(Material.IRON_BOOTS, 1) to Rarity.LEGENDARY,
+            Pair(Material.IRON_SWORD, 1) to Rarity.LEGENDARY,
+            Pair(Material.IRON_AXE, 1) to Rarity.LEGENDARY,
+            Pair(Material.IRON_HOE, 1) to Rarity.LEGENDARY,
+            Pair(Material.IRON_PICKAXE, 1) to Rarity.LEGENDARY,
+            Pair(Material.IRON_SHOVEL, 1) to Rarity.LEGENDARY,
+
+            Pair(Material.BEACON, 1) to Rarity.MYTHICAL,
+
+            Pair(Material.DIAMOND_HELMET, 1) to Rarity.ANCIENT,
+            Pair(Material.DIAMOND_CHESTPLATE, 1) to Rarity.ANCIENT,
+            Pair(Material.DIAMOND_LEGGINGS, 1) to Rarity.ANCIENT,
+            Pair(Material.DIAMOND_BOOTS, 1) to Rarity.ANCIENT,
+            Pair(Material.DIAMOND_SWORD, 1) to Rarity.ANCIENT,
+            Pair(Material.DIAMOND_AXE, 1) to Rarity.ANCIENT,
+            Pair(Material.DIAMOND_HOE, 1) to Rarity.ANCIENT,
+            Pair(Material.DIAMOND_PICKAXE, 1) to Rarity.ANCIENT,
+            Pair(Material.DIAMOND_SHOVEL, 1) to Rarity.ANCIENT,
+
+            Pair(Material.NETHERITE_HELMET, 1) to Rarity.IMMORTAL,
+            Pair(Material.NETHERITE_CHESTPLATE, 1) to Rarity.IMMORTAL,
+            Pair(Material.NETHERITE_LEGGINGS, 1) to Rarity.IMMORTAL,
+            Pair(Material.NETHERITE_BOOTS, 1) to Rarity.IMMORTAL,
+            Pair(Material.NETHERITE_SWORD, 1) to Rarity.IMMORTAL,
+            Pair(Material.NETHERITE_AXE, 1) to Rarity.IMMORTAL,
+            Pair(Material.NETHERITE_HOE, 1) to Rarity.IMMORTAL,
+            Pair(Material.NETHERITE_PICKAXE, 1) to Rarity.IMMORTAL,
+            Pair(Material.NETHERITE_SHOVEL, 1) to Rarity.IMMORTAL,
+        )
+
+        randomItemsMap.forEach { (itemPair, rarity) ->
+            val item = itemPair.first.itemStack { editMeta { meta -> meta.displayName(text("<red><b><translate:${itemPair.first.translationKey()}></b></red>")) } }.asQuantity(itemPair.second)
+            itemList += if(itemList[rarity] == null) {
+                rarity to listOf(item)
+            } else {
+                rarity to itemList[rarity]!!.plus(item)
+            }
+        }
 
         titleMap.forEach { (title, rarity) ->
             val titleItem = Material.NAME_TAG.itemStack { editMeta { meta -> meta.displayName(text("<color:${rarity.color}><b>${title.name}</b></color>")) } }

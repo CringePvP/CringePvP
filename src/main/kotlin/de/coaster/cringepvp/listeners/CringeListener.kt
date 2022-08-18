@@ -91,7 +91,7 @@ class CringeListener : Listener {
     @EventHandler
     fun onFoodLevelChange(event: FoodLevelChangeEvent) = with(event) {
         if(entity.location.y > 162) {
-            entity.foodLevel = 20
+            foodLevel = 20
         }
     }
 
