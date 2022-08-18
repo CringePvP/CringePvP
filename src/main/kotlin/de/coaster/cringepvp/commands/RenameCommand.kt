@@ -1,20 +1,12 @@
 package de.coaster.cringepvp.commands
 
 import de.coaster.cringepvp.annotations.RegisterCommand
-import de.coaster.cringepvp.enums.Ranks
-import de.coaster.cringepvp.enums.Rarity
-import de.coaster.cringepvp.enums.Titles
-import de.coaster.cringepvp.extensions.toCringeUser
-import de.coaster.cringepvp.managers.ItemManager
-import de.coaster.cringepvp.managers.PlayerCache
 import de.moltenKt.unfold.text
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
-import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
 import org.bukkit.permissions.PermissionDefault
-import java.util.*
 
 @RegisterCommand(
     name = "rename",

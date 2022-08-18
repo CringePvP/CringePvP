@@ -54,8 +54,8 @@ enum class Kits(val minRank: Ranks = Ranks.Spieler, val kaufPreis: Int = 0, val 
             Material.SPECTRAL_ARROW.itemStack { editMeta { meta-> meta.displayName(de.moltenKt.unfold.text("<#e67e22>Sichtbarmach Pfeil")) } }.asOne(),
             Material.BOW.itemStack { editMeta { meta-> meta.displayName(de.moltenKt.unfold.text("<#e67e22>Bow")) } }.asOne(),
             Material.ENDER_PEARL.itemStack { editMeta { meta-> meta.displayName(de.moltenKt.unfold.text("<#e67e22>Enderperle")) } }.asQuantity(16),
-            Material.GOLDEN_APPLE.itemStack { editMeta { meta-> meta.displayName(de.moltenKt.unfold.text("<#e67e22>Enderperle")) } }.asQuantity(5),
-            Material.COOKED_BEEF.itemStack { editMeta { meta-> meta.displayName(de.moltenKt.unfold.text("<#e67e22>Enderperle")) } }.asQuantity(64),
+            Material.GOLDEN_APPLE.itemStack { editMeta { meta-> meta.displayName(de.moltenKt.unfold.text("<#e67e22>Goldener Apfel")) } }.asQuantity(5),
+            Material.COOKED_BEEF.itemStack { editMeta { meta-> meta.displayName(de.moltenKt.unfold.text("<#e67e22>Steak")) } }.asQuantity(64),
         )
     ),
 }
