@@ -124,11 +124,12 @@ class CrateListener : Listener {
         // Reverse search for crate location
         val crateLocation =
             config.getKeys(true).find { config.getString(it) == key.name }?.toCringeLocation() ?: return@with
-        val rarity = Rarity.values().find { it.name == key.name } ?: return@with
+        val minRarity = Rarity.values().find { it.name == key.name } ?: return@with
+        val rarity = minRarity.getAllBelow()
         CoroutineManager.shootItems(
             crateLocation.add(0.5, 1.2, 0.5),
             player,
-            ItemManager.getItems(rarity).shuffled().take(key.dropAmount).map { it.setReceiver(player) }.toTypedArray()
+            ItemManager.getRandomItemsWithOneMinRarity(key.dropAmount, rarity, minRarity).map { it.setReceiver(player) }.toTypedArray()
         )
     }
 

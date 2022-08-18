@@ -22,6 +22,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityDamageEvent
+import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.event.entity.EntityRegainHealthEvent
 import org.bukkit.event.entity.FoodLevelChangeEvent
 import org.bukkit.event.entity.PlayerDeathEvent
@@ -96,7 +97,11 @@ class CringeListener : Listener {
 
     @EventHandler
     fun onDamage(event: EntityDamageByEntityEvent) = with(event) {
-        if (event.entity !is LivingEntity) return@with
+        if (event.entity !is LivingEntity) {
+            if(damager is Player && (damager as Player).isBuilder) return@with
+            isCancelled = true
+            return@with
+        }
 
         val entity = event.entity as LivingEntity
         if ((damager !is Player && damager !is Arrow) || entity is Pig) return@with
@@ -151,6 +156,15 @@ class CringeListener : Listener {
             }
         }
         player.saveInventory(soulBoundInventory, "soulbounds")
+    }
+
+    @EventHandler
+    fun onEntityDeath(event: EntityDeathEvent) = with(event) {
+        if (entity is Player) return@with
+
+        if(entity.lastDamageCause?.cause == EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
+
+        }
     }
 
     private fun Player.onSpawn() {

@@ -60,7 +60,7 @@ class TitleCommand : CommandExecutor, TabCompleter {
                 if(!targetPlayer.isOnline) {
                     PlayerCache.remove(targetPlayer.uniqueId)
                 } else {
-                    targetPlayer.player?.sendMessage("§aDir wurde der Title §e${realTitle.display}§a hinzugefügt. Rüste in jetzt in /menu aus.")
+                    targetPlayer.player?.sendMessage("§aDir wurde der Title §e${realTitle.display}§a hinzugefügt. Rüste ihn jetzt in /menu aus.")
                 }
                 sender.sendMessage("§aTitle ${realTitle.display} zu ${targetPlayer.name} hinzugefügt.")
             }

@@ -3,6 +3,7 @@ package de.coaster.cringepvp.extensions
 import de.coaster.cringepvp.database.createCringeUser
 import de.coaster.cringepvp.database.getCringeUserOrNull
 import de.coaster.cringepvp.database.model.CringeUser
+import de.coaster.cringepvp.enums.Titles
 import de.coaster.cringepvp.managers.PlayerCache
 import de.coaster.cringepvp.utils.ItemStackConverter
 import de.moltenKt.unfold.text
@@ -143,4 +144,28 @@ fun Player.loadInventory(key: String) {
 
 fun Player.loadInventory(gameMode: GameMode) {
     loadInventory(gameMode.name.lowercase())
+}
+
+fun CringeUser.hasTitle(title: Titles): Boolean {
+    return ownedTitles.contains(title)
+}
+
+fun OfflinePlayer.addTitle(title: Titles) {
+    var targetCringeUser = this.uniqueId.toCringeUser()
+    if(targetCringeUser.hasTitle(title)) return
+    targetCringeUser = targetCringeUser.copy(ownedTitles = targetCringeUser.ownedTitles + title)
+    PlayerCache.updateCringeUser(targetCringeUser)
+    if(!this.isOnline) {
+        PlayerCache.remove(this.uniqueId)
+    } else {
+        this.player?.sendMessage(text("<gold><b>CringePvP</b></gold> <dark_gray>×</dark_gray> <gray>Du hast den Titel <gold>${title.display}</gold> erhalten. Rüste ihn jetzt in <yellow>/menu</yellow> aus.</gray>"))
+    }
+}
+
+fun Player.addTitle(title: Titles) {
+    var targetCringeUser = this.uniqueId.toCringeUser()
+    if(targetCringeUser.hasTitle(title)) return
+    targetCringeUser = targetCringeUser.copy(ownedTitles = targetCringeUser.ownedTitles + title)
+    PlayerCache.updateCringeUser(targetCringeUser)
+    sendMessage(text("<gold><b>CringePvP</b></gold> <dark_gray>×</dark_gray> <gray>Du hast den Titel <gold>${title.display}</gold> erhalten. Rüste ihn jetzt in <yellow>/menu</yellow> aus.</gray>"))
 }

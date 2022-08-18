@@ -15,8 +15,10 @@ import org.bukkit.event.Listener
 import org.bukkit.event.block.*
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.hanging.HangingBreakByEntityEvent
+import org.bukkit.event.hanging.HangingBreakEvent
 import org.bukkit.event.player.PlayerBucketEmptyEvent
 import org.bukkit.event.player.PlayerInteractAtEntityEvent
+import org.bukkit.event.player.PlayerInteractEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 
 class GamemodeListeners : Listener {
@@ -79,6 +81,14 @@ class GamemodeListeners : Listener {
     }
 
     @EventHandler
+    fun onInteractEntity(event: PlayerInteractEntityEvent) = with(event) {
+        if (player.isBuilder) return@with
+
+        isCancelled = true
+        println("Player ${player.name} tried to interact with entity ${event.rightClicked.type}")
+    }
+
+    @EventHandler
     fun onPot(event: PlayerFlowerPotManipulateEvent) = with(event) {
         if (player.isBuilder) return@with
 
@@ -88,7 +98,10 @@ class GamemodeListeners : Listener {
 
     @EventHandler
     fun onPainting(event: HangingBreakByEntityEvent) = with(event) {
-        if(remover !is Player) return@with
+        if(remover !is Player) {
+            isCancelled = true
+            return@with
+        }
         val player = remover as Player
         if (player.isBuilder) return@with
 

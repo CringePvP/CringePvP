@@ -111,7 +111,7 @@ class CringePvP : JavaPlugin() {
         var total = 0
         lootItems.forEach { (material, rarity) ->
             for(size in 1 .. material.maxStackSize) {
-                val item = material.itemStack { editMeta { meta -> meta.displayName(text("<red><b><translate:${material.translationKey()}></b></red> <dark_gray>×</dark_gray> <gray>$size</gray>")) } }.asQuantity(size)
+                val item = material.itemStack { editMeta { meta -> meta.displayName(text("<red><b><translate:${material.translationKey()}></b></red>")) } }.asQuantity(size)
                 itemList += if(itemList[rarity] == null) {
                     rarity to listOf(item)
                 } else {
