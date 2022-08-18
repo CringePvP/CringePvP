@@ -5,7 +5,6 @@ import de.coaster.cringepvp.enums.Kits
 import de.coaster.cringepvp.extensions.hasKitSelected
 import de.coaster.cringepvp.extensions.toCringeUser
 import de.moltenKt.core.extension.math.ceil
-import de.moltenKt.paper.extension.paper.player
 import de.moltenKt.unfold.extension.replace
 import de.moltenKt.unfold.text
 import org.bukkit.entity.Player
@@ -16,7 +15,8 @@ import org.bukkit.command.CommandSender
 import org.bukkit.inventory.ItemStack
 
 
-const val ROW_SIZE = 7
+const val SMALL_ROW_SIZE = 7
+const val ROW_SIZE = 9
 
 @RegisterCommand(
     name = "kits",
@@ -35,7 +35,7 @@ class KitsCommand : CommandExecutor {
         }
 
         val kitAmount = Kits.values().size
-        val rowAmount = (kitAmount.toDouble() / ROW_SIZE.toDouble()).ceil().toInt()
+        val rowAmount = (kitAmount.toDouble() / SMALL_ROW_SIZE.toDouble()).ceil().toInt()
         val inventory = Bukkit.createInventory(null, 9 * (rowAmount + 2), text("<color:#4aabff><b>Kits</b></color>"))
         val invScreen = mutableMapOf<Pair<Int, Int>, ItemStack>()
 
@@ -55,7 +55,7 @@ class KitsCommand : CommandExecutor {
 
                 }
             ) }}
-            invScreen[Pair(index % ROW_SIZE, index / ROW_SIZE)] = item
+            invScreen[Pair(index % SMALL_ROW_SIZE, index / SMALL_ROW_SIZE)] = item
         }
         invScreen.forEach { (pos, item) -> inventory.setItem((pos.second + 1) * 9 + (pos.first + 1), item) }
         sender.openInventory(inventory)

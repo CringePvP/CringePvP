@@ -6,6 +6,7 @@ import de.coaster.cringepvp.extensions.*
 import de.coaster.cringepvp.managers.PlayerCache
 import de.coaster.cringepvp.managers.PlayerCache.updateCringeUser
 import de.moltenKt.core.extension.data.randomInt
+import de.moltenKt.paper.extension.paper.maxOutHealth
 import de.moltenKt.unfold.text
 import org.bukkit.Bukkit
 import org.bukkit.Material
@@ -160,6 +161,9 @@ class CringeListener : Listener {
         getAttribute(Attribute.GENERIC_ARMOR)?.let { it.baseValue = cringeUser.baseDefense }
         getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.let { it.baseValue = cringeUser.baseSpeed }
         getAttribute(Attribute.GENERIC_MAX_HEALTH)?.let { it.baseValue = cringeUser.baseHealth }
+
+        maxOutHealth()
+        foodLevel = 20
 
         Bukkit.getScheduler().runTaskLater(CringePvP.instance, Runnable {
             loadInventory("soulbounds")

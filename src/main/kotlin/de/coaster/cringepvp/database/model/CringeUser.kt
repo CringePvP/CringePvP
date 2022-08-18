@@ -14,7 +14,7 @@ data class CringeUser(val uuid: UUID,
                       val username: String,
                       val xp: Long = 0,
                       val rank: Ranks = Ranks.Spieler,
-                      val title: String = "",
+                      val title: Titles = Titles.NoTITLE,
                       val ownedTitles: Set<Titles> = setOf(),
 
                       var coins: Long = 0,

@@ -133,6 +133,19 @@ class CringePvP : JavaPlugin() {
             }
         }
 
+        val titleMap = mapOf(
+            Titles.MystischerMagier to Rarity.MYTHICAL
+        )
+
+        titleMap.forEach { (title, rarity) ->
+            val titleItem = Material.NAME_TAG.itemStack { editMeta { meta -> meta.displayName(text("<color:${rarity.color}><b>${title.name}</b></color>")) } }
+            itemList += if(itemList[rarity] == null) {
+                rarity to listOf(titleItem)
+            } else {
+                rarity to itemList[rarity]!!.plus(titleItem)
+            }
+        }
+
         itemList.forEach { (rarity, items) ->
             println("$rarity: ${items.size}")
             ItemManager.addItems(rarity, items)

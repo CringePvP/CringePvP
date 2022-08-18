@@ -245,7 +245,7 @@ class CrateListener : Listener {
                 val displayName = itemStack.displayName().plainText
                 if (displayName.startsWith("Title")) {
                     val titleString = displayName.split("×")[1].trim()
-                    val title = Titles.values().find { it.display.equals(titleString, true) || it.name.equals(titleString, true) } ?: Titles.No_TITLE
+                    val title = Titles.values().find { it.display.equals(titleString, true) || it.name.equals(titleString, true) } ?: Titles.NoTITLE
                     var cringeUser = (entity as Player).toCringeUser()
 
                     if (cringeUser.ownedTitles.contains(title)) {
