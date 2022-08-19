@@ -25,10 +25,10 @@ data class CringeUser(val uuid: UUID,
                       val kills: Long = 0,
                       val deaths: Long = 0,
 
-                      val baseAttack : Double = 2.0, // Max: 2048
-                      val baseDefense : Double = 0.0, // Max: 30
-                      val baseSpeed : Double = 0.098, // Max: 1024
-                      val baseHealth : Double = 20.0, // Max: 1024
+                      var baseAttack : Double = 2.0, // Max: 2048
+                      var baseDefense : Double = 0.0, // Max: 30
+                      var baseSpeed : Double = 0.098, // Max: 1024
+                      var baseHealth : Double = 20.0, // Max: 1024
 
                       val votes: Long = 0,
 
@@ -56,5 +56,77 @@ data class CringeUser(val uuid: UUID,
 
     fun nextLevelExp(forLevel: Int = level+1): Long {
         return (exp(ln(forLevel.toDouble()) / 0.6) * 100).toLong()
+    }
+
+    val attackLevel: Int
+        get() {
+            return baseAttack.toInt() - 1
+        }
+
+    fun upgradeToNextAttack() {
+        baseAttack = getNextAttack()
+    }
+
+    fun getNextAttack(): Double {
+        if(baseAttack == 2048.0) return 2048.0
+        return (baseAttack + 1)
+    }
+
+    fun getPriceForNextAttack(): Long {
+        return (attackLevel * 100).toLong()
+    }
+
+    val defenseLevel: Int
+        get() {
+            return (baseDefense * 2).toInt() + 1
+        }
+
+    fun upgradeToNextDefense() {
+        baseDefense = getNextDefense()
+    }
+
+    fun getNextDefense(): Double {
+        if(baseDefense == 30.0) return 30.0
+        return (baseDefense + 0.5)
+    }
+
+    fun getPriceForNextDefense(): Long {
+        return (defenseLevel * 100).toLong()
+    }
+
+    val speedLevel: Int
+        get() {
+            return (((baseSpeed - 0.098) * 1000).toInt()) + 1
+        }
+
+    fun upgradeToNextSpeed() {
+        baseSpeed = getNextSpeed()
+    }
+
+    fun getNextSpeed(): Double {
+        if(baseSpeed == 1.024) return 1.024
+        return (baseSpeed + 0.001)
+    }
+
+    fun getPriceForNextSpeed(): Long {
+        return (speedLevel * 100).toLong() / 10
+    }
+
+    val healthLevel: Int
+        get() {
+            return ((baseHealth - 20) * 2).toInt() + 1
+        }
+
+    fun upgradeToNextHealth() {
+        baseHealth = getNextHealth()
+    }
+
+    fun getNextHealth(): Double {
+        if(baseHealth == 1024.0) return 1024.0
+        return (baseHealth + 0.5)
+    }
+
+    fun getPriceForNextHealth(): Long {
+        return (healthLevel * 100).toLong() / 10
     }
 }

@@ -144,6 +144,12 @@ class CringePvP : JavaPlugin() {
             Pair(Material.WOODEN_HOE, 1) to Rarity.NORMAL,
             Pair(Material.WOODEN_PICKAXE, 1) to Rarity.NORMAL,
             Pair(Material.WOODEN_SHOVEL, 1) to Rarity.NORMAL,
+            Pair(Material.GOLD_NUGGET, 1) to Rarity.NORMAL,
+            Pair(Material.GOLD_NUGGET, 2) to Rarity.NORMAL,
+            Pair(Material.GOLD_NUGGET, 3) to Rarity.NORMAL,
+
+            Pair(Material.GOLD_NUGGET, 4) to Rarity.VIP,
+            Pair(Material.GOLD_NUGGET, 5) to Rarity.VIP,
 
             Pair(Material.CHAINMAIL_HELMET, 1) to Rarity.PREMIUM,
             Pair(Material.CHAINMAIL_CHESTPLATE, 1) to Rarity.PREMIUM,
@@ -154,6 +160,11 @@ class CringePvP : JavaPlugin() {
             Pair(Material.STONE_HOE, 1) to Rarity.PREMIUM,
             Pair(Material.STONE_PICKAXE, 1) to Rarity.PREMIUM,
             Pair(Material.STONE_SHOVEL, 1) to Rarity.PREMIUM,
+            Pair(Material.GOLD_NUGGET, 8) to Rarity.PREMIUM,
+            Pair(Material.GOLD_NUGGET, 10) to Rarity.PREMIUM,
+
+            Pair(Material.GOLD_NUGGET, 12) to Rarity.ULTIMATE,
+            Pair(Material.GOLD_NUGGET, 15) to Rarity.ULTIMATE,
 
             Pair(Material.GOLDEN_HELMET, 1) to Rarity.EPIC,
             Pair(Material.GOLDEN_CHESTPLATE, 1) to Rarity.EPIC,
@@ -164,6 +175,8 @@ class CringePvP : JavaPlugin() {
             Pair(Material.GOLDEN_HOE, 1) to Rarity.EPIC,
             Pair(Material.GOLDEN_PICKAXE, 1) to Rarity.EPIC,
             Pair(Material.GOLDEN_SHOVEL, 1) to Rarity.EPIC,
+            Pair(Material.GOLD_NUGGET, 18) to Rarity.EPIC,
+            Pair(Material.GOLD_NUGGET, 20) to Rarity.EPIC,
 
             Pair(Material.IRON_HELMET, 1) to Rarity.LEGENDARY,
             Pair(Material.IRON_CHESTPLATE, 1) to Rarity.LEGENDARY,
@@ -174,8 +187,13 @@ class CringePvP : JavaPlugin() {
             Pair(Material.IRON_HOE, 1) to Rarity.LEGENDARY,
             Pair(Material.IRON_PICKAXE, 1) to Rarity.LEGENDARY,
             Pair(Material.IRON_SHOVEL, 1) to Rarity.LEGENDARY,
+            Pair(Material.GOLD_NUGGET, 24) to Rarity.LEGENDARY,
+            Pair(Material.GOLD_NUGGET, 26) to Rarity.LEGENDARY,
 
             Pair(Material.BEACON, 1) to Rarity.MYTHICAL,
+            Pair(Material.GOLD_NUGGET, 28) to Rarity.MYTHICAL,
+            Pair(Material.GOLD_NUGGET, 32) to Rarity.MYTHICAL,
+            Pair(Material.EMERALD, 1) to Rarity.MYTHICAL,
 
             Pair(Material.DIAMOND_HELMET, 1) to Rarity.ANCIENT,
             Pair(Material.DIAMOND_CHESTPLATE, 1) to Rarity.ANCIENT,
@@ -186,6 +204,15 @@ class CringePvP : JavaPlugin() {
             Pair(Material.DIAMOND_HOE, 1) to Rarity.ANCIENT,
             Pair(Material.DIAMOND_PICKAXE, 1) to Rarity.ANCIENT,
             Pair(Material.DIAMOND_SHOVEL, 1) to Rarity.ANCIENT,
+            Pair(Material.GOLD_NUGGET, 35) to Rarity.DIVINE,
+            Pair(Material.GOLD_NUGGET, 38) to Rarity.DIVINE,
+            Pair(Material.EMERALD, 2) to Rarity.DIVINE,
+            Pair(Material.NAUTILUS_SHELL, 1) to Rarity.DIVINE,
+
+            Pair(Material.GOLD_NUGGET, 40) to Rarity.DIVINE,
+            Pair(Material.GOLD_NUGGET, 42) to Rarity.DIVINE,
+            Pair(Material.EMERALD, 3) to Rarity.DIVINE,
+            Pair(Material.NAUTILUS_SHELL, 2) to Rarity.DIVINE,
 
             Pair(Material.NETHERITE_HELMET, 1) to Rarity.IMMORTAL,
             Pair(Material.NETHERITE_CHESTPLATE, 1) to Rarity.IMMORTAL,
@@ -196,10 +223,22 @@ class CringePvP : JavaPlugin() {
             Pair(Material.NETHERITE_HOE, 1) to Rarity.IMMORTAL,
             Pair(Material.NETHERITE_PICKAXE, 1) to Rarity.IMMORTAL,
             Pair(Material.NETHERITE_SHOVEL, 1) to Rarity.IMMORTAL,
+            Pair(Material.GOLD_NUGGET, 54) to Rarity.IMMORTAL,
+            Pair(Material.GOLD_NUGGET, 64) to Rarity.IMMORTAL,
+            Pair(Material.EMERALD, 5) to Rarity.IMMORTAL,
+            Pair(Material.NAUTILUS_SHELL, 3) to Rarity.IMMORTAL,
         )
 
         randomItemsMap.forEach { (itemPair, rarity) ->
-            val item = itemPair.first.itemStack { editMeta { meta -> meta.displayName(text("<red><b><translate:${itemPair.first.translationKey()}></b></red>")) } }.asQuantity(itemPair.second)
+            val item = itemPair.first.itemStack { editMeta { meta ->
+                when(itemPair.first) {
+                    Material.GOLD_NUGGET -> meta.displayName(text("<color:#ffb142><b>Coin</b>"))
+                    Material.EMERALD -> meta.displayName(text("<color:#26de81><b>Gem</b>"))
+                    Material.AMETHYST_SHARD -> meta.displayName(text("<color:#4aabff><b>Kristall</b>"))
+                    Material.NAUTILUS_SHELL -> meta.displayName(text("<color:#b33939><b>Relikt</b>"))
+                    else -> meta.displayName(text("<red><b><translate:${itemPair.first.translationKey()}></b></red>"))
+                }
+            } }.asQuantity(itemPair.second)
             itemList += if(itemList[rarity] == null) {
                 rarity to listOf(item)
             } else {

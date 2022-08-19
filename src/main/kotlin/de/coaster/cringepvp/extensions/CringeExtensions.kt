@@ -114,6 +114,12 @@ fun Player.soundExecution() {
     playSound(location, Sound.ITEM_ARMOR_EQUIP_CHAIN, .1F, 2F)
 }
 
+fun Player.failSoundExecution() {
+    playSound(location, Sound.ENTITY_ITEM_PICKUP, .75F, 2F)
+    playSound(location, Sound.ENTITY_GENERIC_EXPLODE, .25F, 2F)
+    playSound(location, Sound.ENTITY_GHAST_SCREAM, .1F, 2F)
+}
+
 
 var Player.isBuilder : Boolean
     get() = hasPermission("cringepvp.builder") && scoreboardTags.contains("builder")
@@ -124,16 +130,6 @@ var Player.isBuilder : Boolean
             }
         } else {
             scoreboardTags.remove("builder")
-        }
-    }
-
-var Player.hasKitSelected : Boolean
-    get() = scoreboardTags.contains("kitSelected")
-    set(value) {
-        if (value) {
-            scoreboardTags.add("kitSelected")
-        } else {
-            scoreboardTags.remove("kitSelected")
         }
     }
 

@@ -13,7 +13,7 @@ enum class Kits(val minRank: Ranks = Ranks.Spieler, val kaufPreis: Int = 0, val 
         cooldown = 5.minutes,
         icon = Material.LEATHER_CHESTPLATE.itemStack { editMeta { meta-> meta.displayName(de.moltenKt.unfold.text("<#e67e22>Starter Kit")) } },
         items = arrayOf(
-            Material.LEATHER_BOOTS.itemStack,
+            Material.LEATHER_HELMET.itemStack,
             Material.LEATHER_CHESTPLATE.itemStack,
             Material.LEATHER_LEGGINGS.itemStack,
             Material.LEATHER_BOOTS.itemStack,

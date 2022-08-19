@@ -14,13 +14,6 @@ import org.bukkit.event.inventory.InventoryClickEvent
 
 class KitsListener : Listener {
 
-
-
-    @EventHandler
-    fun onPlayerDeath(event: PlayerDeathEvent) = with(event) {
-        player.hasKitSelected = false
-    }
-
     @EventHandler
     fun onInventoryClick(event: InventoryClickEvent) = with(event) {
         val titleComponent = view.title()
@@ -55,7 +48,6 @@ class KitsListener : Listener {
 
         cringeUser.setCooldown("kit.${kit.name}", kit.cooldown)
 
-        player.hasKitSelected = true
         player.inventory.addItems(*kit.items)
         player.closeInventory()
     }

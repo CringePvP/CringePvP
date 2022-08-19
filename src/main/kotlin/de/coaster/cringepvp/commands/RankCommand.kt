@@ -66,7 +66,7 @@ class RankCommand : CommandExecutor, TabCompleter {
             }
 
             2 -> {
-                Ranks.values().map { it.name }.filter { it.startsWith(args[1]) }
+                Ranks.values().sortedByDescending { ranks: Ranks -> ranks.ordinal }.map { it.name }.filter { it.startsWith(args[1]) }
             }
 
             else -> {

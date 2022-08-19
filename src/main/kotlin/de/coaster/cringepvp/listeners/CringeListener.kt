@@ -25,6 +25,7 @@ import org.bukkit.event.entity.EntityRegainHealthEvent
 import org.bukkit.event.entity.FoodLevelChangeEvent
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.inventory.InventoryType
+import org.bukkit.event.player.PlayerAttemptPickupItemEvent
 import org.bukkit.event.player.PlayerCommandPreprocessEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
@@ -54,7 +55,6 @@ class CringeListener : Listener {
         player.onSpawn()
         joinMessage(text("<#7bed9f>${event.player.name} betritt unsere Cringeschlacht."))
     }
-
 
     @EventHandler
     fun onRespawnEvent(event: PlayerRespawnEvent) = with(event) {
@@ -154,6 +154,9 @@ class CringeListener : Listener {
             }
         }
         player.saveInventory(soulBoundInventory, "soulbounds")
+
+        // Nothing should drop on death
+        drops.clear()
     }
 
     @EventHandler
@@ -166,7 +169,6 @@ class CringeListener : Listener {
             val mobKills = damager.getStatistic(Statistic.MOB_KILLS)
 
             if(mobKills >= 100) damager.addTitle(Titles.MonsterSchlachter)
-
         }
     }
 
