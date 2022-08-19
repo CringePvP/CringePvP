@@ -1,9 +1,7 @@
 package de.coaster.cringepvp.commands
 
 import de.coaster.cringepvp.annotations.RegisterCommand
-import de.coaster.cringepvp.extensions.getCooldown
-import de.coaster.cringepvp.extensions.isInCooldown
-import de.coaster.cringepvp.extensions.setCooldown
+import de.coaster.cringepvp.extensions.*
 import de.moltenKt.core.tool.timing.calendar.Calendar
 import de.moltenKt.unfold.text
 import org.bukkit.command.Command
@@ -43,17 +41,7 @@ class SignCommand : CommandExecutor {
             return true
         }
 
-        item.editMeta { meta ->
-            val lore = meta.lore() ?: mutableListOf()
-            lore.plus(
-                listOf(
-                    text(" "),
-                    text("<color:#34ace0>Dieses Item wurde von <color:#ffb142>${sender.name}</color> signiert</color>"),
-                    text("<gray>Am ${Calendar.now().getFormatted(Locale.GERMAN)}"),
-                )
-            )
-            meta.lore(lore)
-        }
+        item.sign(sender.toCringeUser())
         sender.setCooldown("sign", 1.hours)
         sender.sendMessage(text("<gold><b>CringePvP</b></gold> <dark_gray>×</dark_gray> <gray>Du hast ein Item signiert.</gray>"))
 

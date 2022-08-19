@@ -6,6 +6,7 @@ import de.coaster.cringepvp.database.model.CringeUser
 import de.coaster.cringepvp.enums.Titles
 import de.coaster.cringepvp.managers.PlayerCache
 import de.coaster.cringepvp.utils.ItemStackConverter
+import de.moltenKt.core.tool.timing.calendar.Calendar
 import de.moltenKt.unfold.text
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
@@ -26,6 +27,10 @@ fun UUID.toCringeUser(): CringeUser {
 
 fun UUID.toCringeUserDB(): CringeUser {
     return getCringeUserOrNull(this) ?: createCringeUser(CringeUser(this, Bukkit.getPlayer(this)?.name ?: Bukkit.getOfflinePlayer(this).name ?: "Unknown"))
+}
+
+fun UUID.toOfflinePlayer(): OfflinePlayer {
+    return Bukkit.getOfflinePlayer(this)
 }
 
 fun broadcastActionbar(component: Component) {
@@ -80,6 +85,17 @@ var ItemStack.soulbound: Boolean
             }
         }
     }
+
+fun ItemStack.sign(cringeUser: CringeUser): ItemStack {
+    this.editMeta { meta ->
+        val lore = meta.lore() ?: mutableListOf()
+        lore.add(text(" "))
+        lore.add(text("<color:#34ace0>Dieses Item wurde von <color:${cringeUser.rank.color}>${cringeUser.uuid.toOfflinePlayer().name}</color> signiert</color>"))
+        lore.add(text("<gray>Am ${Calendar.now().getFormatted(Locale.GERMANY)}"))
+        meta.lore(lore)
+    }
+    return this
+}
 
 fun ItemStack.getReceiver(): UUID? {
     return this.itemMeta?.persistentDataContainer?.get(NamespacedKey.minecraft("pickup-receiver"), PersistentDataType.STRING)?.let { UUID.fromString(it) }
