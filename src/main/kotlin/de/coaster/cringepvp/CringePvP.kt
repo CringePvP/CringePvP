@@ -247,7 +247,7 @@ class CringePvP : JavaPlugin() {
         }
 
         titleMap.forEach { (title, rarity) ->
-            val titleItem = Material.NAME_TAG.itemStack { editMeta { meta -> meta.displayName(text("<color:${rarity.color}><b>${title.name}</b></color>")) } }
+            val titleItem = Material.PAPER.itemStack { editMeta { meta -> meta.displayName(text("<color:${rarity.color}><b>${title.name}</b></color>")) } }
             itemList += if(itemList[rarity] == null) {
                 rarity to listOf(titleItem)
             } else {
