@@ -2,28 +2,30 @@ package de.coaster.cringepvp.listeners
 
 import com.destroystokyo.paper.ParticleBuilder
 import de.coaster.cringepvp.CringePvP
-import de.coaster.cringepvp.extensions.loadInventory
-import de.coaster.cringepvp.extensions.saveInventory
-import de.coaster.cringepvp.extensions.soulbound
-import de.coaster.cringepvp.extensions.toCringeUser
+import de.coaster.cringepvp.enums.Titles
+import de.coaster.cringepvp.extensions.*
 import de.coaster.cringepvp.managers.PlayerCache
 import de.coaster.cringepvp.managers.PlayerCache.updateCringeUser
 import de.moltenKt.core.extension.data.randomInt
+import de.moltenKt.paper.extension.paper.maxOutHealth
 import de.moltenKt.unfold.text
-import org.bukkit.Bukkit
-import org.bukkit.Material
-import org.bukkit.Particle
-import org.bukkit.Sound
+import org.bukkit.*
 import org.bukkit.attribute.Attribute
+import org.bukkit.entity.Arrow
+import org.bukkit.entity.Entity
 import org.bukkit.entity.LivingEntity
+import org.bukkit.entity.Pig
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityDamageEvent
+import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.event.entity.EntityRegainHealthEvent
+import org.bukkit.event.entity.FoodLevelChangeEvent
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.inventory.InventoryType
+import org.bukkit.event.player.PlayerAttemptPickupItemEvent
 import org.bukkit.event.player.PlayerCommandPreprocessEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
@@ -53,7 +55,6 @@ class CringeListener : Listener {
         player.onSpawn()
         joinMessage(text("<#7bed9f>${event.player.name} betritt unsere Cringeschlacht."))
     }
-
 
     @EventHandler
     fun onRespawnEvent(event: PlayerRespawnEvent) = with(event) {
@@ -86,10 +87,34 @@ class CringeListener : Listener {
     }
 
     @EventHandler
-    fun onDamage(event: EntityDamageByEntityEvent) {
-        if (event.entity !is LivingEntity) return
+    fun onFoodLevelChange(event: FoodLevelChangeEvent) = with(event) {
+        if(entity.location.y > 162) {
+            foodLevel = 20
+        }
+    }
+
+    @EventHandler
+    fun onDamage(event: EntityDamageByEntityEvent) = with(event) {
+        if (event.entity !is LivingEntity) {
+            if(damager is Player && (damager as Player).isBuilder) return@with
+            isCancelled = true
+            return@with
+        }
 
         val entity = event.entity as LivingEntity
+        if ((damager !is Player && damager !is Arrow) || entity is Pig) return@with
+
+        val damageEntity : Entity = if (damager is Player) damager else ((damager as Arrow).shooter as Entity? ?: return@with)
+        if (damageEntity is Player) {
+            if (!damageEntity.isBuilder)  {
+                val coordinatesFirst = damageEntity.location
+                val coordinatesSecond = entity.location
+                if (coordinatesFirst.y > 162.0 || coordinatesSecond.y > 162.0) {
+                    isCancelled = true
+                    return@with
+                }
+            }
+        }
 
         entity.world.playSound(entity.location, Sound.BLOCK_BONE_BLOCK_BREAK, 1F, 2F)
         entity.world.playSound(entity.location, Sound.BLOCK_STONE_BREAK, 1F, 2F)
@@ -129,6 +154,22 @@ class CringeListener : Listener {
             }
         }
         player.saveInventory(soulBoundInventory, "soulbounds")
+
+        // Nothing should drop on death
+        drops.clear()
+    }
+
+    @EventHandler
+    fun onEntityDeath(event: EntityDeathEvent) = with(event) {
+        if (entity is Player) return@with
+
+        if(entity.lastDamageCause?.cause == EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
+            val damager = (entity.lastDamageCause as EntityDamageByEntityEvent).damager
+            if(damager !is Player) return@with
+            val mobKills = damager.getStatistic(Statistic.MOB_KILLS)
+
+            if(mobKills >= 100) damager.addTitle(Titles.MonsterSchlachter)
+        }
     }
 
     private fun Player.onSpawn() {
@@ -140,8 +181,12 @@ class CringeListener : Listener {
         getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.let { it.baseValue = cringeUser.baseSpeed }
         getAttribute(Attribute.GENERIC_MAX_HEALTH)?.let { it.baseValue = cringeUser.baseHealth }
 
+        maxOutHealth()
+        foodLevel = 20
+
         Bukkit.getScheduler().runTaskLater(CringePvP.instance, Runnable {
             loadInventory("soulbounds")
+            removeInventory("soulbounds")
         }, 20)
 
         world.spawnParticle(Particle.EXPLOSION_HUGE, world.spawnLocation, 100, 0.0, 0.0, 0.0, 20.0)

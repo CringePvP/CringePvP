@@ -1,6 +1,7 @@
 package de.coaster.cringepvp.managers
 
 import de.coaster.cringepvp.enums.Rarity
+import de.coaster.cringepvp.extensions.plainText
 import de.coaster.cringepvp.utils.FileConfig
 import de.moltenKt.unfold.text
 import org.bukkit.Material
@@ -57,11 +58,20 @@ object ItemManager {
 
     private fun getItem(rarity: Rarity): ItemStack {
         val itemList = items[rarity.name] ?: return ItemStack(Material.AIR)
-        return itemList.random().addRarityToLore(rarity)
+        return if(itemList.isNotEmpty()) itemList.random().addRarityToLore(rarity) else ItemStack(Material.AIR)
     }
 
     fun getItems(rarity: Rarity): List<ItemStack> {
         return items[rarity.name]?.map { it.addRarityToLore(rarity) } ?: return listOf()
+    }
+
+    fun getItems(rarity: List<Rarity>): List<ItemStack> {
+        return rarity.map { getItems(it) }.flatten()
+    }
+
+    // Get a random item from the rarities with at least one item from the minOneRarity list
+    fun getRandomItemsWithOneMinRarity(amount: Int, rarities: List<Rarity>, minOneRarity: Rarity): List<ItemStack> {
+        return getItems(rarities).shuffled().take(amount - 1) + getItem(minOneRarity)
     }
 
     private fun getItem(): ItemStack {
@@ -100,7 +110,7 @@ object ItemManager {
         val config = FileConfig("items/${rarity.name.lowercase(Locale.getDefault())}.yml")
         val itemNames = config.getStringList("itemNames")
         for (item in multipleItems) {
-            val itemName = if (item.itemMeta.hasDisplayName()) item.itemMeta.displayName else item.type.name
+            val itemName = (if (item.itemMeta.hasDisplayName()) item.itemMeta.displayName()!!.plainText else item.type.name) + "#" + item.amount
             itemNames += itemName
             config.set(itemName, item)
         }

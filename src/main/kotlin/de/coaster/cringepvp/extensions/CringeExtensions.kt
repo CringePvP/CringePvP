@@ -3,8 +3,10 @@ package de.coaster.cringepvp.extensions
 import de.coaster.cringepvp.database.createCringeUser
 import de.coaster.cringepvp.database.getCringeUserOrNull
 import de.coaster.cringepvp.database.model.CringeUser
+import de.coaster.cringepvp.enums.Titles
 import de.coaster.cringepvp.managers.PlayerCache
 import de.coaster.cringepvp.utils.ItemStackConverter
+import de.moltenKt.core.tool.timing.calendar.Calendar
 import de.moltenKt.unfold.text
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
@@ -27,6 +29,10 @@ fun UUID.toCringeUserDB(): CringeUser {
     return getCringeUserOrNull(this) ?: createCringeUser(CringeUser(this, Bukkit.getPlayer(this)?.name ?: Bukkit.getOfflinePlayer(this).name ?: "Unknown"))
 }
 
+fun UUID.toOfflinePlayer(): OfflinePlayer {
+    return Bukkit.getOfflinePlayer(this)
+}
+
 fun broadcastActionbar(component: Component) {
     Bukkit.getOnlinePlayers().forEach { it.sendActionBar(component) }
 }
@@ -38,6 +44,15 @@ fun Location.toCringeString(): String {
 fun String.toCringeLocation(): Location {
     val split = this.split("_")
     return Location(Bukkit.getWorld(split[0]), split[1].toDouble(), split[2].toDouble(), split[3].toDouble())
+}
+
+fun convertAreaToString(area: Pair<Location, Location>): String {
+    return "${area.first.toCringeString()}+${area.second.toCringeString()}"
+}
+
+fun convertStringToArea(string: String): Pair<Location, Location> {
+    val split = string.split("+")
+    return Pair(split[0].toCringeLocation(), split[1].toCringeLocation())
 }
 
 fun ItemStack.setReceiver(player: Player): ItemStack {
@@ -71,6 +86,17 @@ var ItemStack.soulbound: Boolean
         }
     }
 
+fun ItemStack.sign(cringeUser: CringeUser): ItemStack {
+    this.editMeta { meta ->
+        val lore = meta.lore() ?: mutableListOf()
+        lore.add(text(" "))
+        lore.add(text("<color:#34ace0>Dieses Item wurde von <color:${cringeUser.rank.color}>${cringeUser.uuid.toOfflinePlayer().name}</color> signiert</color>"))
+        lore.add(text("<gray>Am ${Calendar.now().getFormatted(Locale.GERMANY)}"))
+        meta.lore(lore)
+    }
+    return this
+}
+
 fun ItemStack.getReceiver(): UUID? {
     return this.itemMeta?.persistentDataContainer?.get(NamespacedKey.minecraft("pickup-receiver"), PersistentDataType.STRING)?.let { UUID.fromString(it) }
 }
@@ -88,6 +114,12 @@ fun Player.soundExecution() {
     playSound(location, Sound.ITEM_ARMOR_EQUIP_CHAIN, .1F, 2F)
 }
 
+fun Player.failSoundExecution() {
+    playSound(location, Sound.ENTITY_ITEM_PICKUP, .75F, 2F)
+    playSound(location, Sound.ENTITY_GENERIC_EXPLODE, .25F, 2F)
+    playSound(location, Sound.ENTITY_GHAST_SCREAM, .1F, 2F)
+}
+
 
 var Player.isBuilder : Boolean
     get() = hasPermission("cringepvp.builder") && scoreboardTags.contains("builder")
@@ -101,18 +133,12 @@ var Player.isBuilder : Boolean
         }
     }
 
-var Player.hasKitSelected : Boolean
-    get() = scoreboardTags.contains("kitSelected")
-    set(value) {
-        if (value) {
-            scoreboardTags.add("kitSelected")
-        } else {
-            scoreboardTags.remove("kitSelected")
-        }
-    }
-
 fun Player.saveInventory(invToSave: Inventory, key: String) {
     persistentDataContainer.set(NamespacedKey.minecraft("inventory.${key}"), PersistentDataType.STRING, ItemStackConverter.toBase64(invToSave))
+}
+
+fun Player.removeInventory(key: String) {
+    persistentDataContainer.remove(NamespacedKey.minecraft("inventory.${key}"))
 }
 
 fun Player.saveInventory(gameMode: GameMode) {
@@ -130,4 +156,28 @@ fun Player.loadInventory(key: String) {
 
 fun Player.loadInventory(gameMode: GameMode) {
     loadInventory(gameMode.name.lowercase())
+}
+
+fun CringeUser.hasTitle(title: Titles): Boolean {
+    return ownedTitles.contains(title)
+}
+
+fun OfflinePlayer.addTitle(title: Titles) {
+    var targetCringeUser = this.uniqueId.toCringeUser()
+    if(targetCringeUser.hasTitle(title)) return
+    targetCringeUser = targetCringeUser.copy(ownedTitles = targetCringeUser.ownedTitles + title)
+    PlayerCache.updateCringeUser(targetCringeUser)
+    if(!this.isOnline) {
+        PlayerCache.remove(this.uniqueId)
+    } else {
+        this.player?.sendMessage(text("<gold><b>CringePvP</b></gold> <dark_gray>×</dark_gray> <gray>Du hast den Titel <gold>${title.display}</gold> erhalten. Rüste ihn jetzt in <yellow>/menu</yellow> aus.</gray>"))
+    }
+}
+
+fun Player.addTitle(title: Titles) {
+    var targetCringeUser = this.uniqueId.toCringeUser()
+    if(targetCringeUser.hasTitle(title)) return
+    targetCringeUser = targetCringeUser.copy(ownedTitles = targetCringeUser.ownedTitles + title)
+    PlayerCache.updateCringeUser(targetCringeUser)
+    sendMessage(text("<gold><b>CringePvP</b></gold> <dark_gray>×</dark_gray> <gray>Du hast den Titel <gold>${title.display}</gold> erhalten. Rüste ihn jetzt in <yellow>/menu</yellow> aus.</gray>"))
 }

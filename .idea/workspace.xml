@@ -11,9 +11,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ff31960a-d3cf-414c-b552-a7f8295cda0d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/extensions/CringeExtensions.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/extensions/CringeExtensions.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/listeners/CringeListener.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/listeners/CringeListener.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/listeners/GamemodeListeners.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/listeners/GamemodeListeners.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/CringePvP.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/CringePvP.kt" afterDir="false" />
     </list>
     <list id="95da2960-407d-41c4-8029-119b43014bc2" name="Changes by fruxz" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -64,13 +62,18 @@
         <option value="Kotlin Object" />
         <option value="Kotlin Data Class" />
         <option value="Kotlin File" />
-        <option value="Kotlin Class" />
         <option value="Kotlin Enum" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.papermc.paper/paper-api/1.19-R0.1-SNAPSHOT/795ef90208dd72b7d9a4dee90e4751553a9e420c/paper-api-1.19-R0.1-SNAPSHOT-sources.jar!/org/bukkit/entity/Projectile.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.papermc.paper/paper-api/1.19-R0.1-SNAPSHOT/795ef90208dd72b7d9a4dee90e4751553a9e420c/paper-api-1.19-R0.1-SNAPSHOT-sources.jar!/org/bukkit/event/inventory/InventoryClickEvent.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.papermc.paper/paper-api/1.19-R0.1-SNAPSHOT/795ef90208dd72b7d9a4dee90e4751553a9e420c/paper-api-1.19-R0.1-SNAPSHOT-sources.jar!/org/bukkit/event/player/PlayerEvent.java" root0="SKIP_INSPECTION" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -95,7 +98,7 @@
     &quot;project.structure.proportion&quot;: &quot;0.15031847&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.124095716&quot;,
     &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -106,7 +109,33 @@
       <recent name="de.coaster.cringepvp.enums" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="gradle build" />
+    </option>
+  </component>
+  <component name="RunManager" selected="Gradle.CringePvP [build]">
+    <configuration name="CringePvP [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
     <configuration name="CringePvP [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -130,6 +159,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.CringePvP [build]" />
         <item itemvalue="Gradle.CringePvP [jar]" />
       </list>
     </recent_temporary>
@@ -155,5 +185,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

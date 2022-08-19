@@ -26,7 +26,7 @@ class SoulboundCommand : CommandExecutor {
         val cringeUser = sender.toCringeUser()
 
         if(!cringeUser.rank.isHigherOrEqual(Ranks.Divine)) {
-            sender.sendMessage(text("<color:#adffcd>CringePvP »</color> <color:#ff7f6e>Du benötigst mindestens den/color> <color:${Ranks.Divine.color}><b>${Ranks.Divine.name}</b></color> <color:#ff7f6e>Rang für diesen Befehl.</color>"))
+            sender.sendMessage(text("<color:#adffcd>CringePvP »</color> <color:#ff7f6e>Du benötigst mindestens den</color> <color:${Ranks.Divine.color}><b>${Ranks.Divine.name}</b></color> <color:#ff7f6e>Rang für diesen Befehl.</color>"))
             return true
         }
 

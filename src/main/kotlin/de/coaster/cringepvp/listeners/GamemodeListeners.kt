@@ -7,12 +7,15 @@ import de.coaster.cringepvp.managers.PlayerCache
 import de.moltenKt.unfold.text
 import io.papermc.paper.event.player.PlayerFlowerPotManipulateEvent
 import org.bukkit.Material
+import org.bukkit.entity.Arrow
+import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.*
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.hanging.HangingBreakByEntityEvent
+import org.bukkit.event.hanging.HangingBreakEvent
 import org.bukkit.event.player.PlayerBucketEmptyEvent
 import org.bukkit.event.player.PlayerInteractAtEntityEvent
 import org.bukkit.event.player.PlayerInteractEntityEvent
@@ -77,18 +80,12 @@ class GamemodeListeners : Listener {
         println("Player ${player.name} tried to interact at entity ${event.rightClicked.type}")
     }
 
-
     @EventHandler
-    fun onDamageEntity(event: EntityDamageByEntityEvent) = with(event) {
-        if (damager !is Player) return@with
-        val player = damager as Player
+    fun onInteractEntity(event: PlayerInteractEntityEvent) = with(event) {
         if (player.isBuilder) return@with
 
-        val coordinatesFirst = damager.location
-        val coordinatesSecond= entity.location
-        if (coordinatesFirst.y < 112.0 && coordinatesSecond.y < 112.0) return@with
-
         isCancelled = true
+        println("Player ${player.name} tried to interact with entity ${event.rightClicked.type}")
     }
 
     @EventHandler
@@ -101,7 +98,10 @@ class GamemodeListeners : Listener {
 
     @EventHandler
     fun onPainting(event: HangingBreakByEntityEvent) = with(event) {
-        if(remover !is Player) return@with
+        if(remover !is Player) {
+            isCancelled = true
+            return@with
+        }
         val player = remover as Player
         if (player.isBuilder) return@with
 

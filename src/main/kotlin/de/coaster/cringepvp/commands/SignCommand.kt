@@ -1,20 +1,24 @@
 package de.coaster.cringepvp.commands
 
 import de.coaster.cringepvp.annotations.RegisterCommand
+import de.coaster.cringepvp.extensions.*
+import de.moltenKt.core.tool.timing.calendar.Calendar
 import de.moltenKt.unfold.text
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.permissions.PermissionDefault
+import java.util.*
+import kotlin.time.Duration.Companion.hours
 
 @RegisterCommand(
-    name = "rename",
-    description = "Ändere den Namen von Items",
-    permission = "cringepvp.rename",
+    name = "sign",
+    description = "Signieren",
+    permission = "cringepvp.sign",
     permissionDefault = PermissionDefault.OP
 )
-class RenameCommand : CommandExecutor {
+class SignCommand : CommandExecutor {
 
     /**
      * /rank <player> <rank>
@@ -24,13 +28,11 @@ class RenameCommand : CommandExecutor {
 
         if (sender !is Player) return true
 
-        if(args.isEmpty()) {
-            sender.sendMessage(text("<gold><b>CringePvP</b></gold> <dark_gray>×</dark_gray> <gray>/rename <Neuer Name als <click:open_url:'https://webui.adventure.kyori.net/'><hover:show_text:'Öffne den WebEditor'><b>MiniMessage</b></hover></click></gray>"))
+        if (sender.isInCooldown("sign")){
+            val coolDown = sender.getCooldown("sign")
+            sender.sendMessage(text("<color:#adffcd>CringePvP »</color> <color:#ff7f6e>Du musst noch $coolDown warten, bis du wieder ein Item</color> <color:#4aabff><b>signieren</b></color> <color:#ff7f6e>kannst.</color>"))
             return true
         }
-
-        val neuerName = args.joinToString(" ")
-
 
         // Get Item in hand of player
         val item = sender.inventory.itemInMainHand
@@ -39,10 +41,9 @@ class RenameCommand : CommandExecutor {
             return true
         }
 
-        item.editMeta { meta ->
-            meta.displayName(text(neuerName))
-        }
-        sender.sendMessage(text("<gold><b>CringePvP</b></gold> <dark_gray>×</dark_gray> <gray>Name zu</gray> <gold>${neuerName}</gold> <gray>geändert.</gray>"))
+        item.sign(sender.toCringeUser())
+        sender.setCooldown("sign", 1.hours)
+        sender.sendMessage(text("<gold><b>CringePvP</b></gold> <dark_gray>×</dark_gray> <gray>Du hast ein Item signiert.</gray>"))
 
         return true
     }

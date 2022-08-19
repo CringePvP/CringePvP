@@ -26,11 +26,11 @@ fun registerPlaceholders() {
     }
 
     placeholderManager.registerPlayerPlaceholder("%title%", 2000) { player ->
-        Titles.values().find { it.name.equals((player.player as Player).toCringeUser().title, true) }?.display ?: "Neuer Noob"
+        (player.player as Player).toCringeUser().title.display
     }
 
     placeholderManager.registerPlayerPlaceholder("%color%", 5000) { player ->
-        Ranks.values().find { it.name.equals((player.player as Player).toCringeUser().rank.name, true) }?.color ?: "#7bed9f"
+        (player.player as Player).toCringeUser().rank.color
     }
 
     placeholderManager.registerPlayerPlaceholder("%coins%", 1000) { player ->

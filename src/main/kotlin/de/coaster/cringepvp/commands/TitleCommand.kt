@@ -1,7 +1,6 @@
 package de.coaster.cringepvp.commands
 
 import de.coaster.cringepvp.annotations.RegisterCommand
-import de.coaster.cringepvp.enums.Ranks
 import de.coaster.cringepvp.enums.Titles
 import de.coaster.cringepvp.extensions.toCringeUser
 import de.coaster.cringepvp.managers.PlayerCache
@@ -27,14 +26,16 @@ class TitleCommand : CommandExecutor, TabCompleter {
      */
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
 
-        if(args.size < 2) {
-            sender.sendMessage("/title <player> <rank>")
+        if(args.size < 3) {
+            sender.sendMessage("/settitle <player> <set/add/remove> <title>")
             return true
         }
 
         val targetPlayer = sender.server.getOfflinePlayer(args[0])
         var targetCringeUser = targetPlayer.uniqueId.toCringeUser()
-        val title = args[1]
+
+        val action = args[1]
+        val title = args[2]
 
         val realTitle= Titles.values().find { it.name.equals(title, true) }
         if(realTitle == null) {
@@ -42,16 +43,44 @@ class TitleCommand : CommandExecutor, TabCompleter {
             return true
         }
 
-        targetCringeUser = targetCringeUser.copy(title = realTitle.name)
-        PlayerCache.updateCringeUser(targetCringeUser)
-        if(!targetPlayer.isOnline) {
-            PlayerCache.remove(targetPlayer.uniqueId)
-        } else {
-            targetPlayer.player?.sendMessage("§aDein Title wurde auf §e${realTitle.display}§a geändert.")
+        when(action) {
+            "set" -> {
+                targetCringeUser = targetCringeUser.copy(title = realTitle)
+                PlayerCache.updateCringeUser(targetCringeUser)
+                if(!targetPlayer.isOnline) {
+                    PlayerCache.remove(targetPlayer.uniqueId)
+                } else {
+                    targetPlayer.player?.sendMessage("§aDein Title wurde auf §e${realTitle.display}§a geändert.")
+                }
+                sender.sendMessage("§aTitle von ${targetPlayer.name} auf ${realTitle.display} gesetzt")
+            }
+            "add" -> {
+                targetCringeUser = targetCringeUser.copy(ownedTitles = targetCringeUser.ownedTitles + realTitle)
+                PlayerCache.updateCringeUser(targetCringeUser)
+                if(!targetPlayer.isOnline) {
+                    PlayerCache.remove(targetPlayer.uniqueId)
+                } else {
+                    targetPlayer.player?.sendMessage("§aDir wurde der Title §e${realTitle.display}§a hinzugefügt. Rüste ihn jetzt in /menu aus.")
+                }
+                sender.sendMessage("§aTitle ${realTitle.display} zu ${targetPlayer.name} hinzugefügt.")
+            }
+            "remove" -> {
+                targetCringeUser = targetCringeUser.copy(ownedTitles = targetCringeUser.ownedTitles - realTitle)
+                if(targetCringeUser.title == realTitle) {
+                    targetCringeUser = targetCringeUser.copy(title = Titles.NoTITLE)
+                }
+                PlayerCache.updateCringeUser(targetCringeUser)
+                if(!targetPlayer.isOnline) {
+                    PlayerCache.remove(targetPlayer.uniqueId)
+                } else {
+                    targetPlayer.player?.sendMessage("§aDir wurde der Title §e${realTitle.display}§a entfernt.")
+                }
+                sender.sendMessage("§aTitle ${realTitle.display} von ${targetPlayer.name} entfernt.")
+            }
+            else -> {
+                sender.sendMessage("§cDieser Action existiert nicht!")
+            }
         }
-
-        sender.sendMessage("§aRang von ${targetPlayer.name} auf ${realTitle.display} gesetzt")
-
         return true
     }
 
@@ -66,7 +95,10 @@ class TitleCommand : CommandExecutor, TabCompleter {
                 sender.server.onlinePlayers.map { it.name }.filter { it.startsWith(args[0]) }
             }
             2 -> {
-                Titles.values().map { it.name }.filter { it.startsWith(args[1]) }
+                listOf("set", "add", "remove").filter { it.startsWith(args[1]) }
+            }
+            3 -> {
+                Titles.values().map { it.name }.filter { it.startsWith(args[2]) }
             }
             else -> {
                 listOf()
