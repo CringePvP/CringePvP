@@ -7,15 +7,13 @@ plugins {
 group = "de.coaster.cringepvp"
 version = "1.1-SNAPSHOT"
 
-val moltenVersion: String = "1.0-PRE-14"
+val moltenVersion: String = "1.0-PRE-16"
 val exposedVersion: String = "0.38.2"
 
 repositories {
     mavenCentral()
     maven("https://jitpack.io")
-    maven {
-        url = uri("https://papermc.io/repo/repository/maven-public/")
-    }
+    maven("https://papermc.io/repo/repository/maven-public/")
     maven("https://repo.kryptonmc.org/releases")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
 }
