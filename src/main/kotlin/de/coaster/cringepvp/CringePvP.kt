@@ -16,6 +16,7 @@ import de.coaster.cringepvp.placeholders.unregisterPlaceholders
 import de.moltenKt.core.extension.empty
 import de.moltenKt.core.tool.smart.identification.Identity
 import de.moltenKt.paper.extension.display.ui.itemStack
+import de.moltenKt.paper.extension.paper.createNamespacedKey
 import de.moltenKt.paper.extension.tasky.delayed
 import de.moltenKt.paper.extension.tasky.doSync
 import de.moltenKt.paper.structure.app.App
@@ -27,6 +28,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
+import net.kyori.adventure.key.Key
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
@@ -44,10 +46,15 @@ class CringePvP : JavaPlugin() {
 
         lateinit var coroutineScope: CoroutineScope
             private set
+
+        lateinit var key: Key
+            private set
+
     }
 
     init {
         instance = this
+        key = createNamespacedKey("cringepvp")
         coroutineScope = CoroutineScope(Dispatchers.Default)
     }
 
