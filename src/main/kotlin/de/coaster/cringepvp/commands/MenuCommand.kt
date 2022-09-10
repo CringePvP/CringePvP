@@ -170,7 +170,7 @@ class MenuCommand : CommandExecutor {
 
             border(Material.BLACK_STAINED_GLASS_PANE.item.blankLabel().hideItemData())
             this[0] = backButton
-            setInner(innerSlots, skull("MHF_Question", false).putLabel(text("<red>???</red>")).hideItemData())
+            setInner(availableInnerSlots, skull("MHF_Question", false).putLabel(text("<red>???</red>")).hideItemData())
 
             onOpen {
                 val player = it.player
