@@ -2,6 +2,9 @@ package de.coaster.cringepvp.database.model
 
 import de.coaster.cringepvp.enums.Ranks
 import de.coaster.cringepvp.enums.Titles
+import de.coaster.cringepvp.extensions.Currency
+import de.coaster.cringepvp.extensions.abbreviate
+import de.moltenKt.core.extension.data.randomInt
 import de.moltenKt.core.tool.smart.identification.Identifiable
 import de.moltenKt.core.tool.timing.calendar.Calendar
 import java.util.*
@@ -17,10 +20,10 @@ data class CringeUser(val uuid: UUID,
                       val title: Titles = Titles.NoTITLE,
                       val ownedTitles: Set<Titles> = setOf(),
 
-                      var coins: Long = 0,
-                      var gems: Long = 0,
-                      var crystals: Long = 0,
-                      var relicts: Long = 0,
+                      var coins: Currency = Currency(0.0, 0),
+                      var gems: Currency = Currency(0.0, 0),
+                      var crystals: Currency = Currency(0.0, 0),
+                      var relicts: Currency = Currency(0.0, 0),
 
                       val kills: Long = 0,
                       val deaths: Long = 0,
@@ -44,6 +47,10 @@ data class CringeUser(val uuid: UUID,
                       var divineKeys: Long = 0,
                       var immortalKeys: Long = 0,
 
+                      // Idle Castle Stuff
+                      val idleCash: Currency = Currency(randomInt(1..999).toDouble(), randomInt(0..5)),
+                      val steinbruchLevel: Long = 0,
+
                       val firstJoined: Calendar = Calendar.now(),
                       val lastTimeJoined: Calendar = Calendar.now(),
                       val onlineTime: Duration = Duration.ZERO,
@@ -57,6 +64,8 @@ data class CringeUser(val uuid: UUID,
     fun nextLevelExp(forLevel: Int = level+1): Long {
         return (exp(ln(forLevel.toDouble()) / 0.6) * 100).toLong()
     }
+
+
 
     val attackLevel: Int
         get() {
@@ -72,8 +81,8 @@ data class CringeUser(val uuid: UUID,
         return (baseAttack + 1)
     }
 
-    fun getPriceForNextAttack(): Long {
-        return (attackLevel * 100).toLong()
+    fun getPriceForNextAttack(): Currency {
+        return (attackLevel * 100).toLong() abbreviate attackLevel
     }
 
     val defenseLevel: Int
@@ -90,8 +99,8 @@ data class CringeUser(val uuid: UUID,
         return (baseDefense + 0.5)
     }
 
-    fun getPriceForNextDefense(): Long {
-        return (defenseLevel * 100).toLong()
+    fun getPriceForNextDefense(): Currency {
+        return (defenseLevel * 100).toLong() abbreviate defenseLevel
     }
 
     val speedLevel: Int
@@ -108,8 +117,8 @@ data class CringeUser(val uuid: UUID,
         return (baseSpeed + 0.001)
     }
 
-    fun getPriceForNextSpeed(): Long {
-        return (speedLevel * 100).toLong() / 10
+    fun getPriceForNextSpeed(): Currency {
+        return ((speedLevel * 100).toLong() / 10) abbreviate speedLevel
     }
 
     val healthLevel: Int
@@ -126,7 +135,7 @@ data class CringeUser(val uuid: UUID,
         return (baseHealth + 0.5)
     }
 
-    fun getPriceForNextHealth(): Long {
-        return (healthLevel * 100).toLong() / 10
+    fun getPriceForNextHealth(): Currency {
+        return ((healthLevel * 100).toLong() / 10) abbreviate healthLevel
     }
 }

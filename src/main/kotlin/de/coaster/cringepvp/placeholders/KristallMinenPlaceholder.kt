@@ -22,7 +22,7 @@ class KristallMinenPlaceholder : PlaceholderExpansion() {
         return "1.0"
     }
 
-    override fun onRequest(player: OfflinePlayer?, params: String): String? {
+    override fun onRequest(player: OfflinePlayer?, params: String): String {
         val kristallString = StringBuilder("#9b59b6")
         for (i in 1 .. GamemodeListeners.kristallFuellstand) {
             kristallString.append("▀ ")

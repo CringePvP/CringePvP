@@ -1,7 +1,6 @@
 package de.coaster.cringepvp.listeners
 
 import de.coaster.cringepvp.enums.Kits
-import de.coaster.cringepvp.enums.Ranks
 import de.coaster.cringepvp.extensions.*
 import de.coaster.cringepvp.managers.PlayerCache
 import de.moltenKt.paper.extension.display.ui.addItems
@@ -9,7 +8,6 @@ import de.moltenKt.unfold.text
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.inventory.InventoryClickEvent
 
 class KitsListener : Listener {
@@ -37,12 +35,12 @@ class KitsListener : Listener {
             return@with
         }
 
-        if(kit.kaufPreis != 0) {
-            if(kit.currency.reference.get(cringeUser) < kit.kaufPreis) {
-                player.sendMessage(text("<gold><b>CringePvP</b></gold> <dark_gray>×</dark_gray> <gray>Du hast nicht genügend ${kit.currency.display.plainText} um dieses Kit zu kaufen.</gray>"))
+        if(kit.kaufPreis != 0 abbreviate 0) {
+            if(kit.currencyType.reference.get(cringeUser) < kit.kaufPreis) {
+                player.sendMessage(text("<gold><b>CringePvP</b></gold> <dark_gray>×</dark_gray> <gray>Du hast nicht genügend ${kit.currencyType.display.plainText} um dieses Kit zu kaufen.</gray>"))
                 return@with
             }
-            kit.currency.reference.set(cringeUser, kit.currency.reference.get(cringeUser) - kit.kaufPreis)
+            kit.currencyType.reference.set(cringeUser, kit.currencyType.reference.get(cringeUser) - kit.kaufPreis)
             PlayerCache.updateCringeUser(cringeUser)
         }
 

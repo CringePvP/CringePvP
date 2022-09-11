@@ -3,11 +3,9 @@ package de.coaster.cringepvp.commands
 import de.coaster.cringepvp.CringePvP
 import de.coaster.cringepvp.annotations.RegisterCommand
 import de.coaster.cringepvp.database.model.CringeUser
-import de.coaster.cringepvp.enums.Currency
+import de.coaster.cringepvp.enums.CurrencyType
 import de.coaster.cringepvp.enums.Titles
-import de.coaster.cringepvp.extensions.failSoundExecution
-import de.coaster.cringepvp.extensions.soundExecution
-import de.coaster.cringepvp.extensions.toCringeUser
+import de.coaster.cringepvp.extensions.*
 import de.coaster.cringepvp.managers.PlayerCache
 import de.moltenKt.core.extension.container.get
 import de.moltenKt.core.extension.math.ceilToInt
@@ -56,7 +54,7 @@ class MenuCommand : CommandExecutor {
                 CringeUser::attackLevel,
                 CringeUser::getPriceForNextAttack,
                 CringeUser::getNextAttack,
-                Currency.COINS,
+                CurrencyType.COINS,
                 CringeUser::upgradeToNextAttack,
             ),
             MenuSkill(
@@ -66,7 +64,7 @@ class MenuCommand : CommandExecutor {
                 CringeUser::defenseLevel,
                 CringeUser::getPriceForNextDefense,
                 CringeUser::getNextDefense,
-                Currency.COINS,
+                CurrencyType.COINS,
                 CringeUser::upgradeToNextAttack
             ),
             MenuSkill(
@@ -76,7 +74,7 @@ class MenuCommand : CommandExecutor {
                 CringeUser::speedLevel,
                 CringeUser::getPriceForNextSpeed,
                 CringeUser::getNextSpeed,
-                Currency.GEMS,
+                CurrencyType.GEMS,
                 CringeUser::upgradeToNextAttack,
             ),
             MenuSkill(
@@ -86,7 +84,7 @@ class MenuCommand : CommandExecutor {
                 CringeUser::healthLevel,
                 CringeUser::getPriceForNextHealth,
                 CringeUser::getNextHealth,
-                Currency.GEMS,
+                CurrencyType.GEMS,
                 CringeUser::upgradeToNextAttack
             ),
         )
@@ -134,14 +132,14 @@ class MenuCommand : CommandExecutor {
                             add("${keyColor}Aktuell: $valColor${skill.currentValue.get(cringe)}")
                             add("${keyColor}Aktuelles Level: $valColor${skill.currentLevel.get(cringe)}")
                             add(" ")
-                            add("${keyColor}Upgrade: $valColor${skill.priceForNext.invoke(cringe)} ${skill.currency.display.asPlainString}")
+                            add("${keyColor}Upgrade: $valColor${skill.priceForNext.invoke(cringe)} ${skill.currencyType.display.asPlainString}")
                             add("${keyColor}Wird zu: $valColor${skill.nextBenefit.invoke(cringe)} ${skill.displayName}")
                         }.asStyledComponents
                         onClick { click ->
                             val user = click.player
                             val userCringe = user.toCringeUser()
                             val price = skill.priceForNext.invoke(userCringe)
-                            val currency = skill.currency
+                            val currency = skill.currencyType
 
                             if (currency.reference.get(userCringe) >= price) {
                                 skill.upgradeCall.invoke(userCringe)
@@ -211,9 +209,9 @@ class MenuCommand : CommandExecutor {
         val icon: Material,
         val currentValue: KMutableProperty1<CringeUser, Double>,
         val currentLevel: KProperty1<CringeUser, Int>,
-        val priceForNext: (CringeUser) -> Long,
+        val priceForNext: (CringeUser) -> Currency,
         val nextBenefit: (CringeUser) -> Double,
-        val currency: Currency,
+        val currencyType: CurrencyType,
         val upgradeCall: (CringeUser) -> Unit,
     )
 

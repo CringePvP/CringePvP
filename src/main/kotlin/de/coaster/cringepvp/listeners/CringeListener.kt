@@ -130,7 +130,7 @@ class CringeListener : Listener {
         if (event.damager is Player && (event.entity as LivingEntity).health - event.damage <= 0) {
             (event.damager as Player).giveExp(2)
             var cringeUser = (event.damager as Player).toCringeUser()
-            cringeUser = cringeUser.copy(kills = cringeUser.kills + 1, xp = cringeUser.xp + 2, coins = cringeUser.coins + randomInt(1 .. 3))
+            cringeUser = cringeUser.copy(kills = cringeUser.kills + 1, xp = cringeUser.xp + 2, coins = cringeUser.coins + (cringeUser.idleCash * randomInt(1 .. 3).toDouble()))
             updateCringeUser(cringeUser)
 
             if (event.entity is Player) {

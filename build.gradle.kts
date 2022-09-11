@@ -16,9 +16,11 @@ repositories {
     maven("https://papermc.io/repo/repository/maven-public/")
     maven("https://repo.kryptonmc.org/releases")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
+    maven("https://repo.dmulloy2.net/repository/public/")
 }
 
 dependencies {
+
     // Kotlin Base Dependencies
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3-native-mt")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
@@ -27,6 +29,7 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.19-R0.1-SNAPSHOT")
     compileOnly("me.neznamy", "tab-api", "3.1.2")
     compileOnly("com.github.decentsoftware-eu", "decentholograms", "2.5.3")
+    compileOnly("com.comphenix.protocol", "ProtocolLib", "4.8.0")
     compileOnly("me.clip:placeholderapi:2.11.2")
     compileOnly("com.github.NuVotifier.NuVotifier:nuvotifier-common:2.7.2")
     compileOnly("com.github.NuVotifier.NuVotifier:nuvotifier-bukkit:2.7.2")

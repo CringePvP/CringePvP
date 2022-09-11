@@ -190,7 +190,7 @@ class CrateListener : Listener {
                     val amount = itemStack.amount
 
                     var cringeUser = (entity as Player).toCringeUser()
-                    cringeUser = cringeUser.copy(coins = cringeUser.coins + amount)
+                    cringeUser = cringeUser.copy(coins = cringeUser.coins + (cringeUser.idleCash * amount.toDouble()))
                     PlayerCache.updateCringeUser(cringeUser)
 
                     isCancelled = true
@@ -209,7 +209,7 @@ class CrateListener : Listener {
                     val amount = itemStack.amount
 
                     var cringeUser = (entity as Player).toCringeUser()
-                    cringeUser = cringeUser.copy(gems = cringeUser.gems + amount)
+                    cringeUser = cringeUser.copy(gems = cringeUser.gems + (cringeUser.idleCash * amount.toDouble()))
                     PlayerCache.updateCringeUser(cringeUser)
 
                     isCancelled = true
@@ -228,7 +228,7 @@ class CrateListener : Listener {
                     val amount = itemStack.amount
 
                     var cringeUser = (entity as Player).toCringeUser()
-                    cringeUser = cringeUser.copy(gems = cringeUser.crystals + amount)
+                    cringeUser = cringeUser.copy(gems = cringeUser.crystals + (cringeUser.idleCash * amount.toDouble()))
                     PlayerCache.updateCringeUser(cringeUser)
 
                     isCancelled = true
@@ -247,7 +247,7 @@ class CrateListener : Listener {
                     val amount = itemStack.amount
 
                     var cringeUser = (entity as Player).toCringeUser()
-                    cringeUser = cringeUser.copy(gems = cringeUser.relicts + amount)
+                    cringeUser = cringeUser.copy(gems = cringeUser.relicts + (cringeUser.idleCash * amount.toDouble()))
                     PlayerCache.updateCringeUser(cringeUser)
 
                     isCancelled = true

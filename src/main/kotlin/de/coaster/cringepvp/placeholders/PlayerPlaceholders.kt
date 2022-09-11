@@ -8,6 +8,7 @@ import org.bukkit.entity.Player
 
 val cratePlaceholder = CratePlaceholders()
 val kristallMinenPlaceholder = KristallMinenPlaceholder()
+val steinbruchPlaceholder = SteinbruchPlaceholder()
 
 fun registerPlaceholders() {
 
@@ -64,9 +65,11 @@ fun registerPlaceholders() {
 
     cratePlaceholder.register()
     kristallMinenPlaceholder.register()
+    steinbruchPlaceholder.register()
 }
 
 fun unregisterPlaceholders() {
     cratePlaceholder.unregister()
     kristallMinenPlaceholder.unregister()
+    steinbruchPlaceholder.unregister()
 }
