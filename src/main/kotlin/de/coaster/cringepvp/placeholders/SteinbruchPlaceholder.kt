@@ -19,16 +19,14 @@ class SteinbruchPlaceholder : PlaceholderExpansion() {
     }
 
     override fun onRequest(player: OfflinePlayer, params: String): String {
-        val steinbruchString = StringBuilder("#9b59b6")
-
         if (!player.isOnline) {
             return "§cError"
         }
         val cringeUser = player.uniqueId.toCringeUser()
 
-        steinbruchString.append("§7Steinbruch: §a${cringeUser.steinbruchLevel}")
-
-
-        return steinbruchString.toString()
+        if(params.equals("level", true)) {
+            return cringeUser.steinbruchLevel.toString()
+        }
+        return "${cringeUser.steinBruchIdle} / s"
     }
 }

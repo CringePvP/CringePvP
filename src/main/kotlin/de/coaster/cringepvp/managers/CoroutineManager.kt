@@ -10,6 +10,8 @@ import kotlinx.coroutines.launch
 import org.bukkit.Bukkit
 import kotlin.time.Duration.Companion.seconds
 import de.coaster.cringepvp.extensions.broadcastActionbar
+import de.coaster.cringepvp.extensions.plus
+import de.coaster.cringepvp.extensions.toCringeUser
 import de.coaster.cringepvp.listeners.GamemodeListeners
 import de.moltenKt.core.extension.data.randomInt
 import org.bukkit.Location
@@ -24,10 +26,10 @@ object CoroutineManager {
 
     init {
         println("CoroutineManager initialized")
-        startPlayerTimer()
         startClearLag()
         startBroadcast()
         startKristallMine()
+        startIdleCash()
     }
 
     fun startCoroutine(coroutine: suspend () -> Unit) {
@@ -40,17 +42,6 @@ object CoroutineManager {
         coroutineScope.launch {
             delay(delay)
             coroutine()
-        }
-    }
-
-    private fun startPlayerTimer() {
-        startCoroutine {
-            while (true) {
-                delay(1000)
-                PlayerCache.all().forEach { player ->
-                    PlayerCache.updateCringeUser(player.copy(onlineTime = player.onlineTime + 1.seconds))
-                }
-            }
         }
     }
 
@@ -108,11 +99,23 @@ object CoroutineManager {
         }
     }
 
-    fun startKristallMine() {
+    private fun startKristallMine() {
         startCoroutine {
             while (true) {
                 delay(1.minutes)
                 GamemodeListeners.kristallFuellstand = min(GamemodeListeners.kristallFuellstand + 1, 10)
+            }
+        }
+    }
+
+    private fun startIdleCash() {
+        startCoroutine {
+            while (true) {
+                delay(1.seconds)
+
+                PlayerCache.all().forEach { player ->
+                    PlayerCache.updateCringeUser(player.copy(onlineTime = player.onlineTime + 1.seconds, coins = player.coins + player.idleCash))
+                }
             }
         }
     }

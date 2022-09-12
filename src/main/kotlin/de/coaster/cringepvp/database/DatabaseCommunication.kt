@@ -105,6 +105,9 @@ fun updateCringeUserDB(cringeUser: CringeUser) = smartTransaction {
         it[userAncientKeys] = cringeUser.ancientKeys
         it[userDivineKeys] = cringeUser.divineKeys
         it[userImmortalKeys] = cringeUser.immortalKeys
+
+        it[steinbruchLevel] = cringeUser.steinbruchLevel
+
         it[userFirstJoined] = cringeUser.firstJoined.javaInstant
         it[userLastJoined] = cringeUser.lastTimeJoined.javaInstant
         it[onlineTime] = cringeUser.onlineTime.inWholeSeconds

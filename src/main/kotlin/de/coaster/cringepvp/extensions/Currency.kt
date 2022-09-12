@@ -112,6 +112,22 @@ infix operator fun Currency.times(other: Long): Currency {
     return Currency(this.value * other, this.abbreviationIndex)
 }
 
+infix operator fun Currency.times(other: Int): Currency {
+    return Currency(this.value * other, this.abbreviationIndex)
+}
+
+infix operator fun Currency.div(other: Double): Currency {
+    return Currency(this.value / other, this.abbreviationIndex)
+}
+
+infix operator fun Currency.div(other: Long): Currency {
+    return Currency(this.value / other, this.abbreviationIndex)
+}
+
+infix operator fun Currency.div(other: Int): Currency {
+    return Currency(this.value / other, this.abbreviationIndex)
+}
+
 
 fun main() {
     val currency = Currency(324.0, 0)

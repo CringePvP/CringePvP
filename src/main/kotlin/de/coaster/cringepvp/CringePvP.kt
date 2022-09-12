@@ -13,6 +13,7 @@ import de.coaster.cringepvp.managers.PlayerCache
 import de.coaster.cringepvp.managers.RegisterManager.registerAll
 import de.coaster.cringepvp.placeholders.registerPlaceholders
 import de.coaster.cringepvp.placeholders.unregisterPlaceholders
+import de.coaster.cringepvp.utils.npc.EntityStorage
 import de.moltenKt.core.extension.empty
 import de.moltenKt.core.tool.smart.identification.Identity
 import de.moltenKt.paper.extension.display.ui.itemStack
@@ -75,6 +76,7 @@ class CringePvP : JavaPlugin() {
         println("CringePvP is now tweaking your SkyPvP behavior!")
         ItemManager
         CoroutineManager
+        EntityStorage
 
 
         val lootItems = mapOf(
@@ -272,6 +274,7 @@ class CringePvP : JavaPlugin() {
     override fun onDisable() {
         unregisterPlaceholders()
         PlayerCache.saveAll()
+        EntityStorage.save()
         coroutineScope.coroutineContext.cancelChildren()
     }
 }

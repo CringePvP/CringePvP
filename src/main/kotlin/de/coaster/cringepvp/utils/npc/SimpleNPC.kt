@@ -16,20 +16,23 @@ import java.util.concurrent.TimeUnit
 import java.util.function.Consumer
 
 
-class SimpleNPC {
-    private val entityID // unique entityID the server holds to find/modify existing entities
-            : Int = UUID.randomUUID().clockSequence()
-    private var gameProfile: WrappedGameProfile = WrappedGameProfile(UUID.randomUUID(), "§7NPC-$entityID")
-    private var location: Location? = null
-    private var hideNameTag = false
-    private var collision = true
-    private var hideFromTabList = false
+class SimpleNPC(val entityID : Int = UUID.randomUUID().clockSequence()) {
+    var gameProfile: WrappedGameProfile = WrappedGameProfile(UUID.randomUUID(), "§7NPC-$entityID")
+    var location: Location? = null
+    var hideNameTag = false
+    var collision = true
+    var hideFromTabList = true
 
     init {
         if (!listenerRegistered) {
             listenerRegistered = true
             startListener()
         }
+    }
+
+    fun getSkinAsString(): String {
+        val profile = gameProfile.properties["textures"].iterator().next()
+        return profile.value + ":" + profile.signature
     }
 
     fun show(player: Player) {
@@ -154,8 +157,8 @@ class SimpleNPC {
         })
     }
 
-    class NPCBuilder {
-        private val npc: SimpleNPC = SimpleNPC()
+    class NPCBuilder(entityID : Int = UUID.randomUUID().clockSequence()) {
+        private val npc: SimpleNPC = SimpleNPC(entityID)
 
         fun build(): SimpleNPC {
             return npc

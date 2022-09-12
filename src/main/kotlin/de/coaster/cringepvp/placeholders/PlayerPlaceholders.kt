@@ -38,6 +38,10 @@ fun registerPlaceholders() {
         (player.player as Player).toCringeUser().coins
     }
 
+    placeholderManager.registerPlayerPlaceholder("%idlecash%", 1000) { player ->
+        (player.player as Player).toCringeUser().idleCash.display
+    }
+
     placeholderManager.registerPlayerPlaceholder("%gems%", 1000) { player ->
         (player.player as Player).toCringeUser().gems
     }

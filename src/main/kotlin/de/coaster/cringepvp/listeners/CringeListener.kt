@@ -190,6 +190,6 @@ class CringeListener : Listener {
         }, 20)
 
         world.spawnParticle(Particle.EXPLOSION_HUGE, world.spawnLocation, 100, 0.0, 0.0, 0.0, 20.0)
-        playSound(location, Sound.BLOCK_PORTAL_TRAVEL, 1f, 1f)
+        playSound(location, Sound.BLOCK_PORTAL_TRAVEL, SoundCategory.PLAYERS,0.2f, 1f)
     }
 }

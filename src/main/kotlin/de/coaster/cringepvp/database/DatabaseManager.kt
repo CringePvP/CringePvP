@@ -53,7 +53,7 @@ object TableUsers : Table("users") {
     val userImmortalKeys = long("immortal_keys").default(0)
 
     // Idle Castle Stuff
-    val steinbruchLevel = long("steinbruch_level").default(1)
+    val steinbruchLevel = long("steinbruch_level").default(0)
 
     val userFirstJoined = timestamp("firstJoined").default(Calendar.now().javaInstant)
     val userLastJoined = timestamp("lastTimeOnline").default(Calendar.now().javaInstant)

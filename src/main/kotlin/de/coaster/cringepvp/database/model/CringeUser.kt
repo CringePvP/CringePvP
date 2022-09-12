@@ -4,6 +4,9 @@ import de.coaster.cringepvp.enums.Ranks
 import de.coaster.cringepvp.enums.Titles
 import de.coaster.cringepvp.extensions.Currency
 import de.coaster.cringepvp.extensions.abbreviate
+import de.coaster.cringepvp.extensions.div
+import de.coaster.cringepvp.utils.getCurrentProfit
+import de.coaster.cringepvp.utils.getCurrentSpeed
 import de.moltenKt.core.extension.data.randomInt
 import de.moltenKt.core.tool.smart.identification.Identifiable
 import de.moltenKt.core.tool.timing.calendar.Calendar
@@ -48,7 +51,6 @@ data class CringeUser(val uuid: UUID,
                       var immortalKeys: Long = 0,
 
                       // Idle Castle Stuff
-                      val idleCash: Currency = Currency(randomInt(1..999).toDouble(), randomInt(0..5)),
                       val steinbruchLevel: Long = 0,
 
                       val firstJoined: Calendar = Calendar.now(),
@@ -61,11 +63,21 @@ data class CringeUser(val uuid: UUID,
             return ((this.xp.toDouble() / 100.toDouble()).pow(0.6)).toInt()
         }
 
+    val steinBruchIdle: Currency
+        get() {
+            val steinbruchProfit = getCurrentProfit(Currency(0.25, 0), steinbruchLevel)
+            val steinbruchSpeed = getCurrentSpeed(4, steinbruchLevel)
+            return (steinbruchProfit)
+        }
+
+    val idleCash: Currency
+        get() {
+            return steinBruchIdle
+        }
+
     fun nextLevelExp(forLevel: Int = level+1): Long {
         return (exp(ln(forLevel.toDouble()) / 0.6) * 100).toLong()
     }
-
-
 
     val attackLevel: Int
         get() {
