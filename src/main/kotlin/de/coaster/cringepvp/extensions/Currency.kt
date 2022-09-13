@@ -12,7 +12,7 @@ class Currency(var value: Double, var abbreviationIndex: Int) {
         }
     }
 
-    val display get() = "${value.round(2)} ${getAbbreviation(abbreviationIndex)}"
+    val display get() = "${value.round(2).toString().replace(".0", "").replace(".00", "")} ${getAbbreviation(abbreviationIndex)}"
 
     override fun toString(): String {
         return display
@@ -39,7 +39,7 @@ class Currency(var value: Double, var abbreviationIndex: Int) {
 }
 
 
-var fixedAbbrivations = listOf("-", "K", "M", "B", "T")
+var fixedAbbrivations = listOf("", "K", "M", "B", "T")
 val alphabeticAbbreviations = listOf("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z")
 
 fun getAbbreviation(index: Int): String {

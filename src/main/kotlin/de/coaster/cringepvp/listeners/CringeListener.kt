@@ -116,8 +116,8 @@ class CringeListener : Listener {
             }
         }
 
-        entity.world.playSound(entity.location, Sound.BLOCK_BONE_BLOCK_BREAK, 1F, 2F)
-        entity.world.playSound(entity.location, Sound.BLOCK_STONE_BREAK, 1F, 2F)
+        entity.world.playSound(entity.location, Sound.BLOCK_BONE_BLOCK_BREAK, SoundCategory.PLAYERS, 1F, 2F)
+        entity.world.playSound(entity.location, Sound.BLOCK_STONE_BREAK, SoundCategory.PLAYERS,1F, 2F)
 
         ParticleBuilder(Particle.BLOCK_CRACK)
             .data(Material.REDSTONE_BLOCK.createBlockData())
@@ -190,6 +190,6 @@ class CringeListener : Listener {
         }, 20)
 
         world.spawnParticle(Particle.EXPLOSION_HUGE, world.spawnLocation, 100, 0.0, 0.0, 0.0, 20.0)
-        playSound(location, Sound.BLOCK_PORTAL_TRAVEL, SoundCategory.PLAYERS,0.2f, 1f)
+        playSound(location, Sound.BLOCK_PORTAL_TRAVEL, SoundCategory.AMBIENT,0.1f, 1f)
     }
 }

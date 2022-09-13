@@ -10,21 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ff31960a-d3cf-414c-b552-a7f8295cda0d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/commands/UpgradeDebugCommand.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/utils/npc/EntityStorage.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/CringePvP.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/CringePvP.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/database/DatabaseCommunication.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/database/DatabaseCommunication.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/database/DatabaseManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/database/DatabaseManager.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/database/model/CringeUser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/database/model/CringeUser.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/extensions/Currency.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/extensions/Currency.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/listeners/CringeListener.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/listeners/CringeListener.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/managers/CoroutineManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/managers/CoroutineManager.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/placeholders/PlayerPlaceholders.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/placeholders/PlayerPlaceholders.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/placeholders/SteinbruchPlaceholder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/placeholders/SteinbruchPlaceholder.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/utils/IdleProgress.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/utils/IdleProgress.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/utils/npc/SimpleNPC.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/utils/npc/SimpleNPC.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/utils/npc/wrappers/NPCSkin.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/coaster/cringepvp/utils/npc/wrappers/NPCSkin.kt" afterDir="false" />
     </list>
     <list id="95da2960-407d-41c4-8029-119b43014bc2" name="Changes by fruxz" comment="" />
     <option name="SHOW_DIALOG" value="false" />
