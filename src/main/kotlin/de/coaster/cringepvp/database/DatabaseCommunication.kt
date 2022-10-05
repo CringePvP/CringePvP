@@ -5,7 +5,7 @@ import de.coaster.cringepvp.database.model.CringeUser
 import de.coaster.cringepvp.enums.Ranks
 import de.coaster.cringepvp.enums.Titles
 import de.coaster.cringepvp.extensions.abbreviate
-import de.moltenKt.core.tool.timing.calendar.Calendar
+import de.fruxz.ascend.tool.timing.calendar.Calendar
 import org.jetbrains.exposed.sql.*
 import java.time.Instant
 import java.time.ZoneId

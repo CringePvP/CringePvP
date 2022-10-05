@@ -1,7 +1,7 @@
 package de.coaster.cringepvp.commands
 
 import de.coaster.cringepvp.annotations.RegisterCommand
-import de.moltenKt.unfold.text
+import de.fruxz.stacked.text
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender

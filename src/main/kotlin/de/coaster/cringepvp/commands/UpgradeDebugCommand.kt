@@ -1,13 +1,9 @@
 package de.coaster.cringepvp.commands
 
 import de.coaster.cringepvp.annotations.RegisterCommand
-import de.coaster.cringepvp.extensions.isBuilder
-import de.coaster.cringepvp.extensions.loadInventory
-import de.coaster.cringepvp.extensions.saveInventory
 import de.coaster.cringepvp.extensions.toCringeUser
 import de.coaster.cringepvp.managers.PlayerCache
-import de.moltenKt.unfold.text
-import org.bukkit.GameMode
+import de.fruxz.stacked.text
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender

@@ -7,7 +7,9 @@ plugins {
 group = "de.coaster.cringepvp"
 version = "1.1-SNAPSHOT"
 
-val moltenVersion: String = "1.0-PRE-16"
+val ascendVersion = "1.0.0-RC"
+val stackedVersion = "1.0.0-RC"
+val sparkleVersion = "1.0.0-PRE-18-RC3"
 val exposedVersion: String = "0.38.2"
 
 repositories {
@@ -38,10 +40,11 @@ dependencies {
     // Reflection Dependencies for automatic registration of commands and listeners
     implementation("net.oneandone.reflections8:reflections8:0.11.7")
 
-    // Molten Kotlin Framework (https://github.com/TheFruxz/MoltenKT)
-    implementation("com.github.TheFruxz.MoltenKT:moltenkt-core:$moltenVersion")
-    implementation("com.github.TheFruxz.MoltenKT:moltenkt-paper:$moltenVersion")
-    implementation("com.github.TheFruxz.MoltenKT:moltenkt-unfold:$moltenVersion")
+    // Molten Kotlin Libraries:
+    implementation("com.github.TheFruxz:Ascend:$ascendVersion") // (https://github.com/TheFruxz/Ascend)
+    implementation("com.github.TheFruxz:Stacked:$stackedVersion") // (https://github.com/TheFruxz/Stacked)
+    implementation("com.github.TheFruxz:Sparkle:$sparkleVersion") // (https://github.com/TheFruxz/Sparkle)
+
 
     // Database Dependencies - Kotlin Exposed
     implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")

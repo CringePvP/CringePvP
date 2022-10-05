@@ -6,9 +6,9 @@ import de.coaster.cringepvp.enums.Ranks
 import de.coaster.cringepvp.extensions.abbreviate
 import de.coaster.cringepvp.extensions.plainText
 import de.coaster.cringepvp.extensions.toCringeUser
-import de.moltenKt.core.extension.math.ceil
-import de.moltenKt.unfold.extension.replace
-import de.moltenKt.unfold.text
+import de.fruxz.ascend.extension.math.ceil
+import de.fruxz.stacked.extension.replace
+import de.fruxz.stacked.text
 import org.bukkit.entity.Player
 import org.bukkit.Bukkit
 import org.bukkit.command.Command

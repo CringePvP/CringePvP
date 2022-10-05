@@ -1,6 +1,6 @@
 package de.coaster.cringepvp.database
 
-import de.moltenKt.core.tool.timing.calendar.Calendar
+import de.fruxz.ascend.tool.timing.calendar.Calendar
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.Transaction

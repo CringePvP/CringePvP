@@ -6,28 +6,23 @@ import com.comphenix.protocol.wrappers.WrappedChatComponent
 import com.comphenix.protocol.wrappers.WrappedGameProfile
 import de.coaster.cringepvp.CringePvP
 import de.coaster.cringepvp.CringePvP.Companion.coroutineScope
-import de.moltenKt.unfold.text
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import de.coaster.cringepvp.extensions.broadcastActionbar
+import de.coaster.cringepvp.extensions.plus
+import de.coaster.cringepvp.listeners.GamemodeListeners
+import de.coaster.cringepvp.utils.npc.wrappers.WrapperPlayServerPlayerInfo
+import de.fruxz.ascend.extension.data.randomInt
+import de.fruxz.stacked.text
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.bukkit.Bukkit
-import kotlin.time.Duration.Companion.seconds
-import de.coaster.cringepvp.extensions.broadcastActionbar
-import de.coaster.cringepvp.extensions.plus
-import de.coaster.cringepvp.extensions.toCringeUser
-import de.coaster.cringepvp.listeners.GamemodeListeners
-import de.coaster.cringepvp.utils.npc.wrappers.WrapperPlayServerPlayerInfo
-import de.moltenKt.core.extension.data.randomInt
-import me.neznamy.tab.api.protocol.PacketPlayOutPlayerInfo.EnumGamemode
 import org.bukkit.Location
 import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.util.Vector
-import java.util.ArrayList
 import kotlin.math.min
 import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 object CoroutineManager {
 

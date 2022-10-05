@@ -5,8 +5,8 @@ import de.coaster.cringepvp.extensions.getCooldown
 import de.coaster.cringepvp.extensions.isInCooldown
 import de.coaster.cringepvp.extensions.setCooldown
 import de.coaster.cringepvp.extensions.toCringeUser
-import de.moltenKt.paper.extension.effect.PotionEffect
-import de.moltenKt.unfold.text
+import de.fruxz.sparkle.framework.extension.effect.PotionEffect
+import de.fruxz.stacked.text
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender

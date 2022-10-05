@@ -4,7 +4,7 @@ import de.coaster.cringepvp.annotations.RegisterCommand
 import de.coaster.cringepvp.extensions.isBuilder
 import de.coaster.cringepvp.extensions.loadInventory
 import de.coaster.cringepvp.extensions.saveInventory
-import de.moltenKt.unfold.text
+import de.fruxz.stacked.text
 import org.bukkit.GameMode
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor

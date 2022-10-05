@@ -2,7 +2,7 @@ package de.coaster.cringepvp.enums
 
 import de.coaster.cringepvp.database.model.CringeUser
 import de.coaster.cringepvp.extensions.Currency
-import de.moltenKt.unfold.text
+import de.fruxz.stacked.text
 import net.kyori.adventure.text.Component
 import kotlin.reflect.KMutableProperty1
 

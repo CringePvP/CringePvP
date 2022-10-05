@@ -6,11 +6,11 @@ import de.coaster.cringepvp.database.model.CringeUser
 import de.coaster.cringepvp.enums.Titles
 import de.coaster.cringepvp.managers.PlayerCache
 import de.coaster.cringepvp.utils.ItemStackConverter
-import de.moltenKt.core.tool.timing.calendar.Calendar
-import de.moltenKt.paper.extension.effect.buildMelody
-import de.moltenKt.paper.extension.effect.playEffect
-import de.moltenKt.paper.extension.effect.soundOf
-import de.moltenKt.unfold.text
+import de.fruxz.ascend.tool.timing.calendar.Calendar
+import de.fruxz.sparkle.framework.extension.effect.buildMelody
+import de.fruxz.sparkle.framework.extension.effect.playEffect
+import de.fruxz.sparkle.framework.extension.effect.soundOf
+import de.fruxz.stacked.text
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
 import org.bukkit.*
@@ -19,6 +19,7 @@ import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 import java.util.*
+
 
 fun Player.toCringeUser(): CringeUser {
     return PlayerCache.get(uniqueId)

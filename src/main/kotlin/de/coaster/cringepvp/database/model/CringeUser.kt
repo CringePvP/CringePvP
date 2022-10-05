@@ -4,12 +4,10 @@ import de.coaster.cringepvp.enums.Ranks
 import de.coaster.cringepvp.enums.Titles
 import de.coaster.cringepvp.extensions.Currency
 import de.coaster.cringepvp.extensions.abbreviate
-import de.coaster.cringepvp.extensions.div
 import de.coaster.cringepvp.utils.getCurrentProfit
 import de.coaster.cringepvp.utils.getCurrentSpeed
-import de.moltenKt.core.extension.data.randomInt
-import de.moltenKt.core.tool.smart.identification.Identifiable
-import de.moltenKt.core.tool.timing.calendar.Calendar
+import de.fruxz.ascend.tool.smart.identification.Identifiable
+import de.fruxz.ascend.tool.timing.calendar.Calendar
 import java.util.*
 import kotlin.math.exp
 import kotlin.math.ln

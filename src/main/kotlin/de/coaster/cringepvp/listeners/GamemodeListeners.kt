@@ -2,18 +2,14 @@ package de.coaster.cringepvp.listeners
 
 import de.coaster.cringepvp.extensions.*
 import de.coaster.cringepvp.managers.PlayerCache
-import de.moltenKt.unfold.text
+import de.fruxz.stacked.text
 import io.papermc.paper.event.player.PlayerFlowerPotManipulateEvent
 import org.bukkit.Material
-import org.bukkit.entity.Arrow
-import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.*
-import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.hanging.HangingBreakByEntityEvent
-import org.bukkit.event.hanging.HangingBreakEvent
 import org.bukkit.event.player.PlayerBucketEmptyEvent
 import org.bukkit.event.player.PlayerInteractAtEntityEvent
 import org.bukkit.event.player.PlayerInteractEntityEvent

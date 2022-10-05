@@ -10,9 +10,9 @@ import de.coaster.cringepvp.managers.CoroutineManager
 import de.coaster.cringepvp.managers.ItemManager
 import de.coaster.cringepvp.managers.PlayerCache
 import de.coaster.cringepvp.utils.FileConfig
-import de.moltenKt.core.extension.data.randomInt
-import de.moltenKt.paper.extension.display.ui.itemStack
-import de.moltenKt.unfold.text
+import de.fruxz.ascend.extension.data.randomInt
+import de.fruxz.sparkle.framework.extension.visual.ui.itemStack
+import de.fruxz.stacked.text
 import eu.decentsoftware.holograms.api.DHAPI
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
 import org.bukkit.Bukkit

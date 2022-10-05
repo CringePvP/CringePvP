@@ -1,9 +1,8 @@
 package de.coaster.cringepvp.utils
 
 import de.coaster.cringepvp.extensions.Currency
-import de.coaster.cringepvp.extensions.plus
 import de.coaster.cringepvp.extensions.times
-import de.moltenKt.core.extension.math.floor
+import de.fruxz.ascend.extension.math.floor
 import kotlin.math.max
 import kotlin.math.pow
 
