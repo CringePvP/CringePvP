@@ -6,8 +6,11 @@ import de.coaster.cringepvp.database.model.CringeUser
 import de.coaster.cringepvp.enums.Titles
 import de.coaster.cringepvp.managers.PlayerCache
 import de.coaster.cringepvp.utils.ItemStackConverter
-import de.moltenKt.core.tool.timing.calendar.Calendar
-import de.moltenKt.unfold.text
+import de.fruxz.ascend.tool.timing.calendar.Calendar
+import de.fruxz.sparkle.framework.extension.effect.buildMelody
+import de.fruxz.sparkle.framework.extension.effect.playEffect
+import de.fruxz.sparkle.framework.extension.effect.soundOf
+import de.fruxz.stacked.text
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
 import org.bukkit.*
@@ -16,6 +19,7 @@ import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 import java.util.*
+
 
 fun Player.toCringeUser(): CringeUser {
     return PlayerCache.get(uniqueId)
@@ -108,17 +112,25 @@ fun Inventory.setItems(slotRange: IntRange, item: ItemStack) {
     slotRange.forEach { this.setItem(it, item) }
 }
 
-fun Player.soundExecution() {
-    playSound(location, Sound.ENTITY_ITEM_PICKUP, .75F, 2F)
-    playSound(location, Sound.ITEM_ARMOR_EQUIP_LEATHER, .25F, 2F)
-    playSound(location, Sound.ITEM_ARMOR_EQUIP_CHAIN, .1F, 2F)
+val executionSoundMelody = buildMelody {
+    beat {
+        sound(soundOf(Sound.ENTITY_ITEM_PICKUP, .75, 2))
+        sound(soundOf(Sound.ITEM_ARMOR_EQUIP_LEATHER, .25, 2))
+        sound(soundOf(Sound.ITEM_ARMOR_EQUIP_CHAIN, .1, 2))
+    }
 }
 
-fun Player.failSoundExecution() {
-    playSound(location, Sound.ENTITY_ITEM_PICKUP, .75F, 2F)
-    playSound(location, Sound.ENTITY_GENERIC_EXPLODE, .25F, 2F)
-    playSound(location, Sound.ENTITY_GHAST_SCREAM, .1F, 2F)
+fun Player.soundExecution() = this.playEffect(executionSoundMelody) // This makes the player the sound source
+
+val failSoundMelody = buildMelody {
+    beat {
+        sound(soundOf(Sound.ENTITY_ITEM_PICKUP, volume = .75, pitch = 2))
+        sound(soundOf(Sound.ENTITY_GENERIC_EXPLODE, volume = .25, pitch = 2))
+        sound(soundOf(Sound.ENTITY_GHAST_SCREAM, volume = .1, pitch = 2))
+    }
 }
+
+fun Player.failSoundExecution() = this.playEffect(failSoundMelody) // This makes the player the sound source
 
 
 var Player.isBuilder : Boolean

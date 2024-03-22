@@ -5,7 +5,7 @@ description: "Das eine System, alle anderen zu unterwerfen."
 author: "CoasterFreakDE"
 api-version: 1.19
 depend:
-  - MoltenKT-Paper
+  - Sparkle
   - TAB
   - DecentHolograms
   - PlaceholderAPI

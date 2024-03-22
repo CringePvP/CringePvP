@@ -4,7 +4,8 @@ import de.coaster.cringepvp.database.TableUsers.userUUID
 import de.coaster.cringepvp.database.model.CringeUser
 import de.coaster.cringepvp.enums.Ranks
 import de.coaster.cringepvp.enums.Titles
-import de.moltenKt.core.tool.timing.calendar.Calendar
+import de.coaster.cringepvp.extensions.abbreviate
+import de.fruxz.ascend.tool.timing.calendar.Calendar
 import org.jetbrains.exposed.sql.*
 import java.time.Instant
 import java.time.ZoneId
@@ -33,10 +34,10 @@ private fun mapToCringeUser(resultRow: ResultRow): CringeUser = with(resultRow) 
         rank = Ranks.values().find { it.name.equals(this[TableUsers.userRank], true) } ?: Ranks.Spieler,
         title = Titles.values().find { it.name.equals(this[TableUsers.userTitle], true) } ?: Titles.NoTITLE,
         ownedTitles = getCringeUserTitles(UUID.fromString(this[userUUID])),
-        coins = this[TableUsers.userCoins],
-        gems = this[TableUsers.userGems],
-        crystals = this[TableUsers.userCrystals],
-        relicts = this[TableUsers.userRelicts],
+        coins = this[TableUsers.userCoins] abbreviate this[TableUsers.userCoinsAbbreviatedIndex],
+        gems = this[TableUsers.userGems] abbreviate this[TableUsers.userGemsAbbreviatedIndex],
+        crystals = this[TableUsers.userCrystals] abbreviate this[TableUsers.userCrystalsAbbreviatedIndex],
+        relicts = this[TableUsers.userRelicts] abbreviate this[TableUsers.userRelictsAbbreviatedIndex],
         kills = this[TableUsers.userKills],
         deaths = this[TableUsers.userDeaths],
         baseAttack = this[TableUsers.userBaseAttack],
@@ -55,6 +56,9 @@ private fun mapToCringeUser(resultRow: ResultRow): CringeUser = with(resultRow) 
         ancientKeys = this[TableUsers.userAncientKeys],
         divineKeys = this[TableUsers.userDivineKeys],
         immortalKeys = this[TableUsers.userImmortalKeys],
+
+        steinbruchLevel = this[TableUsers.steinbruchLevel],
+
         firstJoined = this[TableUsers.userFirstJoined].toCalendar(),
         lastTimeJoined = this[TableUsers.userLastJoined].toCalendar(),
         onlineTime = this[TableUsers.onlineTime].seconds,
@@ -75,10 +79,14 @@ fun updateCringeUserDB(cringeUser: CringeUser) = smartTransaction {
         it[userXP] = cringeUser.xp
         it[userRank] = cringeUser.rank.name
         it[userTitle] = cringeUser.title.name
-        it[userCoins] = cringeUser.coins
-        it[userGems] = cringeUser.gems
-        it[userCrystals] = cringeUser.crystals
-        it[userRelicts] = cringeUser.relicts
+        it[userCoins] = cringeUser.coins.value
+        it[userCoinsAbbreviatedIndex] = cringeUser.coins.abbreviationIndex
+        it[userGems] = cringeUser.gems.value
+        it[userGemsAbbreviatedIndex] = cringeUser.gems.abbreviationIndex
+        it[userCrystals] = cringeUser.crystals.value
+        it[userCrystalsAbbreviatedIndex] = cringeUser.crystals.abbreviationIndex
+        it[userRelicts] = cringeUser.relicts.value
+        it[userRelictsAbbreviatedIndex] = cringeUser.relicts.abbreviationIndex
         it[userKills] = cringeUser.kills
         it[userDeaths] = cringeUser.deaths
         it[userBaseAttack] = cringeUser.baseAttack
@@ -97,6 +105,9 @@ fun updateCringeUserDB(cringeUser: CringeUser) = smartTransaction {
         it[userAncientKeys] = cringeUser.ancientKeys
         it[userDivineKeys] = cringeUser.divineKeys
         it[userImmortalKeys] = cringeUser.immortalKeys
+
+        it[steinbruchLevel] = cringeUser.steinbruchLevel
+
         it[userFirstJoined] = cringeUser.firstJoined.javaInstant
         it[userLastJoined] = cringeUser.lastTimeJoined.javaInstant
         it[onlineTime] = cringeUser.onlineTime.inWholeSeconds

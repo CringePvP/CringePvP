@@ -2,16 +2,16 @@ package de.coaster.cringepvp.commands
 
 import de.coaster.cringepvp.CringePvP
 import de.coaster.cringepvp.annotations.RegisterCommand
-import de.coaster.cringepvp.extensions.*
+import de.coaster.cringepvp.extensions.failSoundExecution
+import de.coaster.cringepvp.extensions.soundExecution
+import de.coaster.cringepvp.extensions.toCringeString
 import de.coaster.cringepvp.managers.CoroutineManager
-import de.moltenKt.unfold.text
+import de.fruxz.stacked.text
 import org.bukkit.Bukkit
-import org.bukkit.GameMode
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-import org.bukkit.permissions.PermissionDefault
 import kotlin.time.Duration.Companion.seconds
 
 @RegisterCommand(

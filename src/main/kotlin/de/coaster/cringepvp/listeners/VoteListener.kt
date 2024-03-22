@@ -5,7 +5,7 @@ import de.coaster.cringepvp.enums.Titles
 import de.coaster.cringepvp.extensions.addTitle
 import de.coaster.cringepvp.extensions.toCringeUser
 import de.coaster.cringepvp.managers.PlayerCache
-import de.moltenKt.unfold.text
+import de.fruxz.stacked.text
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener

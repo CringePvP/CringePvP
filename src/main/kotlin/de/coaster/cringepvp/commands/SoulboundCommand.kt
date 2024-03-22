@@ -3,15 +3,12 @@ package de.coaster.cringepvp.commands
 import de.coaster.cringepvp.annotations.RegisterCommand
 import de.coaster.cringepvp.enums.Ranks
 import de.coaster.cringepvp.extensions.*
-import de.moltenKt.paper.extension.effect.PotionEffect
-import de.moltenKt.unfold.text
+import de.fruxz.stacked.text
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-import org.bukkit.potion.PotionEffectType
 import kotlin.time.Duration.Companion.hours
-import kotlin.time.Duration.Companion.minutes
 
 @RegisterCommand(
     name = "soulbound",

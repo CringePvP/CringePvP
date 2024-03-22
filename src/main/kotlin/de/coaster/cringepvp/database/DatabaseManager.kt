@@ -1,6 +1,6 @@
 package de.coaster.cringepvp.database
 
-import de.moltenKt.core.tool.timing.calendar.Calendar
+import de.fruxz.ascend.tool.timing.calendar.Calendar
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.Transaction
@@ -21,10 +21,14 @@ object TableUsers : Table("users") {
     val userRank = varchar("rank", 64).default("Spieler")
     val userTitle = varchar("title", 64).default("")
 
-    val userCoins = long("coins").default(0)
-    val userGems = long("gems").default(0)
-    val userCrystals = long("crystals").default(0)
-    val userRelicts = long("relicts").default(0)
+    val userCoins = double("coins").default(0.0)
+    val userCoinsAbbreviatedIndex = integer("coinsAbbreviatedIndex").default(0)
+    val userGems = double("gems").default(0.0)
+    val userGemsAbbreviatedIndex = integer("gemsAbbreviatedIndex").default(0)
+    val userCrystals = double("crystals").default(0.0)
+    val userCrystalsAbbreviatedIndex = integer("crystalsAbbreviatedIndex").default(0)
+    val userRelicts = double("relicts").default(0.0)
+    val userRelictsAbbreviatedIndex = integer("relictsAbbreviatedIndex").default(0)
 
     val userKills = long("kills").default(0)
     val userDeaths = long("deaths").default(0)
@@ -47,6 +51,9 @@ object TableUsers : Table("users") {
     val userAncientKeys = long("ancient_keys").default(0)
     val userDivineKeys = long("divine_keys").default(0)
     val userImmortalKeys = long("immortal_keys").default(0)
+
+    // Idle Castle Stuff
+    val steinbruchLevel = long("steinbruch_level").default(0)
 
     val userFirstJoined = timestamp("firstJoined").default(Calendar.now().javaInstant)
     val userLastJoined = timestamp("lastTimeOnline").default(Calendar.now().javaInstant)

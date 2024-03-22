@@ -1,21 +1,15 @@
 package de.coaster.cringepvp.listeners
 
-import de.coaster.cringepvp.extensions.isBuilder
-import de.coaster.cringepvp.extensions.toCringeString
-import de.coaster.cringepvp.extensions.toCringeUser
+import de.coaster.cringepvp.extensions.*
 import de.coaster.cringepvp.managers.PlayerCache
-import de.moltenKt.unfold.text
+import de.fruxz.stacked.text
 import io.papermc.paper.event.player.PlayerFlowerPotManipulateEvent
 import org.bukkit.Material
-import org.bukkit.entity.Arrow
-import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.*
-import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.hanging.HangingBreakByEntityEvent
-import org.bukkit.event.hanging.HangingBreakEvent
 import org.bukkit.event.player.PlayerBucketEmptyEvent
 import org.bukkit.event.player.PlayerInteractAtEntityEvent
 import org.bukkit.event.player.PlayerInteractEntityEvent
@@ -37,7 +31,7 @@ class GamemodeListeners : Listener {
                 // if kristallFuellstand != 0 -> add one crystal to user and remove 1 kristallfuelstand
                 if (kristallFuellstand > 0) {
                     var cringeUser = player.toCringeUser()
-                    cringeUser = cringeUser.copy(crystals = cringeUser.crystals + 1, xp = cringeUser.xp + 3)
+                    cringeUser = cringeUser.copy(crystals = cringeUser.crystals + (1 abbreviate 0), xp = cringeUser.xp + 3)
                     PlayerCache.updateCringeUser(cringeUser)
                     player.sendActionBar(text("<color:#4aabff><b>Kristall</b></color> <dark_gray>×</dark_gray> <gray>1</gray>"))
                     kristallFuellstand--

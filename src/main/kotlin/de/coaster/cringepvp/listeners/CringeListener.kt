@@ -6,32 +6,19 @@ import de.coaster.cringepvp.enums.Titles
 import de.coaster.cringepvp.extensions.*
 import de.coaster.cringepvp.managers.PlayerCache
 import de.coaster.cringepvp.managers.PlayerCache.updateCringeUser
-import de.moltenKt.core.extension.data.randomInt
-import de.moltenKt.paper.extension.paper.maxOutHealth
-import de.moltenKt.unfold.text
+import de.fruxz.ascend.extension.data.randomInt
+import de.fruxz.sparkle.framework.extension.entity.maxOutHealth
+import de.fruxz.stacked.text
 import org.bukkit.*
 import org.bukkit.attribute.Attribute
-import org.bukkit.entity.Arrow
-import org.bukkit.entity.Entity
-import org.bukkit.entity.LivingEntity
-import org.bukkit.entity.Pig
-import org.bukkit.entity.Player
+import org.bukkit.entity.*
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import org.bukkit.event.entity.EntityDamageByEntityEvent
-import org.bukkit.event.entity.EntityDamageEvent
-import org.bukkit.event.entity.EntityDeathEvent
-import org.bukkit.event.entity.EntityRegainHealthEvent
-import org.bukkit.event.entity.FoodLevelChangeEvent
-import org.bukkit.event.entity.PlayerDeathEvent
-import org.bukkit.event.inventory.InventoryType
-import org.bukkit.event.player.PlayerAttemptPickupItemEvent
+import org.bukkit.event.entity.*
 import org.bukkit.event.player.PlayerCommandPreprocessEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.event.player.PlayerRespawnEvent
-import org.bukkit.inventory.PlayerInventory
-import org.bukkit.plugin.Plugin
 import org.spigotmc.event.player.PlayerSpawnLocationEvent
 import kotlin.math.ceil
 import kotlin.math.roundToInt
@@ -116,8 +103,8 @@ class CringeListener : Listener {
             }
         }
 
-        entity.world.playSound(entity.location, Sound.BLOCK_BONE_BLOCK_BREAK, 1F, 2F)
-        entity.world.playSound(entity.location, Sound.BLOCK_STONE_BREAK, 1F, 2F)
+        entity.world.playSound(entity.location, Sound.BLOCK_BONE_BLOCK_BREAK, SoundCategory.PLAYERS, 1F, 2F)
+        entity.world.playSound(entity.location, Sound.BLOCK_STONE_BREAK, SoundCategory.PLAYERS,1F, 2F)
 
         ParticleBuilder(Particle.BLOCK_CRACK)
             .data(Material.REDSTONE_BLOCK.createBlockData())
@@ -130,7 +117,7 @@ class CringeListener : Listener {
         if (event.damager is Player && (event.entity as LivingEntity).health - event.damage <= 0) {
             (event.damager as Player).giveExp(2)
             var cringeUser = (event.damager as Player).toCringeUser()
-            cringeUser = cringeUser.copy(kills = cringeUser.kills + 1, xp = cringeUser.xp + 2, coins = cringeUser.coins + randomInt(1 .. 3))
+            cringeUser = cringeUser.copy(kills = cringeUser.kills + 1, xp = cringeUser.xp + 2, coins = cringeUser.coins + (cringeUser.idleCash * randomInt(1 .. 3).toDouble()))
             updateCringeUser(cringeUser)
 
             if (event.entity is Player) {
@@ -190,6 +177,6 @@ class CringeListener : Listener {
         }, 20)
 
         world.spawnParticle(Particle.EXPLOSION_HUGE, world.spawnLocation, 100, 0.0, 0.0, 0.0, 20.0)
-        playSound(location, Sound.BLOCK_PORTAL_TRAVEL, 1f, 1f)
+        playSound(location, Sound.BLOCK_PORTAL_TRAVEL, SoundCategory.AMBIENT,0.1f, 1f)
     }
 }

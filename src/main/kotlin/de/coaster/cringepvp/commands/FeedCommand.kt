@@ -5,13 +5,12 @@ import de.coaster.cringepvp.extensions.getCooldown
 import de.coaster.cringepvp.extensions.isInCooldown
 import de.coaster.cringepvp.extensions.setCooldown
 import de.coaster.cringepvp.extensions.toCringeUser
-import de.moltenKt.unfold.text
+import de.fruxz.stacked.text
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
-import org.bukkit.permissions.PermissionDefault
 import kotlin.time.Duration.Companion.minutes
 
 @RegisterCommand(

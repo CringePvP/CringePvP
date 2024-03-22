@@ -4,6 +4,7 @@ import de.coaster.cringepvp.extensions.convertAreaToString
 import de.coaster.cringepvp.extensions.toCringeLocation
 import de.coaster.cringepvp.extensions.toCringeString
 import de.coaster.cringepvp.managers.CoroutineManager.startCoroutine
+import de.coaster.cringepvp.utils.CringePath
 import de.coaster.cringepvp.utils.FileConfig
 import kotlinx.coroutines.delay
 import org.bukkit.Material
@@ -39,16 +40,12 @@ class JumpPadListener : Listener {
             // Get from config
             val config = FileConfig("jump_pads.yml")
             if (config.contains(slimeAreaKey)) {
-                // Get the jump pad location
-                val landingLocation = config.getString(slimeAreaKey)?.toCringeLocation() ?: return@with
-                /* Apply velocity to player to fly to the landingLocation */
-                player.velocity = landingLocation.toVector().subtract(player.location.toVector()).add(Vector(0.0, 5.0, 0.0))
-                startCoroutine {
-                    while (!player.isDead && player.location.distance(landingLocation) > 5.0) {
-                        player.velocity = landingLocation.toVector().subtract(player.location.toVector()).multiply(0.2)
-                        delay(100)
-                    }
-                }
+                // Convert to CringePath
+                val path = CringePath.fromConfig(config, slimeAreaKey)
+                val progress = CringePath.Progress(player, path)
+
+                // Start the path
+                progress.startTraveling()
             } else {
                 config.set(slimeAreaKey, block.location.toCringeString())
                 config.saveConfig()

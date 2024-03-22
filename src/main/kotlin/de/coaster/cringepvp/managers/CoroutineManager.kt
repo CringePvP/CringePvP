@@ -1,17 +1,20 @@
 package de.coaster.cringepvp.managers
 
+import com.comphenix.protocol.wrappers.EnumWrappers
+import com.comphenix.protocol.wrappers.PlayerInfoData
+import com.comphenix.protocol.wrappers.WrappedChatComponent
+import com.comphenix.protocol.wrappers.WrappedGameProfile
 import de.coaster.cringepvp.CringePvP
 import de.coaster.cringepvp.CringePvP.Companion.coroutineScope
-import de.moltenKt.unfold.text
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import de.coaster.cringepvp.extensions.broadcastActionbar
+import de.coaster.cringepvp.extensions.plus
+import de.coaster.cringepvp.listeners.GamemodeListeners
+import de.coaster.cringepvp.utils.npc.wrappers.WrapperPlayServerPlayerInfo
+import de.fruxz.ascend.extension.data.randomInt
+import de.fruxz.stacked.text
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.bukkit.Bukkit
-import kotlin.time.Duration.Companion.seconds
-import de.coaster.cringepvp.extensions.broadcastActionbar
-import de.coaster.cringepvp.listeners.GamemodeListeners
-import de.moltenKt.core.extension.data.randomInt
 import org.bukkit.Location
 import org.bukkit.Sound
 import org.bukkit.entity.Player
@@ -19,15 +22,16 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.util.Vector
 import kotlin.math.min
 import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 object CoroutineManager {
 
     init {
         println("CoroutineManager initialized")
-        startPlayerTimer()
         startClearLag()
         startBroadcast()
         startKristallMine()
+        startIdleCash()
     }
 
     fun startCoroutine(coroutine: suspend () -> Unit) {
@@ -40,17 +44,6 @@ object CoroutineManager {
         coroutineScope.launch {
             delay(delay)
             coroutine()
-        }
-    }
-
-    private fun startPlayerTimer() {
-        startCoroutine {
-            while (true) {
-                delay(1000)
-                PlayerCache.all().forEach { player ->
-                    PlayerCache.updateCringeUser(player.copy(onlineTime = player.onlineTime + 1.seconds))
-                }
-            }
         }
     }
 
@@ -108,13 +101,70 @@ object CoroutineManager {
         }
     }
 
-    fun startKristallMine() {
+    private fun startKristallMine() {
         startCoroutine {
             while (true) {
                 delay(1.minutes)
                 GamemodeListeners.kristallFuellstand = min(GamemodeListeners.kristallFuellstand + 1, 10)
             }
         }
+    }
+
+    private fun startIdleCash() {
+        startCoroutine {
+            while (true) {
+                delay(1.seconds)
+
+                PlayerCache.all().forEach { player ->
+                    PlayerCache.updateCringeUser(player.copy(onlineTime = player.onlineTime + 1.seconds, coins = player.coins + player.idleCash))
+                }
+
+                // Hide all players with z > 400 or all if own z > 400
+                Bukkit.getScheduler().runTask(CringePvP.instance, Runnable {
+                    Bukkit.getOnlinePlayers().forEach { player: Player ->
+                        val selfIdle = player.location.blockZ > 400
+
+                        if(selfIdle) {
+                            Bukkit.getOnlinePlayers().filter { it != player }.forEach { other ->
+                                player.hidePlayer(CringePvP.instance, other)
+                                if(other.location.blockZ > 400) {
+                                    sendPlayerInfoPacket(EnumWrappers.PlayerInfoAction.ADD_PLAYER, other, EnumWrappers.NativeGameMode.SPECTATOR, player)
+                                    sendPlayerInfoPacket(EnumWrappers.PlayerInfoAction.UPDATE_GAME_MODE, other, EnumWrappers.NativeGameMode.SPECTATOR, player)
+                                } else {
+                                    sendPlayerInfoPacket(EnumWrappers.PlayerInfoAction.ADD_PLAYER, other, EnumWrappers.NativeGameMode.SURVIVAL, player)
+                                    sendPlayerInfoPacket(EnumWrappers.PlayerInfoAction.UPDATE_GAME_MODE, other, EnumWrappers.NativeGameMode.SURVIVAL, player)
+                                }
+                            }
+                        } else {
+                            Bukkit.getOnlinePlayers().filter { it != player }.forEach { other ->
+                                if(other.location.blockZ > 400) {
+                                    player.hidePlayer(CringePvP.instance, other)
+                                    sendPlayerInfoPacket(EnumWrappers.PlayerInfoAction.ADD_PLAYER, other, EnumWrappers.NativeGameMode.SPECTATOR, player)
+                                    sendPlayerInfoPacket(EnumWrappers.PlayerInfoAction.UPDATE_GAME_MODE, other, EnumWrappers.NativeGameMode.SPECTATOR, player)
+                                } else {
+                                    player.showPlayer(CringePvP.instance, other)
+                                    sendPlayerInfoPacket(EnumWrappers.PlayerInfoAction.UPDATE_GAME_MODE, other, EnumWrappers.NativeGameMode.SURVIVAL, player)
+                                }
+                            }
+                        }
+                    }
+                })
+            }
+        }
+    }
+
+    private fun sendPlayerInfoPacket(action: EnumWrappers.PlayerInfoAction, toModify: Player, gamemode: EnumWrappers.NativeGameMode = EnumWrappers.NativeGameMode.SURVIVAL, receiver: Player) {
+        val packet = WrapperPlayServerPlayerInfo()
+        packet.action = action
+        val data: MutableList<PlayerInfoData> = ArrayList()
+        val gameProfile = WrappedGameProfile.fromPlayer(toModify)
+        data.add(
+            PlayerInfoData(gameProfile, 0, gamemode,
+                WrappedChatComponent.fromText(gameProfile.name)
+            )
+        )
+        packet.data = data
+        packet.sendPacket(receiver)
     }
 
 }
