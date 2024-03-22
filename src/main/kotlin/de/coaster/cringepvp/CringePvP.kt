@@ -13,14 +13,13 @@ import de.coaster.cringepvp.managers.RegisterManager.registerAll
 import de.coaster.cringepvp.placeholders.registerPlaceholders
 import de.coaster.cringepvp.placeholders.unregisterPlaceholders
 import de.coaster.cringepvp.utils.npc.EntityStorage
-import de.fruxz.sparkle.framework.extension.createNamespacedKey
-import de.fruxz.sparkle.framework.extension.visual.ui.itemStack
-import de.fruxz.stacked.text
+import dev.fruxz.stacked.text
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancelChildren
 import net.kyori.adventure.key.Key
 import org.bukkit.Material
+import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.java.JavaPlugin
 import org.jetbrains.exposed.sql.SchemaUtils
@@ -43,17 +42,14 @@ class CringePvP : JavaPlugin() {
 
     init {
         instance = this
-        key = createNamespacedKey("cringepvp")
+        key = NamespacedKey(this, "cringepvp")
         coroutineScope = CoroutineScope(Dispatchers.Default)
     }
 
     override fun onEnable() {
         // Plugin startup logic
 
-        DatabaseManager.database
-        smartTransaction {
-            SchemaUtils.create(TableUsers, TableUserTitles)
-        }
+        DatabaseManager.connect()
 
         val time = measureTimeMillis {
             registerAll()
@@ -264,5 +260,6 @@ class CringePvP : JavaPlugin() {
         PlayerCache.saveAll()
         EntityStorage.save()
         coroutineScope.coroutineContext.cancelChildren()
+        DatabaseManager.disconnect()
     }
 }

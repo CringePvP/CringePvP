@@ -6,11 +6,9 @@ import de.coaster.cringepvp.database.model.CringeUser
 import de.coaster.cringepvp.enums.Titles
 import de.coaster.cringepvp.managers.PlayerCache
 import de.coaster.cringepvp.utils.ItemStackConverter
-import de.fruxz.ascend.tool.timing.calendar.Calendar
-import de.fruxz.sparkle.framework.extension.effect.buildMelody
-import de.fruxz.sparkle.framework.extension.effect.playEffect
-import de.fruxz.sparkle.framework.extension.effect.soundOf
-import de.fruxz.stacked.text
+import dev.fruxz.ascend.tool.time.calendar.Calendar
+import dev.fruxz.stacked.text
+import net.kyori.adventure.sound.Sound.sound
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
 import org.bukkit.*

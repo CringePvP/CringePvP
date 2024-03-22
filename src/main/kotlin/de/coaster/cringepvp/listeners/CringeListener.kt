@@ -6,9 +6,8 @@ import de.coaster.cringepvp.enums.Titles
 import de.coaster.cringepvp.extensions.*
 import de.coaster.cringepvp.managers.PlayerCache
 import de.coaster.cringepvp.managers.PlayerCache.updateCringeUser
-import de.fruxz.ascend.extension.data.randomInt
-import de.fruxz.sparkle.framework.extension.entity.maxOutHealth
-import de.fruxz.stacked.text
+import dev.fruxz.ascend.extension.data.randomInt
+import dev.fruxz.stacked.text
 import org.bukkit.*
 import org.bukkit.attribute.Attribute
 import org.bukkit.entity.*

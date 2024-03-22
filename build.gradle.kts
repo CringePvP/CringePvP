@@ -1,16 +1,16 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
-    kotlin("jvm") version "1.7.10"
+    kotlin("jvm") version "2.0.0-Beta5"
 }
 
 group = "de.coaster.cringepvp"
-version = "1.1-SNAPSHOT"
+version = "2.0-SNAPSHOT"
 
-val ascendVersion = "1.0.0-RC"
-val stackedVersion = "1.0.0-RC"
-val sparkleVersion = "1.0.0-PRE-18-RC3"
-val exposedVersion: String = "0.38.2"
+val ascendVersion = "2024.1.2"
+val stackedVersion = "2024.1.1"
+val exposedVersion: String = "0.48.0"
 
 repositories {
     mavenCentral()
@@ -19,41 +19,52 @@ repositories {
     maven("https://repo.kryptonmc.org/releases")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
     maven("https://repo.dmulloy2.net/repository/public/")
+    maven("https://repo.fruxz.dev/releases/")
 }
 
 dependencies {
 
     // Kotlin Base Dependencies
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3-native-mt")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
-
-    // Minecraft PaperMC Dependencies
-    compileOnly("io.papermc.paper:paper-api:1.19-R0.1-SNAPSHOT")
-    compileOnly("me.neznamy", "tab-api", "3.1.2")
-    compileOnly("com.github.decentsoftware-eu", "decentholograms", "2.5.3")
-    compileOnly("com.comphenix.protocol", "ProtocolLib", "4.8.0")
-    compileOnly("me.clip:placeholderapi:2.11.2")
-    compileOnly("com.github.NuVotifier.NuVotifier:nuvotifier-common:2.7.2")
-    compileOnly("com.github.NuVotifier.NuVotifier:nuvotifier-bukkit:2.7.2")
-    compileOnly("com.github.NuVotifier.NuVotifier:nuvotifier-api:2.7.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1-Beta")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+    implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
 
     // Reflection Dependencies for automatic registration of commands and listeners
     implementation("net.oneandone.reflections8:reflections8:0.11.7")
 
     // Molten Kotlin Libraries:
-    implementation("com.github.TheFruxz:Ascend:$ascendVersion") // (https://github.com/TheFruxz/Ascend)
-    implementation("com.github.TheFruxz:Stacked:$stackedVersion") // (https://github.com/TheFruxz/Stacked)
-    implementation("com.github.TheFruxz:Sparkle:$sparkleVersion") // (https://github.com/TheFruxz/Sparkle)
-
+    implementation("dev.fruxz:ascend:$ascendVersion") // (https://github.com/TheFruxz/Ascend)
+    implementation("dev.fruxz:stacked:$stackedVersion") // (https://github.com/TheFruxz/Stacked)
 
     // Database Dependencies - Kotlin Exposed
     implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
+    implementation("com.mysql:mysql-connector-j:8.2.0")
+    implementation("com.zaxxer:HikariCP:5.1.0")
+
+
+
+    // Minecraft PaperMC Dependencies
+    compileOnly("io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT")
+    compileOnly("me.neznamy", "tab-api", "4.0.2")
+    compileOnly("com.github.decentsoftware-eu", "decentholograms", "2.8.6")
+    compileOnly("com.comphenix.protocol", "ProtocolLib", "4.8.0")
+    compileOnly("me.clip:placeholderapi:2.11.5")
+    compileOnly("com.github.NuVotifier.NuVotifier:nuvotifier-common:2.7.2")
+    compileOnly("com.github.NuVotifier.NuVotifier:nuvotifier-bukkit:2.7.2")
+    compileOnly("com.github.NuVotifier.NuVotifier:nuvotifier-api:2.7.2")
 }
 
-tasks.withType<KotlinCompile>() {
-    kotlinOptions.jvmTarget = "17"
-    kotlinOptions.freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn" + "-Xcontext-receivers" + "-Xuse-experimental=kotlin.Experimental"
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+kotlin {
+    compilerOptions {
+        apiVersion.set(KotlinVersion.KOTLIN_2_0)
+        jvmTarget.set(JvmTarget.JVM_21)
+    }
 }

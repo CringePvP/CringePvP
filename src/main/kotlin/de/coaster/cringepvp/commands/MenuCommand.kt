@@ -4,14 +4,6 @@ import de.coaster.cringepvp.annotations.RegisterCommand
 import de.coaster.cringepvp.database.model.CringeUser
 import de.coaster.cringepvp.enums.CurrencyType
 import de.coaster.cringepvp.extensions.Currency
-import de.fruxz.sparkle.framework.extension.coroutines.doSync
-import de.fruxz.sparkle.framework.extension.player
-import de.fruxz.sparkle.framework.extension.visual.ui.item
-import de.fruxz.sparkle.framework.visual.canvas.CanvasBase
-import de.fruxz.sparkle.framework.visual.canvas.PaginationType
-import de.fruxz.sparkle.framework.visual.canvas.buildCanvas
-import de.fruxz.sparkle.framework.visual.color.ColorType
-import de.fruxz.sparkle.framework.visual.color.DyeableMaterial
 import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor

@@ -2,7 +2,6 @@ package de.coaster.cringepvp.enums
 
 import de.coaster.cringepvp.extensions.Currency
 import de.coaster.cringepvp.extensions.abbreviate
-import de.fruxz.sparkle.framework.extension.visual.ui.itemStack
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import kotlin.time.Duration

@@ -1,6 +1,6 @@
 package de.coaster.cringepvp.extensions
 
-import de.fruxz.ascend.extension.math.round
+import dev.fruxz.ascend.extension.math.round
 import kotlin.math.pow
 
 class Currency(var value: Double, var abbreviationIndex: Int) {

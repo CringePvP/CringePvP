@@ -10,8 +10,8 @@ import de.coaster.cringepvp.extensions.broadcastActionbar
 import de.coaster.cringepvp.extensions.plus
 import de.coaster.cringepvp.listeners.GamemodeListeners
 import de.coaster.cringepvp.utils.npc.wrappers.WrapperPlayServerPlayerInfo
-import de.fruxz.ascend.extension.data.randomInt
-import de.fruxz.stacked.text
+import dev.fruxz.ascend.extension.data.randomInt
+import dev.fruxz.stacked.text
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.bukkit.Bukkit

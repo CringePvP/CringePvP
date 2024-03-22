@@ -5,7 +5,7 @@ import de.coaster.cringepvp.annotations.RegisterCommand
 import de.coaster.cringepvp.extensions.toCringeUser
 import me.neznamy.tab.api.TabAPI
 import me.neznamy.tab.api.event.player.PlayerLoadEvent
-import me.neznamy.tab.api.team.UnlimitedNametagManager
+import me.neznamy.tab.api.nametag.UnlimitedNameTagManager
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.PluginCommand
@@ -76,12 +76,12 @@ object RegisterManager {
         println("Registered commands in $timeCommands ms")
 
 
-        TabAPI.getInstance().eventBus.register(
+        TabAPI.getInstance().eventBus?.register(
             PlayerLoadEvent::class.java
         ) { event: PlayerLoadEvent ->
             val tabPlayer = event.player
             val cringeUser = (tabPlayer.player as Player).toCringeUser()
-            val nametagManager = TabAPI.getInstance().teamManager as UnlimitedNametagManager
+            val nametagManager = TabAPI.getInstance().nameTagManager as UnlimitedNameTagManager
             nametagManager.setName(tabPlayer, "#a4b0be${tabPlayer.name}")
             nametagManager.setLine(tabPlayer, "rank", "#7bed9f・ %color%%rank% #7bed9f・")
             nametagManager.setLine(tabPlayer, "title", "#eccc68・ %title% ・")

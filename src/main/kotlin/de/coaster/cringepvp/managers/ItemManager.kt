@@ -3,7 +3,7 @@ package de.coaster.cringepvp.managers
 import de.coaster.cringepvp.enums.Rarity
 import de.coaster.cringepvp.extensions.plainText
 import de.coaster.cringepvp.utils.FileConfig
-import de.fruxz.stacked.text
+import dev.fruxz.stacked.text
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import java.util.*

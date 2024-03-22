@@ -3,8 +3,7 @@ package de.coaster.cringepvp.listeners
 import de.coaster.cringepvp.enums.Kits
 import de.coaster.cringepvp.extensions.*
 import de.coaster.cringepvp.managers.PlayerCache
-import de.fruxz.sparkle.framework.extension.visual.ui.addItems
-import de.fruxz.stacked.text
+import dev.fruxz.stacked.text
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener

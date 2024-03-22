@@ -1,9 +1,7 @@
 package de.coaster.cringepvp.listeners
 
 import com.destroystokyo.paper.MaterialTags
-import de.fruxz.sparkle.framework.event.interact.PlayerInteractAtBlockEvent
-import de.fruxz.sparkle.framework.extension.visual.ui.itemStack
-import de.fruxz.stacked.text
+import dev.fruxz.stacked.text
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
 import org.bukkit.Bukkit
 import org.bukkit.Material

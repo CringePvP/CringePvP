@@ -1,17 +1,63 @@
 package de.coaster.cringepvp.database
 
-import de.fruxz.ascend.tool.timing.calendar.Calendar
+import com.zaxxer.hikari.HikariConfig
+import com.zaxxer.hikari.HikariDataSource
+import de.coaster.cringepvp.extensions.getLogger
+import de.coaster.cringepvp.utils.Environment
+import dev.fruxz.ascend.tool.time.calendar.Calendar
 import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.Transaction
 import org.jetbrains.exposed.sql.javatime.timestamp
 import org.jetbrains.exposed.sql.transactions.transaction
 
 internal object DatabaseManager {
-    val database = Database.connect(
-        DB_URL, DB_DRIVER, DB_USER,
-        DB_PASS
-    )
+    /**
+     * Configuration class for the database connection.
+     */
+    private val dbConfig = HikariConfig().apply {
+        jdbcUrl = Environment.getEnv("DATABASE_URL")
+        driverClassName =Environment.getEnv("DATABASE_DRIVER")
+        username = Environment.getEnv("DATABASE_USER")
+        password = Environment.getEnv("DATABASE_PASSWORD")
+        maximumPoolSize = 100
+    }
+    /**
+     * Represents a database connection.
+     *
+     * This variable is used to establish a connection to the database using the provided database configuration.
+     * It is a private property, so it can only be accessed within the scope of its containing class.
+     *
+     * @property database The database connection instance.
+     */
+    private val database = Database.connect(HikariDataSource(dbConfig))
+
+    /**
+     * Connects to the database and performs necessary operations.
+     */
+    fun connect() {
+        getLogger().info("Connecting to database...")
+        database
+
+        getLogger().info("Check for table updates...")
+        transaction {
+            SchemaUtils.createMissingTablesAndColumns(
+                TableUsers, TableUserTitles
+            )
+        }
+
+        getLogger().info("Connected to database.")
+    }
+
+    /**
+     * Disconnects from the database.
+     * This method closes the database connection and logs a message indicating disconnection.
+     */
+    fun disconnect() {
+        database.connector().close()
+        getLogger().info("Disconnected from database.")
+    }
 }
 
 object TableUsers : Table("users") {

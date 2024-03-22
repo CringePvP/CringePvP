@@ -1,7 +1,7 @@
 <br />
 <div align="center">
   <a href="https://discord.gg/KAypYTgxKH">
-    <img src="https://cdn.discordapp.com/attachments/1007929729006972968/1009721744048799834/CringePvP.png" alt="Logo" width="200" height="200">
+    <img src="https://cdn.devsky.one/LoNI9/XUFURIKO80.png/raw" alt="Logo" width="200" height="200">
   </a>
 
   <h3 align="center">CringePvP</h3>
@@ -16,6 +16,6 @@
     ·
     <a href="https://devsky.one">Website</a>
     ·
-    <a href="https://github.com/TheFruxz/MoltenKT">MoltenKT Framework</a>
+    <a href="https://github.com/TheFruxz/Ascend">TheFruxz Framework</a>
   </p>
 </div>
