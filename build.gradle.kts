@@ -1,9 +1,12 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "2.0.0-Beta5"
     id("io.papermc.paperweight.userdev") version "1.5.11"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 group = "de.coaster.cringepvp"
@@ -24,29 +27,28 @@ repositories {
     maven("https://repo.fruxz.dev/releases/")
 }
 
+val shadowDependencies = listOf(
+    "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1-Beta",
+    "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3",
+    "io.github.cdimascio:dotenv-kotlin:6.4.1",
+    "net.oneandone.reflections8:reflections8:0.11.7",
+    "dev.fruxz:ascend:$ascendVersion",
+    "dev.fruxz:stacked:$stackedVersion",
+    "org.jetbrains.exposed:exposed-core:$exposedVersion",
+    "org.jetbrains.exposed:exposed-dao:$exposedVersion",
+    "org.jetbrains.exposed:exposed-jdbc:$exposedVersion",
+    "org.jetbrains.exposed:exposed-java-time:$exposedVersion",
+    "com.mysql:mysql-connector-j:8.3.0",
+    "com.zaxxer:HikariCP:5.1.0",
+)
+
 dependencies {
 
-    // Kotlin Base Dependencies
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1-Beta")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
-    implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
-
-    // Reflection Dependencies for automatic registration of commands and listeners
-    implementation("net.oneandone.reflections8:reflections8:0.11.7")
-
-    // Molten Kotlin Libraries:
-    implementation("dev.fruxz:ascend:$ascendVersion") // (https://github.com/TheFruxz/Ascend)
-    implementation("dev.fruxz:stacked:$stackedVersion") // (https://github.com/TheFruxz/Stacked)
-
-    // Database Dependencies - Kotlin Exposed
-    implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
-    implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
-    implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
-    implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
-    implementation("com.mysql:mysql-connector-j:8.3.0")
-    implementation("com.zaxxer:HikariCP:5.1.0")
-
-
+    // Shadow Dependencies
+    shadowDependencies.forEach { dependency ->
+        implementation(dependency)
+        shadow(dependency)
+    }
 
     // Minecraft PaperMC Dependencies
     paperweight.paperDevBundle("${minecraftVersion}-R0.1-SNAPSHOT")
@@ -59,14 +61,29 @@ dependencies {
     compileOnly("com.github.NuVotifier.NuVotifier:nuvotifier-api:2.7.2")
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
-}
+tasks {
+    build {
+        dependsOn("shadowJar")
+    }
 
-kotlin {
-    compilerOptions {
-        apiVersion.set(KotlinVersion.KOTLIN_2_0)
-        jvmTarget.set(JvmTarget.JVM_21)
+    java {
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+    }
+
+    kotlin {
+        compilerOptions {
+            apiVersion.set(KotlinVersion.KOTLIN_2_0)
+            jvmTarget.set(JvmTarget.JVM_21)
+        }
+    }
+
+    withType<ShadowJar> {
+        mergeServiceFiles()
+        configurations = listOf(project.configurations.shadow.get())
+        archiveFileName.set("CringePvP.jar")
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
 }
+
+
