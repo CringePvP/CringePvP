@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
     kotlin("jvm") version "2.0.0-Beta5"
-    id("io.papermc.paperweight.userdev") version "1.5.10"
+    id("io.papermc.paperweight.userdev") version "1.5.11"
 }
 
 group = "de.coaster.cringepvp"
