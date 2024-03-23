@@ -5,12 +5,12 @@ import de.coaster.cringepvp.extensions.getCooldown
 import de.coaster.cringepvp.extensions.isInCooldown
 import de.coaster.cringepvp.extensions.setCooldown
 import de.coaster.cringepvp.extensions.toCringeUser
-import de.fruxz.sparkle.framework.extension.effect.PotionEffect
-import de.fruxz.stacked.text
+import dev.fruxz.stacked.text
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import kotlin.time.Duration.Companion.minutes
 

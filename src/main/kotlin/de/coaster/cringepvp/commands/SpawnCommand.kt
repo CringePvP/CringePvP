@@ -6,7 +6,7 @@ import de.coaster.cringepvp.extensions.failSoundExecution
 import de.coaster.cringepvp.extensions.soundExecution
 import de.coaster.cringepvp.extensions.toCringeString
 import de.coaster.cringepvp.managers.CoroutineManager
-import de.fruxz.stacked.text
+import dev.fruxz.stacked.text
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor

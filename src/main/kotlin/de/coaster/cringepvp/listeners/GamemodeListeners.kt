@@ -2,7 +2,7 @@ package de.coaster.cringepvp.listeners
 
 import de.coaster.cringepvp.extensions.*
 import de.coaster.cringepvp.managers.PlayerCache
-import de.fruxz.stacked.text
+import dev.fruxz.stacked.text
 import io.papermc.paper.event.player.PlayerFlowerPotManipulateEvent
 import org.bukkit.Material
 import org.bukkit.entity.Player

@@ -6,8 +6,7 @@ import de.coaster.cringepvp.extensions.Currency
 import de.coaster.cringepvp.extensions.abbreviate
 import de.coaster.cringepvp.utils.getCurrentProfit
 import de.coaster.cringepvp.utils.getCurrentSpeed
-import de.fruxz.ascend.tool.smart.identification.Identifiable
-import de.fruxz.ascend.tool.timing.calendar.Calendar
+import dev.fruxz.ascend.tool.time.calendar.Calendar
 import java.util.*
 import kotlin.math.exp
 import kotlin.math.ln
@@ -54,8 +53,7 @@ data class CringeUser(val uuid: UUID,
                       val firstJoined: Calendar = Calendar.now(),
                       val lastTimeJoined: Calendar = Calendar.now(),
                       val onlineTime: Duration = Duration.ZERO,
-                      override val identity: String = "$uuid",
-) : Identifiable<CringeUser> {
+) {
     val level: Int
         get() {
             return ((this.xp.toDouble() / 100.toDouble()).pow(0.6)).toInt()

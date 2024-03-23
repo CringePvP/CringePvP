@@ -2,7 +2,7 @@ package de.coaster.cringepvp.extensions
 
 import de.coaster.cringepvp.database.model.CringeUser
 import de.coaster.cringepvp.enums.Ranks
-import de.fruxz.ascend.tool.timing.calendar.Calendar
+import dev.fruxz.ascend.tool.time.calendar.Calendar
 import org.bukkit.entity.Player
 import kotlin.time.Duration
 

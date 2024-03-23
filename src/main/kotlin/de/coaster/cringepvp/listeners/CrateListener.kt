@@ -10,9 +10,9 @@ import de.coaster.cringepvp.managers.CoroutineManager
 import de.coaster.cringepvp.managers.ItemManager
 import de.coaster.cringepvp.managers.PlayerCache
 import de.coaster.cringepvp.utils.FileConfig
-import de.fruxz.ascend.extension.data.randomInt
-import de.fruxz.sparkle.framework.extension.visual.ui.itemStack
-import de.fruxz.stacked.text
+import de.coaster.cringepvp.utils.toItemBuilder
+import dev.fruxz.ascend.extension.data.randomInt
+import dev.fruxz.stacked.text
 import eu.decentsoftware.holograms.api.DHAPI
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
 import org.bukkit.Bukkit
@@ -60,8 +60,8 @@ class CrateListener : Listener {
         val type = config.getString(location)
         if (type == "NIX") return@with
 
-        val rarity = Rarity.values().find { it.name == type } ?: return@with
-        val key = Keys.values().find { it.name == type } ?: return@with
+        val rarity = Rarity.entries.find { it.name == type } ?: return@with
+        val key = Keys.entries.find { it.name == type } ?: return@with
         val cringeUser = player.toCringeUser()
 
         Bukkit.createInventory(
@@ -70,27 +70,19 @@ class CrateListener : Listener {
             text("<${rarity.color}>${rarity.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }} Crate")
         )
             .apply {
-                setItems(0..8, Material.GRAY_STAINED_GLASS_PANE.itemStack {
-                    editMeta { meta -> meta.displayName(text(" ")) }
-                })
+                setItems(0..8, Material.GRAY_STAINED_GLASS_PANE.toItemBuilder { display(" ") }.build())
                 setItem(
                     3,
-                    Material.CHEST.itemStack { editMeta { meta -> meta.displayName(text("<#2ecc71>Crate öffnen")) } })
+                    Material.CHEST.toItemBuilder { display("<#2ecc71>Crate öffnen") }.build()
+                )
                 setItem(
                     5,
-                    Material.NAME_TAG.itemStack {
-                        editMeta { meta ->
-                            meta.displayName(
-                                text(
-                                    "<#e74c3c>Keys: ${
-                                        key.playerReference.get(cringeUser)
-                                    }"
-                                )
-                            )
-                        }
-                    }.asQuantity(
+                    Material.NAME_TAG.toItemBuilder { display("<#e74c3c>Keys: ${
+                        key.playerReference.get(cringeUser)
+                    }")}
+                    .asQuantity(
                         min(64, max(1, key.playerReference.get(cringeUser).toInt()))
-                    )
+                    ).build()
                 )
             }.let {
                 player.openInventory(it)
@@ -104,7 +96,7 @@ class CrateListener : Listener {
         val titleComponent = view.title()
         val title = titleComponent.plainText
         if (!title.endsWith("Crate")) return@with
-        val key = Keys.values().find { it.name == title.replace("Crate", "").trim() } ?: return@with
+        val key = Keys.entries.find { it.name == title.replace("Crate", "").trim() } ?: return@with
         isCancelled = true
         if (currentItem == null) return@with
         if (currentItem!!.type != Material.CHEST) return@with
@@ -130,7 +122,7 @@ class CrateListener : Listener {
         // Reverse search for crate location
         val crateLocation =
             config.getKeys(true).find { config.getString(it) == key.name }?.toCringeLocation() ?: return@with
-        val minRarity = Rarity.values().find { it.name == key.name } ?: return@with
+        val minRarity = Rarity.entries.find { it.name == key.name } ?: return@with
         val rarity = minRarity.getAllBelow()
         player.setCooldown("crateOpen", key.dropAmount.seconds)
         CoroutineManager.shootItems(
@@ -197,7 +189,7 @@ class CrateListener : Listener {
                     pickUpItem()
 
                     val rarityName = getPlainRarityName(itemStack)
-                    val rarity = Rarity.values().find { it.name.equals(rarityName, true) } ?: Rarity.NORMAL
+                    val rarity = Rarity.entries.find { it.name.equals(rarityName, true) } ?: Rarity.NORMAL
                     entity.sendActionBar(text("<${rarity.color}>${rarity.name} <dark_gray>»</dark_gray> <color:#ffb142><b>Coins</b></color> <dark_gray>×</dark_gray> <gray>$amount</gray>"))
                 }
             }
@@ -216,7 +208,7 @@ class CrateListener : Listener {
                     pickUpItem()
 
                     val rarityName = getPlainRarityName(itemStack)
-                    val rarity = Rarity.values().find { it.name.equals(rarityName, true) } ?: Rarity.NORMAL
+                    val rarity = Rarity.entries.find { it.name.equals(rarityName, true) } ?: Rarity.NORMAL
                     entity.sendActionBar(text("<${rarity.color}>${rarity.name} <dark_gray>»</dark_gray> <color:#26de81><b>Gems</b></color> <dark_gray>×</dark_gray> <gray>$amount</gray>"))
                 }
             }
@@ -235,7 +227,7 @@ class CrateListener : Listener {
                     pickUpItem()
 
                     val rarityName = getPlainRarityName(itemStack)
-                    val rarity = Rarity.values().find { it.name.equals(rarityName, true) } ?: Rarity.NORMAL
+                    val rarity = Rarity.entries.find { it.name.equals(rarityName, true) } ?: Rarity.NORMAL
                     entity.sendActionBar(text("<${rarity.color}>${rarity.name} <dark_gray>»</dark_gray> <color:#4aabff><b>Kristall</b></color> <dark_gray>×</dark_gray> <gray>$amount</gray>"))
                 }
             }
@@ -254,7 +246,7 @@ class CrateListener : Listener {
                     pickUpItem()
 
                     val rarityName = getPlainRarityName(itemStack)
-                    val rarity = Rarity.values().find { it.name.equals(rarityName, true) } ?: Rarity.NORMAL
+                    val rarity = Rarity.entries.find { it.name.equals(rarityName, true) } ?: Rarity.NORMAL
                     entity.sendActionBar(text("<${rarity.color}>${rarity.name} <dark_gray>»</dark_gray> <color:#b33939><b>Relikt</b></color> <dark_gray>×</dark_gray> <gray>$amount</gray>"))
                 }
             }
@@ -264,9 +256,9 @@ class CrateListener : Listener {
                 val displayName = itemStack.displayName().plainText
                 if (displayName.startsWith("Rank")) {
                     val rang = displayName.split("×")[1].trim()
-                    val rank = Ranks.values().find { it.name.equals(rang, true) } ?: Ranks.Spieler
+                    val rank = Ranks.entries.find { it.name.equals(rang, true) } ?: Ranks.Spieler
                     var cringeUser = (entity as Player).toCringeUser()
-                    val currentRank = Ranks.values().find { it.name == cringeUser.rank.name } ?: Ranks.Spieler
+                    val currentRank = Ranks.entries.find { it.name == cringeUser.rank.name } ?: Ranks.Spieler
 
                     if (currentRank.ordinal <= rank.ordinal) {
                         itemStack.removeReceiver()
@@ -281,7 +273,7 @@ class CrateListener : Listener {
                     pickUpItem()
 
                     val rarityName = getPlainRarityName(itemStack)
-                    val rarity = Rarity.values().find { it.name.equals(rarityName, true) } ?: Rarity.NORMAL
+                    val rarity = Rarity.entries.find { it.name.equals(rarityName, true) } ?: Rarity.NORMAL
                     entity.sendActionBar(text("<${rarity.color}>${rarity.name} <dark_gray>»</dark_gray> <color:${rank.color}><b>Rank</b></color> <dark_gray>×</dark_gray> <gray>${rank.name}</gray>"))
                 }
             }
@@ -291,7 +283,7 @@ class CrateListener : Listener {
                 val displayName = itemStack.displayName().plainText
                 if (displayName.startsWith("Title")) {
                     val titleString = displayName.split("×")[1].trim()
-                    val title = Titles.values().find { it.display.equals(titleString, true) || it.name.equals(titleString, true) } ?: Titles.NoTITLE
+                    val title = Titles.entries.find { it.display.equals(titleString, true) || it.name.equals(titleString, true) } ?: Titles.NoTITLE
                     var cringeUser = (entity as Player).toCringeUser()
 
                     if (cringeUser.ownedTitles.contains(title)) {
@@ -317,7 +309,7 @@ class CrateListener : Listener {
                 val displayName = itemStack.displayName().plainText
                 if (displayName.startsWith("Key")) {
                     val keyString = displayName.split("×")[1].trim()
-                    val key = Keys.values().find { it.name.equals(keyString, true) } ?: Keys.NORMAL
+                    val key = Keys.entries.find { it.name.equals(keyString, true) } ?: Keys.NORMAL
 
                     var cringeUser = (entity as Player).toCringeUser()
                     cringeUser = cringeUser.copy().apply {
@@ -333,6 +325,7 @@ class CrateListener : Listener {
                     entity.sendActionBar(text("<${rarity.color}>${rarity.name} <dark_gray>»</dark_gray> <yellow><b>Key</b></yellow> <dark_gray>×</dark_gray> <gray>${key.name}</gray>"))
                 }
             }
+
             else -> {}
         }
 
