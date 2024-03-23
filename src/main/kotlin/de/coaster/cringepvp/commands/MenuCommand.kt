@@ -25,7 +25,7 @@ class MenuCommand : CommandExecutor {
 
         // Inhalte
         // Title, Skills upgraden,
-        newMenu.display(sender)
+//        newMenu.display(sender)
 
         return true
     }
@@ -75,24 +75,24 @@ class MenuCommand : CommandExecutor {
             ),
         )
 
-        val newMenu = buildCanvas {
-            label("<gold>Dein Menü</gold>")
-            disablePlayerItemGrabbing()
-            pagination(PaginationType.scroll())
-            base(CanvasBase.ofLines(5))
-
-
-            set(200, DyeableMaterial.STAINED_GLASS.withColor(ColorType.values().random()))
-
-
-            set(0, Material.BARRIER.item {
-                onItemClick { click ->
-                    doSync {
-                        click.player.closeInventory()
-                    }
-                }
-            })
-        }
+//        val newMenu = buildCanvas {
+//            label("<gold>Dein Menü</gold>")
+//            disablePlayerItemGrabbing()
+//            pagination(PaginationType.scroll())
+//            base(CanvasBase.ofLines(5))
+//
+//
+//            set(200, DyeableMaterial.STAINED_GLASS.withColor(ColorType.values().random()))
+//
+//
+//            set(0, Material.BARRIER.item {
+//                onItemClick { click ->
+//                    doSync {
+//                        click.player.closeInventory()
+//                    }
+//                }
+//            })
+//        }
 
 //        val menuCanvas: Canvas = buildCanvas(CringePvP.key / "command.menu", CanvasSize.SMALL) {
 //            label = text("<gold>Dein Menü</gold>")

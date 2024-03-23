@@ -7,6 +7,7 @@ import de.coaster.cringepvp.enums.Titles
 import de.coaster.cringepvp.extensions.abbreviate
 import dev.fruxz.ascend.tool.time.calendar.Calendar
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -17,12 +18,13 @@ private fun Instant.toCalendar() =
     Calendar(GregorianCalendar.from(ZonedDateTime.from(this.atZone(ZoneId.systemDefault()))))
 
 fun getCringeUserOrNull(uuid: UUID): CringeUser? = smartTransaction {
-    return@smartTransaction TableUsers.select { userUUID eq uuid.toString() }.firstOrNull()?.let(::mapToCringeUser)
+    return@smartTransaction TableUsers.selectAll().where { userUUID eq uuid.toString() }.firstOrNull()?.let(::mapToCringeUser)
 }
 
 fun getCringeUserTitles(uuid: UUID): Set<Titles> = smartTransaction {
-    return@smartTransaction TableUserTitles.select { TableUserTitles.userUUID eq uuid.toString() }.mapNotNull { resultRow ->
-        Titles.values().find { it.name.equals(resultRow[TableUserTitles.title], true) }
+    return@smartTransaction TableUserTitles.selectAll().where { TableUserTitles.userUUID eq uuid.toString() }
+        .mapNotNull { resultRow ->
+        Titles.entries.find { it.name.equals(resultRow[TableUserTitles.title], true) }
     }.toSet()
 }
 
@@ -31,8 +33,8 @@ private fun mapToCringeUser(resultRow: ResultRow): CringeUser = with(resultRow) 
         uuid = UUID.fromString(this[userUUID]),
         username = this[TableUsers.userName],
         xp = this[TableUsers.userXP],
-        rank = Ranks.values().find { it.name.equals(this[TableUsers.userRank], true) } ?: Ranks.Spieler,
-        title = Titles.values().find { it.name.equals(this[TableUsers.userTitle], true) } ?: Titles.NoTITLE,
+        rank = Ranks.entries.find { it.name.equals(this[TableUsers.userRank], true) } ?: Ranks.Spieler,
+        title = Titles.entries.find { it.name.equals(this[TableUsers.userTitle], true) } ?: Titles.NoTITLE,
         ownedTitles = getCringeUserTitles(UUID.fromString(this[userUUID])),
         coins = this[TableUsers.userCoins] abbreviate this[TableUsers.userCoinsAbbreviatedIndex],
         gems = this[TableUsers.userGems] abbreviate this[TableUsers.userGemsAbbreviatedIndex],

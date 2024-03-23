@@ -110,25 +110,25 @@ fun Inventory.setItems(slotRange: IntRange, item: ItemStack) {
     slotRange.forEach { this.setItem(it, item) }
 }
 
-val executionSoundMelody = buildMelody {
-    beat {
-        sound(soundOf(Sound.ENTITY_ITEM_PICKUP, .75, 2))
-        sound(soundOf(Sound.ITEM_ARMOR_EQUIP_LEATHER, .25, 2))
-        sound(soundOf(Sound.ITEM_ARMOR_EQUIP_CHAIN, .1, 2))
-    }
+fun Player.playMelody(melody: List<Triple<Sound, Double, Double>>) {
+    melody.forEach { (sound, volume, pitch) -> this.playSound(this.location, sound, volume.toFloat(), pitch.toFloat()) }
 }
 
-fun Player.soundExecution() = this.playEffect(executionSoundMelody) // This makes the player the sound source
+val executionSoundMelody = listOf (
+    Triple(Sound.ENTITY_ITEM_PICKUP, .75, 2.0),
+    Triple(Sound.ITEM_ARMOR_EQUIP_LEATHER, .25, 2.0),
+    Triple(Sound.ITEM_ARMOR_EQUIP_CHAIN, .1, 2.0)
+)
 
-val failSoundMelody = buildMelody {
-    beat {
-        sound(soundOf(Sound.ENTITY_ITEM_PICKUP, volume = .75, pitch = 2))
-        sound(soundOf(Sound.ENTITY_GENERIC_EXPLODE, volume = .25, pitch = 2))
-        sound(soundOf(Sound.ENTITY_GHAST_SCREAM, volume = .1, pitch = 2))
-    }
-}
+fun Player.soundExecution() = this.playMelody(executionSoundMelody) // This makes the player the sound source
 
-fun Player.failSoundExecution() = this.playEffect(failSoundMelody) // This makes the player the sound source
+val failSoundMelody = listOf (
+    Triple(Sound.ENTITY_ITEM_PICKUP, .75, 2.0),
+    Triple(Sound.ENTITY_GENERIC_EXPLODE, .25, 2.0),
+    Triple(Sound.ENTITY_GHAST_SCREAM, .1, 2.0)
+)
+
+fun Player.failSoundExecution() = this.playMelody(failSoundMelody) // This makes the player the sound source
 
 
 var Player.isBuilder : Boolean

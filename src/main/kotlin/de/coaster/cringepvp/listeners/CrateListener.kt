@@ -10,6 +10,7 @@ import de.coaster.cringepvp.managers.CoroutineManager
 import de.coaster.cringepvp.managers.ItemManager
 import de.coaster.cringepvp.managers.PlayerCache
 import de.coaster.cringepvp.utils.FileConfig
+import de.coaster.cringepvp.utils.toItemBuilder
 import dev.fruxz.ascend.extension.data.randomInt
 import dev.fruxz.stacked.text
 import eu.decentsoftware.holograms.api.DHAPI
@@ -69,27 +70,19 @@ class CrateListener : Listener {
             text("<${rarity.color}>${rarity.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }} Crate")
         )
             .apply {
-                setItems(0..8, Material.GRAY_STAINED_GLASS_PANE.itemStack {
-                    editMeta { meta -> meta.displayName(text(" ")) }
-                })
+                setItems(0..8, Material.GRAY_STAINED_GLASS_PANE.toItemBuilder { display(" ") }.build())
                 setItem(
                     3,
-                    Material.CHEST.itemStack { editMeta { meta -> meta.displayName(text("<#2ecc71>Crate öffnen")) } })
+                    Material.CHEST.toItemBuilder { display("<#2ecc71>Crate öffnen") }.build()
+                )
                 setItem(
                     5,
-                    Material.NAME_TAG.itemStack {
-                        editMeta { meta ->
-                            meta.displayName(
-                                text(
-                                    "<#e74c3c>Keys: ${
-                                        key.playerReference.get(cringeUser)
-                                    }"
-                                )
-                            )
-                        }
-                    }.asQuantity(
+                    Material.NAME_TAG.toItemBuilder { display("<#e74c3c>Keys: ${
+                        key.playerReference.get(cringeUser)
+                    }")}
+                    .asQuantity(
                         min(64, max(1, key.playerReference.get(cringeUser).toInt()))
-                    )
+                    ).build()
                 )
             }.let {
                 player.openInventory(it)

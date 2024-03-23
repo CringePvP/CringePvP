@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
     kotlin("jvm") version "2.0.0-Beta5"
+    id("io.papermc.paperweight.userdev") version "1.5.10"
 }
 
 group = "de.coaster.cringepvp"
@@ -11,6 +12,7 @@ version = "2.0-SNAPSHOT"
 val ascendVersion = "2024.1.2"
 val stackedVersion = "2024.1.1"
 val exposedVersion: String = "0.48.0"
+val minecraftVersion: String = "1.20.4"
 
 repositories {
     mavenCentral()
@@ -47,7 +49,7 @@ dependencies {
 
 
     // Minecraft PaperMC Dependencies
-    compileOnly("io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("${minecraftVersion}-R0.1-SNAPSHOT")
     compileOnly("me.neznamy", "tab-api", "4.0.2")
     compileOnly("com.github.decentsoftware-eu", "decentholograms", "2.8.6")
     compileOnly("com.comphenix.protocol", "ProtocolLib", "4.8.0")

@@ -13,6 +13,7 @@ import de.coaster.cringepvp.managers.RegisterManager.registerAll
 import de.coaster.cringepvp.placeholders.registerPlaceholders
 import de.coaster.cringepvp.placeholders.unregisterPlaceholders
 import de.coaster.cringepvp.utils.npc.EntityStorage
+import de.coaster.cringepvp.utils.toItemBuilder
 import dev.fruxz.stacked.text
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -21,6 +22,7 @@ import net.kyori.adventure.key.Key
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.plugin.java.JavaPlugin
 import org.jetbrains.exposed.sql.SchemaUtils
 import java.util.*
@@ -102,7 +104,7 @@ class CringePvP : JavaPlugin() {
         var itemList = mapOf<Rarity, List<ItemStack>>()
         var total = 0
         lootItems.forEach { (material, rarity) ->
-            val item = material.itemStack { editMeta { meta -> meta.displayName(text("<red><b><translate:${material.translationKey()}></b></red>")) } }.asQuantity(16)
+            val item = material.toItemBuilder { display("<red><b><translate:${material.translationKey()}></b></red>") }.asQuantity(16).build()
             itemList += if(itemList[rarity] == null) {
                 rarity to listOf(item)
             } else {
@@ -113,8 +115,8 @@ class CringePvP : JavaPlugin() {
         println("Loaded $total items")
 
         Rarity.values().filter { it != Rarity.NORMAL && it != Rarity.VOTE && it != Rarity.EXCLUSIVE }.forEach { rarity ->
-            val rankItem = Material.FLOWER_BANNER_PATTERN.itemStack { editMeta { meta -> meta.displayName(text("<color:${rarity.color}><b>Rank</b></color> <dark_gray>×</dark_gray> <gray>${rarity.name}</gray>")) } }
-            val keyItem = Material.NAME_TAG.itemStack { editMeta { meta -> meta.displayName(text("<yellow><b>Key</b></yellow> <dark_gray>×</dark_gray> <gray>${rarity.name}</gray>")) } }
+            val rankItem = Material.FLOWER_BANNER_PATTERN.toItemBuilder { display("<color:${rarity.color}><b>Rank</b></color> <dark_gray>×</dark_gray> <gray>${rarity.name}</gray>") }.build()
+            val keyItem = Material.NAME_TAG.toItemBuilder { display("<yellow><b>Key</b></yellow> <dark_gray>×</dark_gray> <gray>${rarity.name}</gray>") }.build()
 
             itemList += if(itemList[rarity] == null) {
                 rarity to listOf(rankItem, keyItem)
@@ -223,15 +225,15 @@ class CringePvP : JavaPlugin() {
         )
 
         randomItemsMap.forEach { (itemPair, rarity) ->
-            val item = itemPair.first.itemStack { editMeta { meta ->
+            val item = itemPair.first.toItemBuilder {
                 when(itemPair.first) {
-                    Material.GOLD_NUGGET -> meta.displayName(text("<color:#ffb142><b>Coin</b>"))
-                    Material.EMERALD -> meta.displayName(text("<color:#26de81><b>Gem</b>"))
-                    Material.AMETHYST_SHARD -> meta.displayName(text("<color:#4aabff><b>Kristall</b>"))
-                    Material.NAUTILUS_SHELL -> meta.displayName(text("<color:#b33939><b>Relikt</b>"))
-                    else -> meta.displayName(text("<red><b><translate:${itemPair.first.translationKey()}></b></red>"))
+                    Material.GOLD_NUGGET -> display("<color:#ffb142><b>Coin</b>")
+                    Material.EMERALD -> display("<color:#26de81><b>Gem</b>")
+                    Material.AMETHYST_SHARD -> display("<color:#4aabff><b>Kristall</b>")
+                    Material.NAUTILUS_SHELL -> display("<color:#b33939><b>Relikt</b>")
+                    else -> display("<red><b><translate:${itemPair.first.translationKey()}></b></red>")
                 }
-            } }.asQuantity(itemPair.second)
+            }.asQuantity(itemPair.second).build()
             itemList += if(itemList[rarity] == null) {
                 rarity to listOf(item)
             } else {
@@ -240,7 +242,7 @@ class CringePvP : JavaPlugin() {
         }
 
         titleMap.forEach { (title, rarity) ->
-            val titleItem = Material.PAPER.itemStack { editMeta { meta -> meta.displayName(text("<color:${rarity.color}><b>${title.name}</b></color>")) } }
+            val titleItem = Material.PAPER.toItemBuilder { display("<color:${rarity.color}><b>${title.name}</b></color>") }.build()
             itemList += if(itemList[rarity] == null) {
                 rarity to listOf(titleItem)
             } else {

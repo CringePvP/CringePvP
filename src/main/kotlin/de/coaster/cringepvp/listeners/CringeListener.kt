@@ -167,7 +167,7 @@ class CringeListener : Listener {
         getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.let { it.baseValue = cringeUser.baseSpeed }
         getAttribute(Attribute.GENERIC_MAX_HEALTH)?.let { it.baseValue = cringeUser.baseHealth }
 
-        maxOutHealth()
+        health = cringeUser.baseHealth
         foodLevel = 20
 
         Bukkit.getScheduler().runTaskLater(CringePvP.instance, Runnable {

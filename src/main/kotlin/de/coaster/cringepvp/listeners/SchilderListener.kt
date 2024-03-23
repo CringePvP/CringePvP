@@ -1,6 +1,7 @@
 package de.coaster.cringepvp.listeners
 
 import com.destroystokyo.paper.MaterialTags
+import de.coaster.cringepvp.utils.toItemBuilder
 import dev.fruxz.stacked.text
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
 import org.bukkit.Bukkit
@@ -10,6 +11,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
 import org.bukkit.event.block.SignChangeEvent
+import org.bukkit.event.player.PlayerInteractEvent
 
 class SchilderListener: Listener {
 
@@ -43,12 +45,14 @@ class SchilderListener: Listener {
     }
 
     @EventHandler
-    fun onSignInteract(event: PlayerInteractAtBlockEvent) = with(event) {
+    fun onSignInteract(event: PlayerInteractEvent) = with(event) {
+        if (clickedBlock == null) return@with
+        val block = clickedBlock!!
         if(!MaterialTags.SIGNS.isTagged(block)) return@with
         if (action != Action.RIGHT_CLICK_BLOCK) return@with
 
         val sign = block.state as org.bukkit.block.Sign
-        val lines = sign.lines()
+        val lines = sign.getTargetSide(player).lines()
         with(lines[0]) {
             when {
                 equals(text("<color:#91d3ff>・ Mülleimer ・</color>")) -> {
@@ -60,7 +64,7 @@ class SchilderListener: Listener {
                     val plain = PlainTextComponentSerializer.plainText().serialize(item)
                     val material = Material.matchMaterial(plain) ?: return player.sendMessage("§cMaterial nicht gefunden!")
                     val amount = PlainTextComponentSerializer.plainText().serialize(lines[2]).toIntOrNull() ?: 1
-                    player.inventory.addItem(material.itemStack.asQuantity(amount))
+                    player.inventory.addItem(material.toItemBuilder().asQuantity(amount).build())
                     player.playSound(player.location, Sound.BLOCK_NOTE_BLOCK_PLING, 1f, 1f)
                 }
                 else -> {}

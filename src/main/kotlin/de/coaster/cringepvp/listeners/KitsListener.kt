@@ -45,7 +45,7 @@ class KitsListener : Listener {
 
         cringeUser.setCooldown("kit.${kit.name}", kit.cooldown)
 
-        player.inventory.addItems(*kit.items)
+        player.inventory.addItem(*kit.items)
         player.closeInventory()
     }
 }
