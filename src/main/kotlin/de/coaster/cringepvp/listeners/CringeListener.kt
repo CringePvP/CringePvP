@@ -8,6 +8,7 @@ import de.coaster.cringepvp.managers.PlayerCache
 import de.coaster.cringepvp.managers.PlayerCache.updateCringeUser
 import dev.fruxz.ascend.extension.data.randomInt
 import dev.fruxz.stacked.text
+import io.papermc.paper.event.player.PlayerOpenSignEvent
 import org.bukkit.*
 import org.bukkit.attribute.Attribute
 import org.bukkit.entity.*
@@ -74,7 +75,7 @@ class CringeListener : Listener {
 
     @EventHandler
     fun onFoodLevelChange(event: FoodLevelChangeEvent) = with(event) {
-        if(entity.location.y > 162) {
+        if(entity.location.distanceToZero < 30) {
             foodLevel = 20
         }
     }
@@ -95,7 +96,7 @@ class CringeListener : Listener {
             if (!damageEntity.isBuilder)  {
                 val coordinatesFirst = damageEntity.location
                 val coordinatesSecond = entity.location
-                if (coordinatesFirst.y > 162.0 || coordinatesSecond.y > 162.0) {
+                if (coordinatesFirst.distanceToZero < 30 || coordinatesSecond.distanceToZero < 30) {
                     isCancelled = true
                     return@with
                 }
@@ -123,6 +124,13 @@ class CringeListener : Listener {
                 entity.world.playSound(entity.location, Sound.ENTITY_EVOKER_PREPARE_WOLOLO, 2F, 1F)
             }
         }
+    }
+
+    @EventHandler
+    fun onSignEdit(event: PlayerOpenSignEvent) = with(event) {
+        if (player.isBuilder) return@with
+
+        isCancelled = true
     }
 
     @EventHandler
