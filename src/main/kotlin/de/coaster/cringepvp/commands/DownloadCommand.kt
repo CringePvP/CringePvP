@@ -17,7 +17,7 @@ class DownloadCommand : CommandExecutor {
         sender.sendMessage("§aDownloading...")
 
 
-        sender.setResourcePack("https://cdn.devsky.one/zips/MineBricks.zip", "79b6fa715d53ab97b83f642b2902ed37ff4b4d0a", true, text("<gold><b>CringePvP</b></gold> <dark_gray>×</dark_gray> <gray>ResourcePack</gray>\n" +
+        sender.setResourcePack("https://cdn.devsky.one/LoNI9/petiBESa13.zip/raw", "12a47b3da1b42708be3806e1e57f82a76f7d4533", true, text("<gold><b>CringePvP</b></gold> <dark_gray>×</dark_gray> <gray>ResourcePack</gray>\n" +
                 "<i><gray>Du hast unser geheimes Pack gefunden.\n" +
                 "Aktiviere es jetzt!</gray></i>"))
         return true
