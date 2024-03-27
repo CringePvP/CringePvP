@@ -1,9 +1,6 @@
 package de.coaster.cringepvp
 
 import de.coaster.cringepvp.database.DatabaseManager
-import de.coaster.cringepvp.database.TableUserTitles
-import de.coaster.cringepvp.database.TableUsers
-import de.coaster.cringepvp.database.smartTransaction
 import de.coaster.cringepvp.enums.Rarity
 import de.coaster.cringepvp.enums.Titles
 import de.coaster.cringepvp.managers.CoroutineManager
@@ -12,9 +9,7 @@ import de.coaster.cringepvp.managers.PlayerCache
 import de.coaster.cringepvp.managers.RegisterManager.registerAll
 import de.coaster.cringepvp.placeholders.registerPlaceholders
 import de.coaster.cringepvp.placeholders.unregisterPlaceholders
-import de.coaster.cringepvp.utils.npc.EntityStorage
 import de.coaster.cringepvp.utils.toItemBuilder
-import dev.fruxz.stacked.text
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancelChildren
@@ -22,10 +17,7 @@ import net.kyori.adventure.key.Key
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
-import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.plugin.java.JavaPlugin
-import org.jetbrains.exposed.sql.SchemaUtils
-import java.util.*
 import kotlin.system.measureTimeMillis
 
 class CringePvP : JavaPlugin() {
@@ -62,7 +54,6 @@ class CringePvP : JavaPlugin() {
         println("CringePvP is now tweaking your SkyPvP behavior!")
         ItemManager
         CoroutineManager
-        EntityStorage
 
 
         val lootItems = mapOf(
@@ -260,7 +251,6 @@ class CringePvP : JavaPlugin() {
     override fun onDisable() {
         unregisterPlaceholders()
         PlayerCache.saveAll()
-        EntityStorage.save()
         coroutineScope.coroutineContext.cancelChildren()
         DatabaseManager.disconnect()
     }
