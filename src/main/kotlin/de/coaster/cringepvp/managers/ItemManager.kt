@@ -20,7 +20,7 @@ object ItemManager {
     }
 
     private fun updateWeights() {
-        val rarities = Rarity.values().filter { items[it.name]?.isNotEmpty() ?: false }
+        val rarities = Rarity.entries.filter { items[it.name]?.isNotEmpty() ?: false }
 
         // Get a random rarity based on the rarity chance
         val weights = rarities.map { it.rarity }
@@ -35,7 +35,7 @@ object ItemManager {
     private fun registerItems() {
         println("Registering items")
         items = mapOf()
-        Rarity.values().forEach { rarity ->
+        Rarity.entries.forEach { rarity ->
             val config = FileConfig("items/${rarity.name.lowercase(Locale.getDefault())}.yml")
             if (!config.contains("itemNames")) {
                 config.set("itemNames", listOf<String>())
@@ -61,11 +61,11 @@ object ItemManager {
         return if(itemList.isNotEmpty()) itemList.random().addRarityToLore(rarity) else ItemStack(Material.AIR)
     }
 
-    fun getItems(rarity: Rarity): List<ItemStack> {
+    private fun getItems(rarity: Rarity): List<ItemStack> {
         return items[rarity.name]?.map { it.addRarityToLore(rarity) } ?: return listOf()
     }
 
-    fun getItems(rarity: List<Rarity>): List<ItemStack> {
+    private fun getItems(rarity: List<Rarity>): List<ItemStack> {
         return rarity.map { getItems(it) }.flatten()
     }
 
@@ -88,18 +88,7 @@ object ItemManager {
     }
 
     fun addItem(rarity: Rarity, item: ItemStack) {
-        var itemList = items[rarity.name] ?: return
-        itemList += item
-        items += Pair(rarity.name, itemList)
-
-        val config = FileConfig("items/${rarity.name.lowercase(Locale.getDefault())}.yml")
-        val itemNames = config.getStringList("itemNames")
-        val itemName = if (item.itemMeta.hasDisplayName()) item.itemMeta.displayName else item.type.name
-        itemNames += itemName
-        config.set("itemNames", itemNames)
-        config.set(itemName, item)
-        config.saveConfig()
-        updateWeights()
+        addItems(rarity, listOf(item))
     }
 
     fun addItems(rarity: Rarity, multipleItems: List<ItemStack>) {
