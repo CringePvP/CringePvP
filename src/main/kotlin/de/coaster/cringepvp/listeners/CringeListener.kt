@@ -75,7 +75,7 @@ class CringeListener : Listener {
 
     @EventHandler
     fun onFoodLevelChange(event: FoodLevelChangeEvent) = with(event) {
-        if(entity.location.distanceToZero < 30) {
+        if(entity.location.distanceToWorldSpawn < 30) {
             foodLevel = 20
         }
     }
@@ -96,7 +96,7 @@ class CringeListener : Listener {
             if (!damageEntity.isBuilder)  {
                 val coordinatesFirst = damageEntity.location
                 val coordinatesSecond = entity.location
-                if (coordinatesFirst.distanceToZero < 30 || coordinatesSecond.distanceToZero < 30) {
+                if (coordinatesFirst.distanceToWorldSpawn < 30 || coordinatesSecond.distanceToWorldSpawn < 30) {
                     isCancelled = true
                     return@with
                 }

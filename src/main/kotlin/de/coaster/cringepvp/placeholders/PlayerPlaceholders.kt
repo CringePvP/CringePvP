@@ -1,7 +1,5 @@
 package de.coaster.cringepvp.placeholders
 
-import de.coaster.cringepvp.enums.Ranks
-import de.coaster.cringepvp.enums.Titles
 import de.coaster.cringepvp.extensions.toCringeUser
 import me.neznamy.tab.api.TabAPI
 import org.bukkit.entity.Player
@@ -24,6 +22,10 @@ fun registerPlaceholders() {
 
     placeholderManager.registerPlayerPlaceholder("%rank%", 5000) { player ->
         (player.player as Player).toCringeUser().rank
+    }
+
+    placeholderManager.registerPlayerPlaceholder("%rankord%", 5000) { player ->
+        (player.player as Player).toCringeUser().rank.ordinal
     }
 
     placeholderManager.registerPlayerPlaceholder("%title%", 2000) { player ->
