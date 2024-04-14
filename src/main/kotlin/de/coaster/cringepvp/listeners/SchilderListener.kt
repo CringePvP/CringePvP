@@ -56,10 +56,12 @@ class SchilderListener: Listener {
         with(lines[0]) {
             when {
                 equals(text("<color:#91d3ff>・ Mülleimer ・</color>")) -> {
+                    isCancelled = true
                     player.openInventory(Bukkit.createInventory(null, 9, text("<color:#91d3ff>・ Mülleimer ・</color>")))
                     player.playSound(player.location, Sound.BLOCK_CHEST_OPEN, 1f, 1f)
                 }
                 equals(text("<color:#91d3ff>・ Supply ・</color>")) -> {
+                    isCancelled = true
                     val item = lines[1]
                     val plain = PlainTextComponentSerializer.plainText().serialize(item)
                     val material = Material.matchMaterial(plain) ?: return player.sendMessage("§cMaterial nicht gefunden!")

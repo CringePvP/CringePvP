@@ -27,7 +27,7 @@ class GamemodeListeners : Listener {
         isCancelled = true
 
         if (block.type == Material.AMETHYST_CLUSTER) {
-            if(block.location.toCringeString() == "world_16_73_-59") {
+            if(block.location.toCringeString() == "sky_-20_75_176") {
                 // if kristallFuellstand != 0 -> add one crystal to user and remove 1 kristallfuelstand
                 if (kristallFuellstand > 0) {
                     var cringeUser = player.toCringeUser()

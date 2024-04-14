@@ -6,6 +6,7 @@ import de.coaster.cringepvp.enums.Ranks
 import de.coaster.cringepvp.enums.Rarity
 import de.coaster.cringepvp.enums.Titles
 import de.coaster.cringepvp.extensions.*
+import de.coaster.cringepvp.extensions.Currency
 import de.coaster.cringepvp.managers.CoroutineManager
 import de.coaster.cringepvp.managers.ItemManager
 import de.coaster.cringepvp.managers.PlayerCache
@@ -182,7 +183,7 @@ class CrateListener : Listener {
                     val amount = itemStack.amount
 
                     var cringeUser = (entity as Player).toCringeUser()
-                    cringeUser = cringeUser.copy(coins = cringeUser.coins + (cringeUser.idleCash * amount.toDouble()))
+                    cringeUser = cringeUser.copy(coins = cringeUser.coins + Currency(amount.toDouble(), 0))
                     PlayerCache.updateCringeUser(cringeUser)
 
                     isCancelled = true
@@ -201,7 +202,7 @@ class CrateListener : Listener {
                     val amount = itemStack.amount
 
                     var cringeUser = (entity as Player).toCringeUser()
-                    cringeUser = cringeUser.copy(gems = cringeUser.gems + (cringeUser.idleCash * amount.toDouble()))
+                    cringeUser = cringeUser.copy(gems = cringeUser.gems + Currency(amount.toDouble(), 0))
                     PlayerCache.updateCringeUser(cringeUser)
 
                     isCancelled = true
@@ -220,7 +221,7 @@ class CrateListener : Listener {
                     val amount = itemStack.amount
 
                     var cringeUser = (entity as Player).toCringeUser()
-                    cringeUser = cringeUser.copy(gems = cringeUser.crystals + (cringeUser.idleCash * amount.toDouble()))
+                    cringeUser = cringeUser.copy(gems = cringeUser.crystals + Currency(amount.toDouble(), 0))
                     PlayerCache.updateCringeUser(cringeUser)
 
                     isCancelled = true
@@ -239,7 +240,7 @@ class CrateListener : Listener {
                     val amount = itemStack.amount
 
                     var cringeUser = (entity as Player).toCringeUser()
-                    cringeUser = cringeUser.copy(gems = cringeUser.relicts + (cringeUser.idleCash * amount.toDouble()))
+                    cringeUser = cringeUser.copy(gems = cringeUser.relicts + Currency(amount.toDouble(), 0))
                     PlayerCache.updateCringeUser(cringeUser)
 
                     isCancelled = true
@@ -299,7 +300,7 @@ class CrateListener : Listener {
                     pickUpItem()
 
                     val rarityName = getPlainRarityName(itemStack)
-                    val rarity = Rarity.values().find { it.name.equals(rarityName, true) } ?: Rarity.NORMAL
+                    val rarity = Rarity.entries.find { it.name.equals(rarityName, true) } ?: Rarity.NORMAL
                     entity.sendActionBar(text("<${rarity.color}>${rarity.name} <dark_gray>»</dark_gray> <blue><b>Title</b></blue> <dark_gray>×</dark_gray> <gray>${title.display}</gray>"))
                 }
             }
@@ -321,7 +322,7 @@ class CrateListener : Listener {
                     pickUpItem()
 
                     val rarityName = getPlainRarityName(itemStack)
-                    val rarity = Rarity.values().find { it.name.equals(rarityName, true) } ?: Rarity.NORMAL
+                    val rarity = Rarity.entries.find { it.name.equals(rarityName, true) } ?: Rarity.NORMAL
                     entity.sendActionBar(text("<${rarity.color}>${rarity.name} <dark_gray>»</dark_gray> <yellow><b>Key</b></yellow> <dark_gray>×</dark_gray> <gray>${key.name}</gray>"))
                 }
             }
