@@ -12,7 +12,7 @@ plugins {
 group = "de.coaster.cringepvp"
 version = "2.0-SNAPSHOT"
 
-val ascendVersion = "2024.1.2"
+val ascendVersion = "2024.2.1"
 val stackedVersion = "2024.1.1"
 val exposedVersion: String = "0.48.0"
 val minecraftVersion: String = "1.20.4"
