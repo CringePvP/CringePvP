@@ -55,7 +55,7 @@ dependencies {
     compileOnly("me.neznamy", "tab-api", "4.0.2")
     compileOnly("com.github.decentsoftware-eu", "decentholograms", "2.8.6")
     compileOnly("com.comphenix.protocol", "ProtocolLib", "4.8.0")
-    compileOnly("me.clip:placeholderapi:2.11.5")
+    compileOnly("me.clip:placeholderapi:2.11.6")
     compileOnly("com.github.NuVotifier.NuVotifier:nuvotifier-common:2.7.2")
     compileOnly("com.github.NuVotifier.NuVotifier:nuvotifier-bukkit:2.7.2")
     compileOnly("com.github.NuVotifier.NuVotifier:nuvotifier-api:2.7.2")
