@@ -28,7 +28,7 @@ repositories {
 }
 
 val shadowDependencies = listOf(
-    "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1-Beta",
+    "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0-RC",
     "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3",
     "io.github.cdimascio:dotenv-kotlin:6.4.1",
     "net.oneandone.reflections8:reflections8:0.11.7",
